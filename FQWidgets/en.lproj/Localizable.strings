@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  WeLike
+
+  Created by fan qi on 2018/3/27.
+  Copyright © 2018年 fan qi. All rights reserved.
+*/
+
+// main
+
+main_home = "Home";
+main_discovery = "Discovery";
+main_publish = "Publish";
+main_msg = "Message";
+main_user = "User";
