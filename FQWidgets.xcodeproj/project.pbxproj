@@ -54,8 +54,7 @@
 		B902D80C207E1A3F0080D294 /* FQPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E3207E1A3F0080D294 /* FQPlayerView.m */; };
 		B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E5207E1A3F0080D294 /* FQLanguageManager.m */; };
 		B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */; };
-		B902D815207E1BCD0080D294 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B902D810207E1BCD0080D294 /* Localizable.strings */; };
-		B902D816207E1BCD0080D294 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B902D813207E1BCD0080D294 /* Localizable.strings */; };
+		B902D819207E29D80080D294 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B902D81B207E29D80080D294 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,8 +161,8 @@
 		B902D7E6207E1A3F0080D294 /* FQProgressHUDHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQProgressHUDHelper.h; sourceTree = "<group>"; };
 		B902D7E7207E1A3F0080D294 /* FQLanguageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQLanguageManager.h; sourceTree = "<group>"; };
 		B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQProgressHUDHelper.m; sourceTree = "<group>"; };
-		B902D811207E1BCD0080D294 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
-		B902D814207E1BCD0080D294 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		B902D81A207E29D80080D294 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B902D81C207E29DD0080D294 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6ABD05655548B0555B53540 /* Pods_FQWidgets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FQWidgets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -235,8 +234,6 @@
 		B902D75E207E18450080D294 /* FQWidgets */ = {
 			isa = PBXGroup;
 			children = (
-				B902D812207E1BCD0080D294 /* en.lproj */,
-				B902D80F207E1BCD0080D294 /* zh-Hans.lproj */,
 				B902D79E207E1A3F0080D294 /* Class */,
 				B902D791207E1A3E0080D294 /* PrefixHeader.pch */,
 				B902D792207E1A3F0080D294 /* Resources */,
@@ -249,6 +246,7 @@
 				B902D76A207E18450080D294 /* LaunchScreen.storyboard */,
 				B902D76D207E18450080D294 /* Info.plist */,
 				B902D76E207E18450080D294 /* main.m */,
+				B902D81B207E29D80080D294 /* Localizable.strings */,
 			);
 			path = FQWidgets;
 			sourceTree = "<group>";
@@ -395,15 +393,15 @@
 		B902D7B7207E1A3F0080D294 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				B902D7D9207E1A3F0080D294 /* FQBadgeView.h */,
-				B902D7D1207E1A3F0080D294 /* FQImageButton.h */,
-				B902D7D8207E1A3F0080D294 /* FQRadioButton.h */,
-				B902D7B9207E1A3F0080D294 /* FQZoomScaleView.h */,
-				B902D7D0207E1A3F0080D294 /* FQBadgeView.m */,
-				B902D7B8207E1A3F0080D294 /* FQImageButton.m */,
-				B902D7BA207E1A3F0080D294 /* FQRadioButton.m */,
-				B902D7D7207E1A3F0080D294 /* FQZoomScaleView.m */,
 				B902D7BB207E1A3F0080D294 /* Camera */,
+				B902D7D9207E1A3F0080D294 /* FQBadgeView.h */,
+				B902D7D0207E1A3F0080D294 /* FQBadgeView.m */,
+				B902D7D1207E1A3F0080D294 /* FQImageButton.h */,
+				B902D7B8207E1A3F0080D294 /* FQImageButton.m */,
+				B902D7D8207E1A3F0080D294 /* FQRadioButton.h */,
+				B902D7BA207E1A3F0080D294 /* FQRadioButton.m */,
+				B902D7B9207E1A3F0080D294 /* FQZoomScaleView.h */,
+				B902D7D7207E1A3F0080D294 /* FQZoomScaleView.m */,
 				B902D7C7207E1A3F0080D294 /* PHAssetsController */,
 				B902D7DF207E1A3F0080D294 /* Player */,
 				B902D7D2207E1A3F0080D294 /* RefreshHeader */,
@@ -494,22 +492,6 @@
 				B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */,
 			);
 			path = Helper;
-			sourceTree = "<group>";
-		};
-		B902D80F207E1BCD0080D294 /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				B902D810207E1BCD0080D294 /* Localizable.strings */,
-			);
-			path = "zh-Hans.lproj";
-			sourceTree = "<group>";
-		};
-		B902D812207E1BCD0080D294 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				B902D813207E1BCD0080D294 /* Localizable.strings */,
-			);
-			path = en.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -622,6 +604,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B902D819207E29D80080D294 /* Localizable.strings in Resources */,
 				B902D76C207E18450080D294 /* LaunchScreen.storyboard in Resources */,
 				B902D7E9207E1A3F0080D294 /* WL_4.jpg in Resources */,
 				B902D7EF207E1A3F0080D294 /* WL_1.jpg in Resources */,
@@ -632,10 +615,8 @@
 				B902D7F0207E1A3F0080D294 /* WL_0.jpg in Resources */,
 				B902D7EC207E1A3F0080D294 /* WL_6.jpg in Resources */,
 				B902D7F3207E1A3F0080D294 /* WL_Wide_1.jpg in Resources */,
-				B902D815207E1BCD0080D294 /* Localizable.strings in Resources */,
 				B902D7EA207E1A3F0080D294 /* WL_5.jpg in Resources */,
 				B902D769207E18450080D294 /* Assets.xcassets in Resources */,
-				B902D816207E1BCD0080D294 /* Localizable.strings in Resources */,
 				B902D767207E18450080D294 /* Main.storyboard in Resources */,
 				B902D7F2207E1A3F0080D294 /* WL_Wide_0.jpg in Resources */,
 			);
@@ -817,18 +798,11 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		B902D810207E1BCD0080D294 /* Localizable.strings */ = {
+		B902D81B207E29D80080D294 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B902D811207E1BCD0080D294 /* zh-Hans */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		B902D813207E1BCD0080D294 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B902D814207E1BCD0080D294 /* en */,
+				B902D81A207E29D80080D294 /* zh-Hans */,
+				B902D81C207E29DD0080D294 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -949,6 +923,7 @@
 				DEVELOPMENT_TEAM = V6R68WLKP9;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FQWidgets/PrefixHeader.pch";
 				INFOPLIST_FILE = FQWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venke.FQWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -965,6 +940,7 @@
 				DEVELOPMENT_TEAM = V6R68WLKP9;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/FQWidgets/PrefixHeader.pch";
 				INFOPLIST_FILE = FQWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venke.FQWidgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
