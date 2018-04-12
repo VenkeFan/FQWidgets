@@ -469,7 +469,7 @@
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.hidden = YES;
         btn.selected = NO;
-        [btn setImage:[UIImage imageNamed:@"camera_transform"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"camera_transform_normal"] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:@"camera_transform_highlight"] forState:UIControlStateHighlighted];
         [btn addTarget:self action:@selector(transformBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [btn sizeToFit];

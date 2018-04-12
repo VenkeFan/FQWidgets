@@ -20,7 +20,6 @@
 @property (nonatomic, strong) UIImageView *imgView;
 
 @property (nonatomic, strong) FQPlayerView *playerView;
-//@property (nonatomic, strong) UIButton *playBtn;
 
 @property (nonatomic, strong) FQAssetModel *itemModel;
 
@@ -33,8 +32,6 @@
         [self.contentView addSubview:self.scrollView];
         [self.scrollView addSubview:self.imgView];
         [self.scrollView addSubview:self.playerView];
-        
-//        [self.contentView addSubview:self.playBtn];
     }
     return self;
 }
@@ -44,9 +41,6 @@
     
     self.scrollView.contentSize = CGSizeZero;
     [self.scrollView setZoomScale:1.0 animated:YES];
-    
-//    self.playBtn.hidden = itemModel.asset.mediaType != PHAssetMediaTypeVideo;
-//    self.playerView.hidden = YES;
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = NO;
@@ -94,24 +88,7 @@
 #pragma mark - FQPlayerViewDelegate
 
 - (void)playerView:(FQPlayerView *)playerView statusDidChanged:(FQPlayerViewStatus)status {
-    switch (status) {
-        case FQPlayerViewStatus_ReadyToPlay:
-//            self.playBtn.hidden = YES;
-            self.playerView.hidden = NO;
-            break;
-        case FQPlayerViewStatus_Playing:
-//            self.playBtn.hidden = YES;
-            self.playerView.hidden = NO;
-            break;
-        case FQPlayerViewStatus_Stopped:
-        case FQPlayerViewStatus_Completed:
-//            self.playBtn.hidden = NO;
-            self.playerView.hidden = NO;
-            break;
-        default:
-//            self.playBtn.hidden = self.playerView.hidden = YES;
-            break;
-    }
+    
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -130,20 +107,6 @@
     self.imgView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                       scrollView.contentSize.height * 0.5 + offsetY);
 }
-
-#pragma mark - Event
-
-//- (void)playBtnClicked:(UIButton *)sender {
-//    sender.hidden = YES;
-//    self.playerView.hidden = NO;
-//    [[PHImageManager defaultManager] requestAVAssetForVideo:self.itemModel.asset
-//                                                    options:nil
-//                                              resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-//                                                  dispatch_async(dispatch_get_main_queue(), ^{
-//                                                      [self.playerView playWithAsset:asset];
-//                                                  });
-//                                              }];
-//}
 
 #pragma mark - Private
 
@@ -197,17 +160,6 @@
     }
     return _playerView;
 }
-
-//- (UIButton *)playBtn {
-//    if (!_playBtn) {
-//        _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_playBtn setBackgroundImage:[UIImage imageNamed:@"camera_video_icon"] forState:UIControlStateNormal];
-//        [_playBtn sizeToFit];
-//        _playBtn.center = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, (CGRectGetHeight(self.bounds)) * 0.5);
-//        [_playBtn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _playBtn;
-//}
 
 @end
 
@@ -282,6 +234,10 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
 //    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnDoubleTap:)];
 //    doubleTap.numberOfTapsRequired = 2;
 //    [self.view addGestureRecognizer:doubleTap];
+}
+
+- (void)dealloc {
+    NSLog(@"FQAssetsBrowseViewController dealloc");
 }
 
 - (void)didReceiveMemoryWarning {

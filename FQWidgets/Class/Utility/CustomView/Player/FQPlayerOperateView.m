@@ -174,7 +174,7 @@
     if (caching && !self.indicatorView.isAnimating) {
         [self.indicatorView startAnimating];
     } else {
-        [self.indicatorView stopAnimating];git 
+        [self.indicatorView stopAnimating];
     }
 }
 

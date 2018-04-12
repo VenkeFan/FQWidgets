@@ -428,6 +428,10 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     [self.collectionView reloadData];
 }
 
+- (void)dealloc {
+    NSLog(@"FQAssetsViewController delloc");
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
