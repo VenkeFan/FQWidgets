@@ -8,12 +8,22 @@
 
 #import "FQPlayerView.h"
 
+NSString * const FQPlayerViewStatusMapping[] = {
+    [FQPlayerViewStatus_Unknown]         = @"未知的播放状态",
+    [FQPlayerViewStatus_ReadyToPlay]     = @"准备播放",
+    [FQPlayerViewStatus_Playing]         = @"正在播放",
+    [FQPlayerViewStatus_Paused]          = @"手动暂停",
+    [FQPlayerViewStatus_CachingPaused]   = @"因缓冲不够而自动暂停",
+    [FQPlayerViewStatus_Stopped]         = @"停止播放",
+    [FQPlayerViewStatus_Completed]       = @"播放完成",
+    [FQPlayerViewStatus_Failed]          = @"播放失败"
+};
+
 @interface FQPlayerView () <FQPlayerOperateViewDelegate> {
-    NSString *_urlString;
-    AVAsset *_asset;
     id _timeObserver;
 }
 
+@property (nonatomic, weak) CALayer *preImgLayer;
 @property (nonatomic, weak) FQPlayerOperateView *operateView;
 
 @property (nonatomic, strong) AVPlayer *player;
@@ -52,6 +62,7 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor blackColor];
         [(AVPlayerLayer *)self.layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+        self.preImgLayer.contentsGravity = kCAGravityResizeAspectFill;
     }
     return self;
 }
@@ -74,39 +85,14 @@
 
 #pragma mark - Public
 
-- (void)playWithUrlString:(NSString *)urlString {
-    NSURL *url = nil;
-    if ([urlString isKindOfClass:[NSString class]]) {
-        url = [NSURL URLWithString:urlString];
-    } else if ([urlString isKindOfClass:[NSURL class]]) {
-        url = (NSURL *)urlString;
-    }
-    
-    if (!url) {
-        return;
-    }
-    
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:url];
-    [self p_playWithPlayerItem:playerItem];
-}
-
-- (void)playWithAsset:(AVAsset *)asset {
-    if (!asset) {
-        return;
-    }
-    
-    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
-    [self p_playWithPlayerItem:playerItem];
-}
-
 - (void)play {
     if (_player) {
         [_player play];
     } else {
         if (_asset) {
-            [self playWithAsset:_asset];
+            [self p_playWithAsset:_asset];
         } else if (!kIsNullOrEmpty(_urlString)) {
-            [self playWithUrlString:_urlString];
+            [self p_playWithUrlString:_urlString];
         }
     }
 }
@@ -286,6 +272,31 @@
 
 #pragma mark - Private
 
+- (void)p_playWithUrlString:(NSString *)urlString {
+    NSURL *url = nil;
+    if ([urlString isKindOfClass:[NSString class]]) {
+        url = [NSURL URLWithString:urlString];
+    } else if ([urlString isKindOfClass:[NSURL class]]) {
+        url = (NSURL *)urlString;
+    }
+    
+    if (!url) {
+        return;
+    }
+    
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:url];
+    [self p_playWithPlayerItem:playerItem];
+}
+
+- (void)p_playWithAsset:(AVAsset *)asset {
+    if (!asset) {
+        return;
+    }
+    
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    [self p_playWithPlayerItem:playerItem];
+}
+
 - (void)p_playWithPlayerItem:(AVPlayerItem *)playerItem {
     if (!playerItem) {
         return;
@@ -302,6 +313,7 @@
                                                              CGFloat duration = weakSelf.totalDurationSeconds;
                                                              if (!isnan(duration)) {
                                                                  CGFloat seconds = CMTimeGetSeconds(time);
+                                                                 NSLog(@"当前播放进度: %f, 总时长: %f", seconds, duration);
                                                                  weakSelf.playBuffer = seconds;
                                                                  
                                                                  weakSelf.operateView.playProgress = seconds / duration;
@@ -342,6 +354,14 @@
 //    }
 //}
 
+- (void)p_setPreImageLayerHidden:(BOOL)hidden {
+    if (_previewImage) {
+        self.preImgLayer.hidden = hidden;
+    } else {
+        self.preImgLayer.hidden = YES;
+    }
+}
+
 #pragma mark - Setter
 
 - (void)setPlayerViewStatus:(FQPlayerViewStatus)playerViewStatus {
@@ -350,32 +370,36 @@
     }
     _playerViewStatus = playerViewStatus;
     
-    self.operateView.playerViewStatus = playerViewStatus;
+    [self.operateView setPlayerViewStatus:playerViewStatus];
+    
+    NSLog(@"-------------------->%@", FQPlayerViewStatusMapping[playerViewStatus]);
+    
+    [self p_setPreImageLayerHidden:YES];
     
     switch (playerViewStatus) {
+        case FQPlayerViewStatus_Unknown:
+            [self p_setPreImageLayerHidden:NO];
+            break;
         case FQPlayerViewStatus_ReadyToPlay:
-            NSLog(@"-------------------->准备播放");
+            
             break;
         case FQPlayerViewStatus_Playing:
-            NSLog(@"-------------------->开始播放");
+            
             break;
         case FQPlayerViewStatus_Paused:
-            NSLog(@"-------------------->手动暂停");
+            
             break;
         case FQPlayerViewStatus_CachingPaused:
-            NSLog(@"-------------------->因缓冲而自动暂停");
+            
             break;
         case FQPlayerViewStatus_Stopped:
-            NSLog(@"-------------------->停止播放");
+            [self p_setPreImageLayerHidden:NO];
             break;
         case FQPlayerViewStatus_Completed:
-            NSLog(@"-------------------->播放完成");
+            [self p_setPreImageLayerHidden:NO];
             break;
         case FQPlayerViewStatus_Failed:
-            NSLog(@"-------------------->播放失败");
-            break;
-        default:
-            
+            [self p_setPreImageLayerHidden:NO];
             break;
     }
     
@@ -384,7 +408,22 @@
     }
 }
 
+- (void)setPreviewImage:(UIImage *)previewImage {
+    _previewImage = previewImage;
+    self.preImgLayer.contents = (__bridge id)previewImage.CGImage;
+}
+
 #pragma mark - Getter
+
+- (CALayer *)preImgLayer {
+    if (!_preImgLayer) {
+        CALayer *layer = [CALayer layer];
+        layer.frame = self.bounds;
+        [self.layer addSublayer:layer];
+        _preImgLayer = layer;
+    }
+    return _preImgLayer;
+}
 
 - (FQPlayerOperateView *)operateView {
     if (!_operateView) {

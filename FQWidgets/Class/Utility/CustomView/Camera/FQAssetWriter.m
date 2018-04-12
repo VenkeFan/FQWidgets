@@ -33,6 +33,7 @@
 
 - (void)dealloc {
     NSLog(@"FQAssetWriter dealloc");
+    NSLog(@"取消写入");
     [_assetWriter cancelWriting];
     _assetWriter = nil;
 }
@@ -56,37 +57,34 @@
     [self stopRecordingWithFinished:nil];
 }
 
-- (void)stopRecordingWithFinished:(void (^)(FQAssetWriterStatus))finished {
+- (void)stopRecordingWithFinished:(void (^)(void))finished {
     NSLog(@"正在停止写入");
     dispatch_async(_writingQueue, ^{
         [_assetWriter finishWritingWithCompletionHandler:^{
-            FQAssetWriterStatus status = FQAssetWriterStatus_Prepared;
             NSLog(@"停止写入");
             switch (_assetWriter.status) {
                 case AVAssetWriterStatusCompleted: {
-                    status = FQAssetWriterStatus_Completed;
                     _readyToRecordVideo = NO;
                     _readyToRecordAudio = NO;
                     _assetWriter = nil;
                     break;
                 }
                 case AVAssetWriterStatusFailed: {
-                    status = FQAssetWriterStatus_Failed;
                     NSLog(@"%@", _assetWriter.error);
                     break;
                 }
                 case AVAssetWriterStatusCancelled: {
-                    status = FQAssetWriterStatus_Cancelled;
+                    
                 }
                 case AVAssetWriterStatusWriting: {
-                    status = FQAssetWriterStatus_Writing;
+                    
                 }
                 default:
                     break;
             }
             
             if (finished) {
-                finished(status);
+                finished();
             }
         }];
     });

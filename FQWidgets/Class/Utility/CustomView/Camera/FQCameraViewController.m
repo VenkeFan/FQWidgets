@@ -381,7 +381,7 @@
 }
 
 - (void)p_stopRecording {
-    [_assetWriter stopRecordingWithFinished:^(FQAssetWriterStatus status) {
+    [_assetWriter stopRecordingWithFinished:^() {
         self.operateView.recordFilePath = _assetWriter.filePath;
     }];
     [_session stopRunning];

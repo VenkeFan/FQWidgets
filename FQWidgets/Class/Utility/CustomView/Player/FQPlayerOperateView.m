@@ -11,11 +11,11 @@
 @interface FQPlayerOperateView ()
 
 @property (nonatomic, weak) UIActivityIndicatorView *indicatorView;
-//@property (nonatomic, weak) UIButton *playBtn;
+@property (nonatomic, weak) UIButton *playBtn;
 
-@property (nonatomic, weak) UIView *controlView;
-@property (nonatomic, strong) UIButton *ctrPlayBtn;
-@property (nonatomic, strong) UIButton *ctrStopBtn;
+//@property (nonatomic, weak) UIView *controlView;
+//@property (nonatomic, strong) UIButton *ctrPlayBtn;
+//@property (nonatomic, strong) UIButton *ctrStopBtn;
 
 @property (nonatomic, weak) UIView *progressView;
 @property (nonatomic, strong) UILabel *leftLab;
@@ -38,11 +38,11 @@
 }
 
 - (void)layoutSubviews {
-    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self);
-        make.top.mas_equalTo(self);
-        make.height.mas_equalTo(kSizeScale(35));
-    }];
+//    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.mas_equalTo(self);
+//        make.top.mas_equalTo(self);
+//        make.height.mas_equalTo(kSizeScale(35));
+//    }];
     
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self);
@@ -52,7 +52,7 @@
     
     CGPoint centerPoint = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
     self.indicatorView.center = centerPoint;
-//    self.playBtn.center = centerPoint;
+    self.playBtn.center = centerPoint;
 }
 
 #pragma mark - Event
@@ -115,20 +115,24 @@
     [self setCaching:NO];
     
     switch (playerViewStatus) {
+        case FQPlayerViewStatus_ReadyToPlay:
+            break;
         case FQPlayerViewStatus_Playing:
-            [self.ctrPlayBtn setTitle:@"暂停" forState:UIControlStateNormal];
+//            [self.ctrPlayBtn setTitle:@"暂停" forState:UIControlStateNormal];
+            self.playBtn.hidden = YES;
             break;
         case FQPlayerViewStatus_Paused:
-            [self.ctrPlayBtn setTitle:@"播放" forState:UIControlStateNormal];
+//            [self.ctrPlayBtn setTitle:@"播放" forState:UIControlStateNormal];
+            self.playBtn.hidden = NO;
             break;
         case FQPlayerViewStatus_CachingPaused:
             [self setCaching:YES];
             break;
         case FQPlayerViewStatus_Stopped:
-            
+            self.playBtn.hidden = NO;
             break;
         case FQPlayerViewStatus_Completed:
-            
+            self.playBtn.hidden = NO;
             break;
         default:
             
@@ -151,7 +155,7 @@
     if (playSeconds <= 0) {
         self.leftLab.text = @"00:00";
     } else {
-        self.leftLab.text = [self p_translateTotalSeconds:playSeconds];
+        self.leftLab.text = [self p_translateTotalSeconds:(int)floorf(playSeconds)];
     }
 }
 
@@ -160,7 +164,7 @@
     if (restSeconds <= 0) {
         self.rightLab.text = @"00:00";
     } else {
-        self.rightLab.text = [self p_translateTotalSeconds:restSeconds];
+        self.rightLab.text = [self p_translateTotalSeconds:(int)ceilf(restSeconds)];
     }
 }
 
@@ -170,7 +174,7 @@
     if (caching && !self.indicatorView.isAnimating) {
         [self.indicatorView startAnimating];
     } else {
-        [self.indicatorView stopAnimating];
+        [self.indicatorView stopAnimating];git 
     }
 }
 
@@ -274,44 +278,44 @@
 
 #pragma mark ControlView
 
-- (UIView *)controlView {
-    if (!_controlView) {
-        UIView *view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.6];
-        [self addSubview:view];
-        _controlView = view;
-        
-        [view addSubview:self.ctrPlayBtn];
-        [self.ctrPlayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.mas_equalTo(view);
-        }];
-        
-        [view addSubview:self.ctrStopBtn];
-        [self.ctrStopBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.ctrPlayBtn.mas_right).offset(kSizeScale(20));
-            make.centerY.mas_equalTo(self.ctrPlayBtn);
-        }];
-    }
-    return _controlView;
-}
-
-- (UIButton *)ctrPlayBtn {
-    if (!_ctrPlayBtn) {
-        UIButton *btn = [self buttonWithTitle:@"播放"];
-        [btn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        _ctrPlayBtn = btn;
-    }
-    return _ctrPlayBtn;
-}
-
-- (UIButton *)ctrStopBtn {
-    if (!_ctrStopBtn) {
-        UIButton *btn = [self buttonWithTitle:@"停止"];
-        [btn addTarget:self action:@selector(stopBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        _ctrStopBtn = btn;
-    }
-    return _ctrStopBtn;
-}
+//- (UIView *)controlView {
+//    if (!_controlView) {
+//        UIView *view = [[UIView alloc] init];
+//        view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.6];
+//        [self addSubview:view];
+//        _controlView = view;
+//
+//        [view addSubview:self.ctrPlayBtn];
+//        [self.ctrPlayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.mas_equalTo(view);
+//        }];
+//
+//        [view addSubview:self.ctrStopBtn];
+//        [self.ctrStopBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(self.ctrPlayBtn.mas_right).offset(kSizeScale(20));
+//            make.centerY.mas_equalTo(self.ctrPlayBtn);
+//        }];
+//    }
+//    return _controlView;
+//}
+//
+//- (UIButton *)ctrPlayBtn {
+//    if (!_ctrPlayBtn) {
+//        UIButton *btn = [self buttonWithTitle:@"播放"];
+//        [btn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        _ctrPlayBtn = btn;
+//    }
+//    return _ctrPlayBtn;
+//}
+//
+//- (UIButton *)ctrStopBtn {
+//    if (!_ctrStopBtn) {
+//        UIButton *btn = [self buttonWithTitle:@"停止"];
+//        [btn addTarget:self action:@selector(stopBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        _ctrStopBtn = btn;
+//    }
+//    return _ctrStopBtn;
+//}
 
 - (UIButton *)buttonWithTitle:(NSString *)title {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -322,17 +326,17 @@
     return btn;
 }
 
-//- (UIButton *)playBtn {
-//    if (!_playBtn) {
-//        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [btn setBackgroundImage:[UIImage imageNamed:@"camera_video_icon"] forState:UIControlStateNormal];
-//        [btn sizeToFit];
-//        [btn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:btn];
-//        _playBtn = btn;
-//    }
-//    return _playBtn;
-//}
+- (UIButton *)playBtn {
+    if (!_playBtn) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setBackgroundImage:[UIImage imageNamed:@"camera_video_icon"] forState:UIControlStateNormal];
+        [btn sizeToFit];
+        [btn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:btn];
+        _playBtn = btn;
+    }
+    return _playBtn;
+}
 
 - (UIActivityIndicatorView *)indicatorView {
     if (!_indicatorView) {

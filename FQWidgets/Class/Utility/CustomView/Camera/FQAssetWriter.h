@@ -9,14 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSInteger, FQAssetWriterStatus) {
-    FQAssetWriterStatus_Prepared,
-    FQAssetWriterStatus_Writing,
-    FQAssetWriterStatus_Completed,
-    FQAssetWriterStatus_Failed,
-    FQAssetWriterStatus_Cancelled
-};
-
 @interface FQAssetWriter : NSObject
 
 @property (nonatomic) dispatch_queue_t writingQueue;
@@ -29,7 +21,7 @@ typedef NS_ENUM(NSInteger, FQAssetWriterStatus) {
 
 - (void)startRecording;
 - (void)stopRecording;
-- (void)stopRecordingWithFinished:(void(^)(FQAssetWriterStatus))finished;
+- (void)stopRecordingWithFinished:(void(^)(void))finished;
 - (void)cancelRecording;
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType;
 

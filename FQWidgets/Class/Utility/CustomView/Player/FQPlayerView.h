@@ -23,13 +23,13 @@
 - (instancetype)initWithURLString:(NSString *)urlString;
 - (instancetype)initWithAsset:(AVAsset *)asset;
 
-- (void)playWithUrlString:(NSString *)urlString;
-- (void)playWithAsset:(AVAsset *)asset;
-
 - (void)play;
 - (void)pause;
 - (void)stop;
 
+@property (nonatomic, strong) UIImage *previewImage;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic, strong) AVAsset *asset;
 @property (nonatomic, assign) FQPlayerViewStatus playerViewStatus;
 @property (nonatomic, weak) id<FQPlayerViewDelegate> delegate;
 

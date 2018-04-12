@@ -99,7 +99,7 @@
 
 - (void)startCountDown {
     self.countDownView.hidden = NO;
-    NSLog(@"开始录制");
+    NSLog(@"开始录制倒计时");
     
     __block NSInteger duration = kMaxVideoRecordDuration;
     __weak typeof(self) weakSelf = self;
@@ -117,7 +117,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.countLabel.attributedText = mutAttr;
                 [weakSelf.progressView setProgress:(kMaxVideoRecordDuration - duration) / kMaxVideoRecordDuration animated:YES];
-                NSLog(@"正在录制: %@", mutAttr.string);
+                NSLog(@"正在录制倒计时: %@", mutAttr.string);
             });
             
             duration--;
@@ -126,7 +126,7 @@
     
     dispatch_source_set_cancel_handler(_timer, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"停止录制");
+            NSLog(@"停止录制倒计时");
             [weakSelf setVideoStatus:FQCameraVideoStatus_Completed];
         });
     });
@@ -165,7 +165,12 @@
         return;
     }
     
-    [self.playerView playWithAsset:[AVAsset assetWithURL:self.recordFilePath]];
+    self.playerView.asset = [AVAsset assetWithURL:self.recordFilePath];
+    if (self.playerView.playerViewStatus != FQPlayerViewStatus_Playing) {
+        [self.playerView play];
+    } else {
+        [self.playerView pause];
+    }
 }
 
 - (void)confirmBtnClicked {
@@ -222,7 +227,6 @@
     if (status == FQPlayerViewStatus_Stopped || status == FQPlayerViewStatus_Completed) {
         self.playerView.hidden = YES;
     }
-    
     
     switch (status) {
         case FQPlayerViewStatus_ReadyToPlay:
@@ -286,6 +290,9 @@
             
             self.countLabel.attributedText = nil;
             self.countDownView.hidden = YES;
+            if (videoStatus == FQCameraVideoStatus_Stop) {
+                [self invalidateTimer];
+            }
             
             self.playBtn.hidden = NO;
             [self setCancelAndConfirmHidden:NO];
@@ -389,7 +396,8 @@
         _progressView = view;
         
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.mas_equalTo(self.operateContentView);
+            make.left.right.mas_equalTo(self.operateContentView);
+            make.bottom.mas_equalTo(self.operateContentView).offset(-kSafeAreaBottomY);
         }];
     }
     return _progressView;
