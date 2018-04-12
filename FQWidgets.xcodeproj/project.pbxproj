@@ -439,13 +439,13 @@
 			isa = PBXGroup;
 			children = (
 				B902D7C8207E1A3F0080D294 /* FQAssetModel.h */,
-				B902D7C9207E1A3F0080D294 /* FQAssetsViewController.m */,
-				B902D7CA207E1A3F0080D294 /* FQAssetsManager.h */,
-				B902D7CB207E1A3F0080D294 /* FQAssetsBrowseViewController.m */,
 				B902D7CC207E1A3F0080D294 /* FQAssetModel.m */,
-				B902D7CD207E1A3F0080D294 /* FQAssetsViewController.h */,
-				B902D7CE207E1A3F0080D294 /* FQAssetsManager.m */,
 				B902D7CF207E1A3F0080D294 /* FQAssetsBrowseViewController.h */,
+				B902D7CB207E1A3F0080D294 /* FQAssetsBrowseViewController.m */,
+				B902D7CA207E1A3F0080D294 /* FQAssetsManager.h */,
+				B902D7CE207E1A3F0080D294 /* FQAssetsManager.m */,
+				B902D7CD207E1A3F0080D294 /* FQAssetsViewController.h */,
+				B902D7C9207E1A3F0080D294 /* FQAssetsViewController.m */,
 			);
 			path = PHAssetsController;
 			sourceTree = "<group>";
@@ -476,8 +476,8 @@
 			isa = PBXGroup;
 			children = (
 				B902D7E0207E1A3F0080D294 /* FQPlayerOperateView.h */,
-				B902D7E1207E1A3F0080D294 /* FQPlayerView.h */,
 				B902D7E2207E1A3F0080D294 /* FQPlayerOperateView.m */,
+				B902D7E1207E1A3F0080D294 /* FQPlayerView.h */,
 				B902D7E3207E1A3F0080D294 /* FQPlayerView.m */,
 			);
 			path = Player;

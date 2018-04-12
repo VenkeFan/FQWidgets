@@ -9,6 +9,8 @@
 #ifndef WLMacroDefine_h
 #define WLMacroDefine_h
 
+#define kMaxVideoRecordDuration      10.0
+
 // App全局frame
 #define kMainToastViewHeight    kSizeScale(64)
 #define kMainTopViewHeight      kSizeScale(100)

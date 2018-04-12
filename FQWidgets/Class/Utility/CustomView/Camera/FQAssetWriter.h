@@ -29,6 +29,8 @@ typedef NS_ENUM(NSInteger, FQAssetWriterStatus) {
 
 - (void)startRecording;
 - (void)stopRecording;
+- (void)stopRecordingWithFinished:(void(^)(FQAssetWriterStatus))finished;
+- (void)cancelRecording;
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType;
 
 - (void)removeFile;

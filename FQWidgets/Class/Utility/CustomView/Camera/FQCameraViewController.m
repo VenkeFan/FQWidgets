@@ -11,8 +11,6 @@
 
 #import "FQAssetWriter.h"
 
-#import "FQRadioButton.h"
-
 @interface FQCameraViewController () <FQCameraOperateViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureSession *_session;
     
@@ -66,8 +64,7 @@
 }
 
 - (void)dealloc {
-    [FQRadioButton clearRadioGroup];
-    
+    NSLog(@"FQCameraViewController dealloc");
     [_session stopRunning];
     _session = nil;
 }
@@ -160,7 +157,7 @@
 
 #pragma mark - FQCameraOperateViewDelegate
 
-- (void)cameraOperateViewDidPhotoClicked:(FQCameraOperateView *)operateView succeed:(SucceedBlock)succeed {
+- (void)cameraOperateViewDidTakePhotoClicked:(FQCameraOperateView *)operateView succeed:(SucceedBlock)succeed {
     AVCaptureConnection *imgConnection = [_imageOutput connectionWithMediaType:AVMediaTypeVideo];
     if (imgConnection.isVideoOrientationSupported) {
         imgConnection.videoOrientation = [self currentVideoOrientation];
@@ -215,14 +212,13 @@
         case FQCameraVideoStatus_Prepare:
             break;
         case FQCameraVideoStatus_Recording:
-            if (oldStatus != FQCameraVideoStatus_Pause) {
-                [self p_startRecording];
-            }
+            [self p_startRecording];
             break;
-        case FQCameraVideoStatus_Pause:
-            break;
+        case FQCameraVideoStatus_Stop:
         case FQCameraVideoStatus_Completed:
             [self p_stopRecording];
+            break;
+        default:
             break;
     }
 }
@@ -385,7 +381,9 @@
 }
 
 - (void)p_stopRecording {
-    [_assetWriter stopRecording];
+    [_assetWriter stopRecordingWithFinished:^(FQAssetWriterStatus status) {
+        self.operateView.recordFilePath = _assetWriter.filePath;
+    }];
     [_session stopRunning];
 }
 

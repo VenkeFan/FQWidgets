@@ -17,10 +17,16 @@ typedef NS_ENUM(NSInteger, FQCameraOutputType) {
 };
 
 typedef NS_ENUM(NSInteger, FQCameraVideoStatus) {
+    // Record Video
     FQCameraVideoStatus_Prepare,
     FQCameraVideoStatus_Recording,
+    FQCameraVideoStatus_Stop,
+    FQCameraVideoStatus_Completed,
+    
+    // Play Video
+    FQCameraVideoStatus_Play,
     FQCameraVideoStatus_Pause,
-    FQCameraVideoStatus_Completed
+    FQCameraVideoStatus_PlayToEnd,
 };
 
 typedef void(^SucceedBlock)(void);
@@ -30,10 +36,8 @@ typedef void(^FailedBlock)(void);
 
 - (void)cameraOperateView:(FQCameraOperateView *)operateView didCanceledWithOutputType:(FQCameraOutputType)outputType;
 - (void)cameraOperateView:(FQCameraOperateView *)operateView didConfirmedWithOutputType:(FQCameraOutputType)outputType;
-- (void)cameraOperateViewDidPhotoClicked:(FQCameraOperateView *)operateView succeed:(SucceedBlock)succeed;
-- (void)cameraOperateView:(FQCameraOperateView *)operateView
-    didVideoStatusChanged:(FQCameraVideoStatus)newStatus
-                oldStatus:(FQCameraVideoStatus)oldStatus;
+- (void)cameraOperateViewDidTakePhotoClicked:(FQCameraOperateView *)operateView succeed:(SucceedBlock)succeed;
+- (void)cameraOperateView:(FQCameraOperateView *)operateView didVideoStatusChanged:(FQCameraVideoStatus)newStatus oldStatus:(FQCameraVideoStatus)oldStatus;
 - (void)cameraOperateViewDidChangeFlashlight:(FQCameraOperateView *)operateView succeed:(void(^)(AVCaptureFlashMode flashMode))succeed;
 - (void)cameraOperateViewDidTransformCamera:(FQCameraOperateView *)operateView;
 
@@ -45,6 +49,6 @@ typedef void(^FailedBlock)(void);
 @property (nonatomic, assign) FQCameraVideoStatus videoStatus;
 @property (nonatomic, weak) id<FQCameraOperateViewDelegate> delegate;
 
-@property (nonatomic, assign, readonly) CGFloat switchBgViewHeight;
+@property (nonatomic, strong) NSURL *recordFilePath;
 
 @end

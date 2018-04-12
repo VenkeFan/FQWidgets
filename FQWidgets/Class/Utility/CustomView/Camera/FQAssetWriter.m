@@ -27,15 +27,14 @@
 - (instancetype)init {
     if (self = [super init]) {
         _writingQueue = dispatch_queue_create("com.welike.camera.fqassetwriter", DISPATCH_QUEUE_SERIAL);
-        
     }
     return self;
 }
 
 - (void)dealloc {
-    [_assetWriter finishWritingWithCompletionHandler:^{
-        _assetWriter = nil;
-    }];
+    NSLog(@"FQAssetWriter dealloc");
+    [_assetWriter cancelWriting];
+    _assetWriter = nil;
 }
 
 #pragma mark - Public
@@ -54,26 +53,47 @@
 }
 
 - (void)stopRecording {
+    [self stopRecordingWithFinished:nil];
+}
+
+- (void)stopRecordingWithFinished:(void (^)(FQAssetWriterStatus))finished {
     NSLog(@"正在停止写入");
     dispatch_async(_writingQueue, ^{
         [_assetWriter finishWritingWithCompletionHandler:^{
+            FQAssetWriterStatus status = FQAssetWriterStatus_Prepared;
             NSLog(@"停止写入");
-            switch (_assetWriter.status){
-                case AVAssetWriterStatusCompleted:{
+            switch (_assetWriter.status) {
+                case AVAssetWriterStatusCompleted: {
+                    status = FQAssetWriterStatus_Completed;
                     _readyToRecordVideo = NO;
                     _readyToRecordAudio = NO;
                     _assetWriter = nil;
                     break;
                 }
-                case AVAssetWriterStatusFailed:{
+                case AVAssetWriterStatusFailed: {
+                    status = FQAssetWriterStatus_Failed;
                     NSLog(@"%@", _assetWriter.error);
                     break;
+                }
+                case AVAssetWriterStatusCancelled: {
+                    status = FQAssetWriterStatus_Cancelled;
+                }
+                case AVAssetWriterStatusWriting: {
+                    status = FQAssetWriterStatus_Writing;
                 }
                 default:
                     break;
             }
+            
+            if (finished) {
+                finished(status);
+            }
         }];
     });
+}
+
+- (void)cancelRecording {
+    [_assetWriter cancelWriting];
 }
 
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType {
@@ -207,7 +227,7 @@
                 if (error) {
                     NSLog(@"存入相册错误: %@", error);
                 } else {
-                    NSLog(@"存入相册成功");
+                    [FQProgressHUDHelper showWithMessage:@"存入相册成功"];
                 }
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     
@@ -221,7 +241,7 @@
                                     if (error) {
                                         NSLog(@"存入相册错误: %@", error);
                                     } else {
-                                        NSLog(@"存入相册成功");
+                                        [FQProgressHUDHelper showWithMessage:@"存入相册成功"];
                                     }
                                     dispatch_sync(dispatch_get_main_queue(), ^{
                                         
@@ -233,18 +253,18 @@
 #pragma mark - Private
 
 // 旋转视频方向函数实现
--  (CGAffineTransform)transformFromCurrentVideoOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
-    CGFloat orientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:orientation];
-    //    CGFloat videoOrientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:self.motionManager.videoOrientation];
-    CGFloat angleOffset;
-    //    if (_activeCamera.position == AVCaptureDevicePositionBack) {
-    //        angleOffset = orientationAngleOffset - videoOrientationAngleOffset;
-    //    } else {
-    //        angleOffset = videoOrientationAngleOffset - orientationAngleOffset + M_PI_2;
-    //    }
-    CGAffineTransform transform = CGAffineTransformMakeRotation(angleOffset);
-    return transform;
-}
+//-  (CGAffineTransform)transformFromCurrentVideoOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
+//    CGFloat orientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:orientation];
+//    CGFloat videoOrientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:self.motionManager.videoOrientation];
+//    CGFloat angleOffset;
+//        if (_activeCamera.position == AVCaptureDevicePositionBack) {
+//            angleOffset = orientationAngleOffset - videoOrientationAngleOffset;
+//        } else {
+//            angleOffset = videoOrientationAngleOffset - orientationAngleOffset + M_PI_2;
+//        }
+//    CGAffineTransform transform = CGAffineTransformMakeRotation(angleOffset);
+//    return transform;
+//}
 
 - (CGFloat)angleOffsetFromPortraitOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
     CGFloat angle = 0.0;

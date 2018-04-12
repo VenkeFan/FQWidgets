@@ -364,13 +364,15 @@
             break;
         case FQPlayerViewStatus_CachingPaused:
             NSLog(@"-------------------->因缓冲而自动暂停");
-            
             break;
         case FQPlayerViewStatus_Stopped:
             NSLog(@"-------------------->停止播放");
             break;
         case FQPlayerViewStatus_Completed:
             NSLog(@"-------------------->播放完成");
+            break;
+        case FQPlayerViewStatus_Failed:
+            NSLog(@"-------------------->播放失败");
             break;
         default:
             
