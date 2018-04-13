@@ -24,20 +24,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     self.view.backgroundColor = [UIColor cyanColor];
+    
+    {
+        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
+        imgBtn.layer.borderWidth = 1;
+        imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
+        imgBtn.imageView.backgroundColor = [UIColor greenColor];
+        
+        imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
+        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
+        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
+        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
+        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
+        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [imgBtn setTitle:@"9" forState:UIControlStateNormal];
+        [imgBtn sizeToFit];
+        
+        [self.view addSubview:imgBtn];
+    }
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.layer.borderWidth = 1.0;
     btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    btn.frame = CGRectMake(20, kNavBarHeight + 10, 120, 45);
+    btn.frame = CGRectMake(20, kNavBarHeight + 20, 120, 45);
     [btn setTitle:@"拍照摄像" forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:17];
     [btn addBlockForControlEvents:UIControlEventTouchUpInside
                             block:^(id  _Nonnull sender) {
                                 FQAssetsViewController *ctr = [FQAssetsViewController new];
                                 ctr.delegate = self;
-                                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:ctr] animated:YES completion:nil];
+                                [self.navigationController pushViewController:ctr animated:YES];
+//                                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:ctr] animated:YES completion:nil];
                             }];
     [self.view addSubview:btn];
  
@@ -54,31 +75,6 @@
 //        imgView.contentMode = UIViewContentModeScaleAspectFit;
 //        [self.view addSubview:imgView];
 //        self.imageView = imgView;
-    }
-    
-    
-    {
-//        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
-//        imgBtn.backgroundColor = [UIColor magentaColor];
-//        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
-//        imgBtn.imageView.backgroundColor = [UIColor greenColor];
-//        
-//        imgBtn.frame = CGRectMake(20, kNavBarHeight + 230, 150, 30);
-//        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
-//        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-//        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
-//        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
-//        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
-//        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
-//        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-//        [imgBtn setTitle:@"1" forState:UIControlStateNormal];
-//        
-//        [imgBtn sizeToFit];
-//        CGRect frame = imgBtn.frame;
-//        frame.size.width += 30;
-//        imgBtn.frame = frame;
-//        
-//        [self.view addSubview:imgBtn];
     }
 }
 

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		689A53FCCC745359BAB80B22 /* Pods_FQWidgets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6ABD05655548B0555B53540 /* Pods_FQWidgets.framework */; };
 		B902D761207E18450080D294 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D760207E18450080D294 /* AppDelegate.m */; };
-		B902D764207E18450080D294 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D763207E18450080D294 /* ViewController.m */; };
 		B902D767207E18450080D294 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B902D765207E18450080D294 /* Main.storyboard */; };
 		B902D769207E18450080D294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B902D768207E18450080D294 /* Assets.xcassets */; };
 		B902D76C207E18450080D294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B902D76A207E18450080D294 /* LaunchScreen.storyboard */; };
@@ -55,6 +54,9 @@
 		B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E5207E1A3F0080D294 /* FQLanguageManager.m */; };
 		B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */; };
 		B902D819207E29D80080D294 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B902D81B207E29D80080D294 /* Localizable.strings */; };
+		B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D821207F720A0080D294 /* UIViewController+FQNavigationController.m */; };
+		B902D825207F85700080D294 /* FQSystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D824207F85700080D294 /* FQSystemHelper.m */; };
+		B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,8 +82,6 @@
 		B902D75C207E18450080D294 /* FQWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FQWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B902D75F207E18450080D294 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B902D760207E18450080D294 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B902D762207E18450080D294 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B902D763207E18450080D294 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B902D766207E18450080D294 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B902D768207E18450080D294 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B902D76B207E18450080D294 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -163,6 +163,12 @@
 		B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQProgressHUDHelper.m; sourceTree = "<group>"; };
 		B902D81A207E29D80080D294 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B902D81C207E29DD0080D294 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B902D820207F720A0080D294 /* UIViewController+FQNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+FQNavigationController.h"; sourceTree = "<group>"; };
+		B902D821207F720A0080D294 /* UIViewController+FQNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+FQNavigationController.m"; sourceTree = "<group>"; };
+		B902D823207F85700080D294 /* FQSystemHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQSystemHelper.h; sourceTree = "<group>"; };
+		B902D824207F85700080D294 /* FQSystemHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQSystemHelper.m; sourceTree = "<group>"; };
+		B902D826208086EC0080D294 /* UINavigationController+FQNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FQNavigation.h"; sourceTree = "<group>"; };
+		B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FQNavigation.m"; sourceTree = "<group>"; };
 		C6ABD05655548B0555B53540 /* Pods_FQWidgets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FQWidgets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -235,12 +241,10 @@
 			isa = PBXGroup;
 			children = (
 				B902D79E207E1A3F0080D294 /* Class */,
-				B902D791207E1A3E0080D294 /* PrefixHeader.pch */,
 				B902D792207E1A3F0080D294 /* Resources */,
+				B902D791207E1A3E0080D294 /* PrefixHeader.pch */,
 				B902D75F207E18450080D294 /* AppDelegate.h */,
 				B902D760207E18450080D294 /* AppDelegate.m */,
-				B902D762207E18450080D294 /* ViewController.h */,
-				B902D763207E18450080D294 /* ViewController.m */,
 				B902D765207E18450080D294 /* Main.storyboard */,
 				B902D768207E18450080D294 /* Assets.xcassets */,
 				B902D76A207E18450080D294 /* LaunchScreen.storyboard */,
@@ -359,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				B902D7B2207E1A3F0080D294 /* Category */,
-				B902D7B3207E1A3F0080D294 /* DNImagePicker */,
 				B902D7B4207E1A3F0080D294 /* Macro */,
 				B902D7B7207E1A3F0080D294 /* CustomView */,
 				B902D7E4207E1A3F0080D294 /* Helper */,
@@ -370,15 +373,12 @@
 		B902D7B2207E1A3F0080D294 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				B902D820207F720A0080D294 /* UIViewController+FQNavigationController.h */,
+				B902D821207F720A0080D294 /* UIViewController+FQNavigationController.m */,
+				B902D826208086EC0080D294 /* UINavigationController+FQNavigation.h */,
+				B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */,
 			);
 			path = Category;
-			sourceTree = "<group>";
-		};
-		B902D7B3207E1A3F0080D294 /* DNImagePicker */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DNImagePicker;
 			sourceTree = "<group>";
 		};
 		B902D7B4207E1A3F0080D294 /* Macro */ = {
@@ -486,10 +486,12 @@
 		B902D7E4207E1A3F0080D294 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				B902D7E7207E1A3F0080D294 /* FQLanguageManager.h */,
 				B902D7E5207E1A3F0080D294 /* FQLanguageManager.m */,
 				B902D7E6207E1A3F0080D294 /* FQProgressHUDHelper.h */,
-				B902D7E7207E1A3F0080D294 /* FQLanguageManager.h */,
 				B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */,
+				B902D823207F85700080D294 /* FQSystemHelper.h */,
+				B902D824207F85700080D294 /* FQSystemHelper.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -721,15 +723,17 @@
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
+				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
+				B902D825207F85700080D294 /* FQSystemHelper.m in Sources */,
 				B902D80B207E1A3F0080D294 /* FQPlayerOperateView.m in Sources */,
 				B902D807207E1A3F0080D294 /* FQRefreshHeader.m in Sources */,
+				B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */,
 				B902D800207E1A3F0080D294 /* FQThumbnailView.m in Sources */,
 				B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */,
 				B902D809207E1A3F0080D294 /* FQTabBarView.m in Sources */,
 				B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */,
-				B902D764207E18450080D294 /* ViewController.m in Sources */,
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
 				B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */,

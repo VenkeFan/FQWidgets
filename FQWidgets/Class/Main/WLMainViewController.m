@@ -63,15 +63,6 @@
 //    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:publishCtr] animated:YES completion:nil];
 }
 
-- (UINavigationController *)generateNavigationCtr:(UIViewController *)ctr {
-    UINavigationController *navigationCtr = [[UINavigationController alloc] initWithRootViewController:ctr];
-    
-    if([navigationCtr respondsToSelector:@selector(interactivePopGestureRecognizer)])
-        navigationCtr.interactivePopGestureRecognizer.delegate = nil;
-    
-    return navigationCtr;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

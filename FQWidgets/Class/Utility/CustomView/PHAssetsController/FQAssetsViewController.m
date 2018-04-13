@@ -367,6 +367,24 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     {
+//        
+//        {
+//            unsigned int count = 0;
+//            Ivar *ivars = class_copyIvarList([self.navigationController.navigationBar class], &count);
+//            
+//            for (int i = 0; i < count; i++) {
+//                Ivar ivar = ivars[i];
+//                NSString *objcName = [NSString stringWithUTF8String:ivar_getName(ivar)];
+//                NSString *objcType = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];
+//                NSLog(@"%@ : %@", objcName, objcType);
+//            }
+//            
+////            UIView *view = [self.navigationController.navigationBar valueForKey:@"_barBackgroundView"];
+//            UIView *view = [self.navigationController.navigationBar valueForKey:@"_backgroundView"];
+//            NSLog(@"%@", view);
+//        }
+//        
+        
         self.navigationItem.rightBarButtonItem = ({
             UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [closeBtn setTitle:@"Close" forState:UIControlStateNormal];
@@ -380,7 +398,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         });
         
         self.navigationItem.titleView = ({
-            // CGRectMake(0, 0, kSizeScale(150), kNavBarHeight - kStatusBarHeight)
             FQImageButton *btn = [[FQImageButton alloc] init];
             btn.imageOrientation = FQImageButtonOrientation_Right;
             btn.selected = NO;
@@ -388,6 +405,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
             [btn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
             btn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(17)];
             [btn setImage:[UIImage imageNamed:@"camera_triangle"] forState:UIControlStateNormal];
+            [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
             [btn sizeToFit];
             [btn addTarget:self action:@selector(titleBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             _titleBtn = btn;
@@ -554,7 +572,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         return;
     }
     
-    self.selectedAlbum = itemModel;
+    [self setSelectedAlbum:itemModel];
 }
 
 - (void)assetsAlbumViewDidDismiss:(FQAssetsAlbumView *)albumView {
@@ -668,6 +686,11 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     _selectedAlbum = selectedAlbum;
     
     [_titleBtn setTitle:selectedAlbum.localizedTitle forState:UIControlStateNormal];
+    [UIView animateWithDuration:0
+                     animations:^{
+                         [_titleBtn sizeToFit];
+                     }];
+    
     [self titleBtnClicked:_titleBtn];
     
     _assetArray = nil;

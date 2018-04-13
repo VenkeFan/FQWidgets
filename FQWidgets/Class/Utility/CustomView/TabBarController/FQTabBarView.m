@@ -264,7 +264,7 @@
 - (UILabel *)titleLab {
     if (!_titleLab) {
         UILabel *lab = [[UILabel alloc] init];
-        lab.font = [UIFont systemFontOfSize:kLittleFontSize];
+        lab.font = [UIFont systemFontOfSize:kSizeScale(10)];
         [self.contentView addSubview:lab];
         _titleLab = lab;
     }

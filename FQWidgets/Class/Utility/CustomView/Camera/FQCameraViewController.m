@@ -63,6 +63,19 @@
     [self initializeCapture];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.alpha = 0.3;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.alpha = 1.0;
+}
+
 - (void)dealloc {
     NSLog(@"FQCameraViewController dealloc");
     [_session stopRunning];
