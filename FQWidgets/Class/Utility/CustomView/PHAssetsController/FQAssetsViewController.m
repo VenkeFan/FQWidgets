@@ -367,7 +367,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     {
-//        
 //        {
 //            unsigned int count = 0;
 //            Ivar *ivars = class_copyIvarList([self.navigationController.navigationBar class], &count);
@@ -385,17 +384,17 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 //        }
 //        
         
-        self.navigationItem.rightBarButtonItem = ({
-            UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [closeBtn setTitle:@"Close" forState:UIControlStateNormal];
-            closeBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-            [closeBtn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
-            [closeBtn sizeToFit];
-            [closeBtn addTarget:self action:@selector(closeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-            
-            UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
-            rightBarBtn;
-        });
+//        self.navigationItem.rightBarButtonItem = ({
+//            UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            [closeBtn setTitle:@"Close" forState:UIControlStateNormal];
+//            closeBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+//            [closeBtn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
+//            [closeBtn sizeToFit];
+//            [closeBtn addTarget:self action:@selector(closeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+//            
+//            UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
+//            rightBarBtn;
+//        });
         
         self.navigationItem.titleView = ({
             FQImageButton *btn = [[FQImageButton alloc] init];
@@ -677,7 +676,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     });
     [self.delegate assetsViewCtr:self didSelectedWithAssetArray:imgArray];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Setter

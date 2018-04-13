@@ -10,9 +10,9 @@
 
 @implementation UINavigationController (FQNavigation)
 
-- (void)viewDidLoad {
-    self.interactivePopGestureRecognizer.delegate = self;
-}
+//- (void)viewDidLoad {
+//    self.interactivePopGestureRecognizer.delegate = self;
+//}
 
 //#pragma mark - UINavigationControllerDelegate
 //
@@ -24,16 +24,16 @@
 //    }
 //}
 
-#pragma mark - UIGestureRecognizerDelegate
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    NSLog(@"gestureRecognizerShouldBegin: %zd", [self.navigationController.viewControllers count]);
-    
-    if (gestureRecognizer == self.navigationController.interactivePopGestureRecognizer) {
-        return [self.navigationController.viewControllers count] > 1;
-    } else {
-        return YES;
-    }
-}
+//#pragma mark - UIGestureRecognizerDelegate
+//
+//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+//    NSLog(@"gestureRecognizerShouldBegin: %zd", [self.navigationController.viewControllers count]);
+//
+//    if (gestureRecognizer == self.navigationController.interactivePopGestureRecognizer) {
+//        return [self.navigationController.viewControllers count] > 1;
+//    } else {
+//        return YES;
+//    }
+//}
 
 @end

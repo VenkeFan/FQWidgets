@@ -57,6 +57,8 @@
 		B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D821207F720A0080D294 /* UIViewController+FQNavigationController.m */; };
 		B902D825207F85700080D294 /* FQSystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D824207F85700080D294 /* FQSystemHelper.m */; };
 		B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */; };
+		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
+		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +171,10 @@
 		B902D824207F85700080D294 /* FQSystemHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQSystemHelper.m; sourceTree = "<group>"; };
 		B902D826208086EC0080D294 /* UINavigationController+FQNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FQNavigation.h"; sourceTree = "<group>"; };
 		B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FQNavigation.m"; sourceTree = "<group>"; };
+		B902D82D2080A6CB0080D294 /* FQNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQNavigationController.m; sourceTree = "<group>"; };
+		B902D82E2080A6CB0080D294 /* FQNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQNavigationController.h; sourceTree = "<group>"; };
+		B94076092080CC940052AA40 /* FQAnimatedTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAnimatedTransitioning.h; sourceTree = "<group>"; };
+		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
 		C6ABD05655548B0555B53540 /* Pods_FQWidgets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FQWidgets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -393,6 +399,7 @@
 		B902D7B7207E1A3F0080D294 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				B902D82C2080A6CB0080D294 /* NavigationController */,
 				B902D7BB207E1A3F0080D294 /* Camera */,
 				B902D7D9207E1A3F0080D294 /* FQBadgeView.h */,
 				B902D7D0207E1A3F0080D294 /* FQBadgeView.m */,
@@ -494,6 +501,17 @@
 				B902D824207F85700080D294 /* FQSystemHelper.m */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		B902D82C2080A6CB0080D294 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				B902D82E2080A6CB0080D294 /* FQNavigationController.h */,
+				B902D82D2080A6CB0080D294 /* FQNavigationController.m */,
+				B94076092080CC940052AA40 /* FQAnimatedTransitioning.h */,
+				B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */,
+			);
+			path = NavigationController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -742,8 +760,10 @@
 				B902D7F6207E1A3F0080D294 /* WLMessageViewController.m in Sources */,
 				B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,
+				B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */,
 				B902D804207E1A3F0080D294 /* FQAssetsManager.m in Sources */,
 				B902D7FE207E1A3F0080D294 /* FQAssetWriter.m in Sources */,
+				B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */,
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,
 				B902D76F207E18450080D294 /* main.m in Sources */,
 				B902D80A207E1A3F0080D294 /* FQTabBarController.m in Sources */,

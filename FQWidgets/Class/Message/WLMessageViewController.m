@@ -64,7 +64,7 @@
  
     {
         FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
-        thumView.frame = CGRectMake(20, kNavBarHeight + 65, 0, 0);
+        thumView.frame = CGRectMake(20, kNavBarHeight + 70, 0, 0);
         [self.view addSubview:thumView];
         self.thumbView = thumView;
     }

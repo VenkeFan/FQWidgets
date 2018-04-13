@@ -52,28 +52,17 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [closeBtn setTitle:@"Close" forState:UIControlStateNormal];
-    closeBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [closeBtn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
-    [closeBtn sizeToFit];
-    [closeBtn addTarget:self action:@selector(closeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:closeBtn];
-    
     [self initializeCapture];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = 0.3;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.alpha = 1.0;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)dealloc {
@@ -341,12 +330,6 @@
             });
         }
     }
-}
-
-#pragma mark - Event
-
-- (void)closeBtnClicked {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private

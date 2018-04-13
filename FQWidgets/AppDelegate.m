@@ -22,7 +22,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    self.window.rootViewController = [WLMainViewController new];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[WLMainViewController new]];
+    self.window.rootViewController = [[FQNavigationController alloc] initWithRootViewController:[WLMainViewController new]];
     [self.window makeKeyAndVisible];
     
     return YES;
