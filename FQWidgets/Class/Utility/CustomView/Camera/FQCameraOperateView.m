@@ -410,7 +410,7 @@
         [self addSubview:view];
         _countDownView = view;
         [view mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self).offset(kMarginY);
+            make.top.mas_equalTo(self).offset(kSizeScale(30));
             make.centerX.mas_equalTo(self);
         }];
 

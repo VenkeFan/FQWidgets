@@ -13,12 +13,9 @@
 
 #pragma mark - ************************* FQAssetsBrowseCell *************************
 
-@interface FQAssetsBrowseCell : UICollectionViewCell <FQPlayerViewDelegate, UIScrollViewDelegate>
+@interface FQAssetsBrowseCell : UICollectionViewCell <FQPlayerViewDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-
-@property (nonatomic, strong) UIImageView *imgView;
-
+@property (nonatomic, strong) FQZoomScaleView *scaleView;
 @property (nonatomic, strong) FQPlayerView *playerView;
 
 @property (nonatomic, strong) FQAssetModel *itemModel;
@@ -29,9 +26,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self.contentView addSubview:self.scrollView];
-        [self.scrollView addSubview:self.imgView];
-        [self.scrollView addSubview:self.playerView];
+        [self.contentView addSubview:self.scaleView];
+        [self.contentView addSubview:self.playerView];
     }
     return self;
 }
@@ -39,8 +35,8 @@
 - (void)setItemModel:(FQAssetModel *)itemModel {
     _itemModel = itemModel;
     
-    self.scrollView.contentSize = CGSizeZero;
-    [self.scrollView setZoomScale:1.0 animated:YES];
+    self.scaleView.contentSize = CGSizeZero;
+    self.scaleView.zoomScale = 1.0;
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = NO;
@@ -59,16 +55,15 @@
                                                   options:options
                                             resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                                 if (itemModel.asset.mediaType == PHAssetMediaTypeImage) {
-                                                    self.imgView.hidden = NO;
-                                                    self.imgView.image = result;
-                                                    [self p_resizeImageView];
+                                                    self.scaleView.hidden = NO;
+                                                    self.scaleView.image = result;
                                                     
                                                     self.playerView.hidden = YES;
                                                     self.playerView.previewImage = nil;
                                                     
                                                 } else if (itemModel.asset.mediaType == PHAssetMediaTypeVideo) {
-                                                    self.imgView.hidden = YES;
-                                                    self.imgView.image = nil;
+                                                    self.scaleView.hidden = YES;
+                                                    self.scaleView.image = nil;
                                                     
                                                     self.playerView.hidden = NO;
                                                     self.playerView.previewImage = result;
@@ -91,72 +86,20 @@
     
 }
 
-#pragma mark - UIScrollViewDelegate
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.imgView;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
-    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-
-    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
-    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-
-    self.imgView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                      scrollView.contentSize.height * 0.5 + offsetY);
-}
-
-#pragma mark - Private
-
-- (void)p_resizeImageView {
-    if (!self.imgView.image) {
-        return;
-    }
-    CGSize imgSize = self.imgView.image.size;
-    
-    CGFloat newWidth = kScreenWidth;
-    CGFloat newHeight = imgSize.height / imgSize.width * newWidth;
-    
-    self.imgView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    if (newHeight > kScreenHeight) {
-        self.scrollView.contentSize = CGSizeMake(newWidth, newHeight);
-        self.scrollView.contentOffset = CGPointZero;
-    } else {
-        self.imgView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, (CGRectGetHeight(self.frame)) * 0.5);
-    }
-}
-
 #pragma mark - Getter
 
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        _scrollView.delegate = self;
-        _scrollView.contentOffset = CGPointZero;
-        _scrollView.showsVerticalScrollIndicator = YES;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.bounces = YES;
-        _scrollView.alwaysBounceVertical = NO;
-        _scrollView.minimumZoomScale = 1.0;
-        _scrollView.maximumZoomScale = 3.0;
-        _scrollView.zoomScale = 1.0;
+- (FQZoomScaleView *)scaleView {
+    if (!_scaleView) {
+        _scaleView = [[FQZoomScaleView alloc] initWithFrame:self.bounds];
     }
-    return _scrollView;
-}
-
-- (UIImageView *)imgView {
-    if (!_imgView) {
-        _imgView = [[UIImageView alloc] initWithFrame:self.bounds];
-    }
-    return _imgView;
+    return _scaleView;
 }
 
 - (FQPlayerView *)playerView {
     if (!_playerView) {
         _playerView = [[FQPlayerView alloc] initWithFrame:self.bounds];
         _playerView.delegate = self;
+        _playerView.hidden = YES;
     }
     return _playerView;
 }
@@ -192,7 +135,6 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor blackColor];
     
@@ -230,10 +172,6 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
             make.bottom.mas_equalTo(bottomView).offset(-kSizeScale(8));
         }];
     }
-    
-//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnDoubleTap:)];
-//    doubleTap.numberOfTapsRequired = 2;
-//    [self.view addGestureRecognizer:doubleTap];
 }
 
 - (void)dealloc {
@@ -307,27 +245,6 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
     
 }
 
-- (void)selfOnDoubleTap:(UITapGestureRecognizer *)gesture {
-    FQAssetsBrowseCell *cell = (FQAssetsBrowseCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
-    if (!cell) {
-        return;
-    }
-    if (cell.scrollView.zoomScale > cell.scrollView.minimumZoomScale) {
-        [cell.scrollView setZoomScale:cell.scrollView.minimumZoomScale animated:YES];
-    } else {
-        CGFloat maxZoomScale = cell.scrollView.maximumZoomScale;
-        CGPoint point = [gesture locationInView:cell.imgView];
-        
-        CGFloat newWidth = self.view.frame.size.width / maxZoomScale;
-        CGFloat newHeight = self.view.frame.size.height / maxZoomScale;
-        
-        CGFloat newX = point.x - newWidth / 2;
-        CGFloat newY = point.y - newHeight / 2;
-        
-        [cell.scrollView zoomToRect:CGRectMake(newX, newY, newWidth, newHeight) animated:YES];
-    }
-}
-
 #pragma mark - Private
 
 - (void)p_setCheckButtonWithItemModel:(FQAssetModel *)itemModel {
@@ -341,7 +258,6 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
     } else {
         [self.checkBtn setTitle:nil forState:UIControlStateNormal];
     }
-    
 }
 
 #pragma mark - Getter

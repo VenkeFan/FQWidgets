@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class FQZoomScaleView;
+
+@protocol FQZoomScaleViewDelegate <NSObject>
+
+- (void)zoomScaleViewDidTapped:(FQZoomScaleView *)scaleView;
+
+@end
+
 @interface FQZoomScaleView : UIScrollView
+
+@property (nonatomic, weak, readonly) UIImageView *imageView;
+
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, weak) id<FQZoomScaleViewDelegate> zoomScaleDelegate;
+
+- (void)setImageWithUrlString:(NSString *)urlString;
 
 @end

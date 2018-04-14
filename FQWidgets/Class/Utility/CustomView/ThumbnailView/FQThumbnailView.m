@@ -87,7 +87,7 @@
     
     NSMutableArray *itemArray = [NSMutableArray array];
     [_imgArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        FQImageBrowseItem *item = [[FQImageBrowseItem alloc] init];
+        FQImageBrowseItemModel *item = [[FQImageBrowseItemModel alloc] init];
         item.thumbView = self.imgViewArray[idx];
         item.imgURL = _imgArray[idx];
         

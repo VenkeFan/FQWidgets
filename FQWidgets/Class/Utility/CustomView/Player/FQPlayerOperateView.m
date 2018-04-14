@@ -191,7 +191,7 @@
         
         [view addSubview:self.leftLab];
         [self.leftLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(view).offset(kMarginX);
+            make.left.mas_equalTo(view).offset(kSizeScale(30));
             make.centerY.mas_equalTo(view);
             make.height.mas_equalTo(view);
             make.width.mas_equalTo(kSizeScale(40));
@@ -199,7 +199,7 @@
         
         [view addSubview:self.rightLab];
         [self.rightLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(view).offset(-kMarginX);
+            make.right.mas_equalTo(view).offset(-kSizeScale(30));
             make.centerY.mas_equalTo(self.leftLab);
             make.height.mas_equalTo(self.leftLab);
             make.width.mas_equalTo(self.leftLab);

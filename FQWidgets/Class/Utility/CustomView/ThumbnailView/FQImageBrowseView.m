@@ -7,22 +7,30 @@
 //
 
 #import "FQImageBrowseView.h"
+#import "FQZoomScaleView.h"
 
 #define AnimateDuration         0.3
 
-#pragma mark - ************************* FQImageBrowseItem *************************
+#pragma mark - ************************* FQImageBrowseItemModel *************************
 
-@implementation FQImageBrowseItem
+@implementation FQImageBrowseItemModel
 
 @end
 
 #pragma mark - ************************* FQImageBrowseCell *************************
 
-@interface FQImageBrowseCell : UICollectionViewCell <UIScrollViewDelegate>
+@class FQImageBrowseCell;
+@protocol FQImageBrowseCellDelegate <NSObject>
 
-@property (nonatomic, strong, readonly) UIScrollView *scrollView;
-@property (nonatomic, strong, readonly) UIImageView *imgView;
-@property (nonatomic, strong) FQImageBrowseItem *item;
+- (void)imageBrowseCellDidTapped:(FQImageBrowseCell *)cell;
+
+@end
+
+@interface FQImageBrowseCell : UICollectionViewCell <FQZoomScaleViewDelegate>
+
+@property (nonatomic, strong, readonly) FQZoomScaleView *scaleView;
+@property (nonatomic, strong) FQImageBrowseItemModel *item;
+@property (nonatomic, weak) id<FQImageBrowseCellDelegate> delegate;
 
 @end
 
@@ -30,30 +38,18 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        _scrollView.delegate = self;
-        _scrollView.contentOffset = CGPointZero;
-        _scrollView.showsVerticalScrollIndicator = YES;
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.bounces = YES;
-        _scrollView.alwaysBounceVertical = NO;
-        _scrollView.minimumZoomScale = 1.0;
-        _scrollView.maximumZoomScale = 3.0;
-        _scrollView.zoomScale = 1.0;
-        [self.contentView addSubview:_scrollView];
-        
-        _imgView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _imgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [_scrollView addSubview:_imgView];
+        _scaleView = [[FQZoomScaleView alloc] initWithFrame:self.bounds];
+        _scaleView.zoomScaleDelegate = self;
+        [self.contentView addSubview:_scaleView];
     }
     return self;
 }
 
-- (void)setItem:(FQImageBrowseItem *)item {
+- (void)setItem:(FQImageBrowseItemModel *)item {
     _item = item;
     
-    _scrollView.contentSize = CGSizeZero;
-    [_scrollView setZoomScale:1.0 animated:YES];
+    _scaleView.contentSize = CGSizeZero;
+    _scaleView.zoomScale = 1.0;
     
     UIImage *img = nil;
     if ([item.imgURL isKindOfClass:[NSString class]]) {
@@ -62,55 +58,15 @@
         img = (UIImage *)item.imgURL;
     }
     
-    _imgView.image = img;
-    
-    [self p_resizeImageView];
+    [_scaleView setImage:img];
 }
 
-#pragma mark - Private
+#pragma mark - FQZoomScaleViewDelegate
 
-- (void)p_resizeImageView {
-    /*
-     单图：比例图宽=屏宽。
-     图片实际宽度>=屏宽像素时，图宽缩放至=屏幕宽度。图高按比例缩放。
-         缩放后图高>屏幕高度时，顶部对齐居上显示，可上下滑动。
-         缩放后图高<=屏幕高度时，上下居中显示。
-     图片实际宽度<屏宽像素时，放大至屏幕宽度。图高按比例缩放。
-         缩放后图高>屏幕高度时，顶部对齐居上显示，可上下滑动。
-         缩放后图高<=屏幕高度时，上下居中显示。
-     */
-    if (!_imgView.image) {
-        return;
+- (void)zoomScaleViewDidTapped:(FQZoomScaleView *)scaleView {
+    if ([self.delegate respondsToSelector:@selector(imageBrowseCellDidTapped:)]) {
+        [self.delegate imageBrowseCellDidTapped:self];
     }
-    CGSize imgSize = _imgView.image.size;
-    
-    CGFloat newWidth = kScreenWidth;
-    CGFloat newHeight = imgSize.height / imgSize.width * newWidth;
-    
-    _imgView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    if (newHeight > kScreenHeight) {
-        _scrollView.contentSize = CGSizeMake(newWidth, newHeight);
-        _scrollView.contentOffset = CGPointZero;
-    } else {
-        _imgView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, CGRectGetHeight(self.frame) * 0.5);
-    }
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return _imgView;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
-    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-    
-    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
-    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-    
-    _imgView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                  scrollView.contentSize.height * 0.5 + offsetY);
 }
 
 @end
@@ -119,7 +75,7 @@
 
 static NSString * const reusCellID = @"FQImageBrowseCell";
 
-@interface FQImageBrowseView () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface FQImageBrowseView () <FQImageBrowseCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, weak) UIView *contentView;
 @property (nonatomic, weak) UICollectionView *collectionView;
@@ -130,7 +86,7 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
 
 @implementation FQImageBrowseView
 
-- (instancetype)initWithItemArray:(NSArray<FQImageBrowseItem *> *)itemArry {
+- (instancetype)initWithItemArray:(NSArray<FQImageBrowseItemModel *> *)itemArry {
     if (itemArry.count == 0) {
         return nil;
     }
@@ -141,17 +97,6 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
         self.backgroundColor = [UIColor clearColor];
         self.frame = [UIScreen mainScreen].bounds;
         self.alpha = 0.0;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnTap:)];
-        [self addGestureRecognizer:tap];
-        
-        UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnDoubleTap:)];
-        doubleTap.numberOfTapsRequired = 2;
-        [tap requireGestureRecognizerToFail:doubleTap];
-        [self addGestureRecognizer:doubleTap];
-        
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self                                                                                   action:@selector(selfOnLongPressed:)];
-        [self addGestureRecognizer:longPress];
         
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnPan:)];
         [self addGestureRecognizer:panGesture];
@@ -188,6 +133,32 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
                      }];
 }
 
+#pragma mark - FQImageBrowseCellDelegate
+
+- (void)imageBrowseCellDidTapped:(FQImageBrowseCell *)cell {
+    if (self.pageControl.currentPage >= _itemArray.count) {
+        return;
+    }
+    
+    UIView *fromView = cell.scaleView.imageView;
+    UIView *toView = _itemArray[self.pageControl.currentPage].thumbView;
+    CGRect toFrame = [toView convertRect:toView.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+    
+    [UIView animateWithDuration:AnimateDuration
+                     animations:^(){
+                         cell.scaleView.zoomScale > cell.scaleView.minimumZoomScale
+                         ? [cell.scaleView setZoomScale:cell.scaleView.minimumZoomScale]
+                         : nil;
+                         
+                         fromView.frame = toFrame;
+                         self.contentView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
+                     }
+                     completion:^(BOOL finished){
+                         [self removeFromSuperview];
+                     }];
+
+}
+
 #pragma mark - UICollectionViewDelegate & UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -197,6 +168,7 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FQImageBrowseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reusCellID forIndexPath:indexPath];
     [cell setItem:_itemArray[indexPath.row]];
+    cell.delegate = self;
     return cell;
 }
 
@@ -211,55 +183,6 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
 }
 
 #pragma mark - Event
-
-- (void)selfOnTap:(UITapGestureRecognizer *)gesture {
-    if (self.pageControl.currentPage >= _itemArray.count) {
-        return;
-    }
-    
-    FQImageBrowseCell *cell = (FQImageBrowseCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageControl.currentPage inSection:0]];
-    if (!cell) {
-        return;
-    }
-    
-    UIView *fromView = cell.imgView;
-    UIView *toView = _itemArray[self.pageControl.currentPage].thumbView;
-    CGRect toFrame = [toView convertRect:toView.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
-    
-    [UIView animateWithDuration:AnimateDuration
-                     animations:^(){
-                         cell.scrollView.zoomScale > cell.scrollView.minimumZoomScale
-                         ? [cell.scrollView setZoomScale:cell.scrollView.minimumZoomScale]
-                         : nil;
-                         
-                         fromView.frame = toFrame;
-                         self.contentView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
-                     }
-                     completion:^(BOOL finished){
-                         [self removeFromSuperview];
-                     }];
-}
-
-- (void)selfOnDoubleTap:(UITapGestureRecognizer *)gesture {
-    FQImageBrowseCell *cell = (FQImageBrowseCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageControl.currentPage inSection:0]];
-    if (!cell) {
-        return;
-    }
-    if (cell.scrollView.zoomScale > cell.scrollView.minimumZoomScale) {
-        [cell.scrollView setZoomScale:cell.scrollView.minimumZoomScale animated:YES];
-    } else {
-        CGFloat maxZoomScale = cell.scrollView.maximumZoomScale;
-        CGPoint point = [gesture locationInView:cell.imgView];
-
-        CGFloat newWidth = self.frame.size.width / maxZoomScale;
-        CGFloat newHeight = self.frame.size.height / maxZoomScale;
-
-        CGFloat newX = point.x - newWidth / 2;
-        CGFloat newY = point.y - newHeight / 2;
-
-        [cell.scrollView zoomToRect:CGRectMake(newX, newY, newWidth, newHeight) animated:YES];
-    }
-}
 
 - (void)selfOnPan:(UIPanGestureRecognizer *)gesture {
     CGFloat marginalValue = 100.0; // 临界值
@@ -297,14 +220,6 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     }
 }
 
-- (void)selfOnLongPressed:(UILongPressGestureRecognizer *)gesture {
-//    UIImageView *imgView = (UIImageView *)gesture.view;
-//    UIImage *img = imgView.image;
-//    if (img) {
-//        UIImageWriteToSavedPhotosAlbum(img, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-//    }
-}
-
 #pragma mark - Private
 
 - (void)p_layoutScrollViewWithFromView:(UIView *)fromView {
@@ -338,17 +253,6 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
                      completion:^(BOOL finished){
                          [self removeFromSuperview];
                      }];
-}
-
-// 保存完毕回调
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    NSString *msg = nil ;
-    
-    if(error != NULL)
-        msg = @"保存图片失败";
-    else
-        msg = @"保存图片成功";
-    NSLog(@"%@", msg);
 }
 
 #pragma mark - Getter

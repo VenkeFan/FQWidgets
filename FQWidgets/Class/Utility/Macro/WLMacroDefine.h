@@ -9,19 +9,9 @@
 #ifndef WLMacroDefine_h
 #define WLMacroDefine_h
 
+#pragma mark - 录制视频最大秒数 ß
+
 #define kMaxVideoRecordDuration      10.0
-
-// App全局frame
-#define kMainToastViewHeight    kSizeScale(64)
-#define kMainTopViewHeight      kSizeScale(100)
-#define kMarginX                kSizeScale(30)
-#define kMarginY                kSizeScale(28)
-#define kPaddingX               kSizeScale(18)
-#define kPaddingY               kSizeScale(15)
-
-// image size
-#define kBigImageSize           kSizeScale(90)
-#define kSmallImageSize         kSizeScale(50)
 
 #pragma mark - BackgroundColor
 

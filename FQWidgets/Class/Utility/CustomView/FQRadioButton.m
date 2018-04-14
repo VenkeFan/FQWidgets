@@ -64,7 +64,7 @@ static NSMutableDictionary *_groupRadioDic = nil;
 }
 
 - (void)addButtonToRadioGroup:(NSString *)groupName {
-    if (kIsNullOrEmpty(groupName)) {
+    if (!groupName || groupName.length == 0) {
         return;
     }
     _groupName = groupName;

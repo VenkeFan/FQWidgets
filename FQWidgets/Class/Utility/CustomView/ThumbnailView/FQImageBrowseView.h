@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FQImageBrowseItem : NSObject
+@interface FQImageBrowseItemModel : NSObject
 
 @property (nonatomic, weak) UIView *thumbView;
 @property (nonatomic, copy) NSString *imgURL;
@@ -17,13 +17,13 @@
 
 @interface FQImageBrowseView : UIView
 
-- (instancetype)initWithItemArray:(NSArray<FQImageBrowseItem *> *)itemArry;
+- (instancetype)initWithItemArray:(NSArray<FQImageBrowseItemModel *> *)itemArry;
 - (instancetype)init __attribute__((unavailable("Use -initWithItemArray:instead")));
 - (instancetype)initWithFrame:(CGRect)frame __attribute__((unavailable("Use -initWithItemArray:instead")));
 + (instancetype)new __attribute__((unavailable("Use -initWithItemArray:instead")));
 
 - (void)displayWithFromView:(UIImageView *)fromView toView:(UIView *)toView;
 
-@property (nonatomic, copy, readonly) NSArray<FQImageBrowseItem *> *itemArray;
+@property (nonatomic, copy, readonly) NSArray<FQImageBrowseItemModel *> *itemArray;
 
 @end

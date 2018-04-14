@@ -434,10 +434,10 @@
 		B902D7C2207E1A3F0080D294 /* ThumbnailView */ = {
 			isa = PBXGroup;
 			children = (
-				B902D7C3207E1A3F0080D294 /* FQImageBrowseView.m */,
-				B902D7C4207E1A3F0080D294 /* FQThumbnailView.m */,
 				B902D7C5207E1A3F0080D294 /* FQImageBrowseView.h */,
+				B902D7C3207E1A3F0080D294 /* FQImageBrowseView.m */,
 				B902D7C6207E1A3F0080D294 /* FQThumbnailView.h */,
+				B902D7C4207E1A3F0080D294 /* FQThumbnailView.m */,
 			);
 			path = ThumbnailView;
 			sourceTree = "<group>";
@@ -460,10 +460,10 @@
 		B902D7D2207E1A3F0080D294 /* RefreshHeader */ = {
 			isa = PBXGroup;
 			children = (
-				B902D7D3207E1A3F0080D294 /* FQGradientCircleLayer.m */,
-				B902D7D4207E1A3F0080D294 /* FQRefreshHeader.m */,
 				B902D7D5207E1A3F0080D294 /* FQGradientCircleLayer.h */,
+				B902D7D3207E1A3F0080D294 /* FQGradientCircleLayer.m */,
 				B902D7D6207E1A3F0080D294 /* FQRefreshHeader.h */,
+				B902D7D4207E1A3F0080D294 /* FQRefreshHeader.m */,
 			);
 			path = RefreshHeader;
 			sourceTree = "<group>";
