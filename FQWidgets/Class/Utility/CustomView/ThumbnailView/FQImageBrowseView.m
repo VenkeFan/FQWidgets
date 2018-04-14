@@ -48,9 +48,6 @@
 - (void)setItem:(FQImageBrowseItemModel *)item {
     _item = item;
     
-    _scaleView.contentSize = CGSizeZero;
-    _scaleView.zoomScale = 1.0;
-    
     UIImage *img = nil;
     if ([item.imgURL isKindOfClass:[NSString class]]) {
         img = [UIImage imageNamed:item.imgURL];

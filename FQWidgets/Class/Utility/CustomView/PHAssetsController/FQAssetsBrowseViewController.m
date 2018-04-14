@@ -35,9 +35,6 @@
 - (void)setItemModel:(FQAssetModel *)itemModel {
     _itemModel = itemModel;
     
-    self.scaleView.contentSize = CGSizeZero;
-    self.scaleView.zoomScale = 1.0;
-    
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.networkAccessAllowed = NO;
     options.synchronous = NO;

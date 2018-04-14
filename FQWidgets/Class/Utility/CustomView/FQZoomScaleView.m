@@ -167,6 +167,9 @@
      缩放后图高<=屏幕高度时，上下居中显示。
      */
     if (!_imageView.image) {
+        self.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+        self.contentOffset = CGPointZero;
+        self.zoomScale = 1.0;
         return;
     }
     CGSize imgSize = _imageView.image.size;
@@ -179,6 +182,9 @@
         self.contentSize = CGSizeMake(newWidth, newHeight);
         self.contentOffset = CGPointZero;
     } else {
+        self.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+        self.contentOffset = CGPointZero;
+        self.zoomScale = 1.0;
         _imageView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, CGRectGetHeight(self.frame) * 0.5);
     }
 }
