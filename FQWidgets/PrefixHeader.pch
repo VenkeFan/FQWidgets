@@ -26,6 +26,7 @@
 #pragma mark - 自定义类
 
 #import "FQLanguageManager.h"
+#import "FQSystemHelper.h"
 #import "FQProgressHUDHelper.h"
 #import "FQNavigationController.h"
 

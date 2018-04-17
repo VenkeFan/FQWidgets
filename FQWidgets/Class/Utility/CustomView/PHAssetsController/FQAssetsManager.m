@@ -7,6 +7,7 @@
 //
 
 #import "FQAssetsManager.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface FQAssetsManager ()
 
@@ -24,6 +25,35 @@
 
 #pragma mark - Public
 
+- (void)requestPhotoAuthAuthorizationWithFinished:(void (^)(BOOL granted))finished {
+    if (kiOS9Later) {
+        PHAuthorizationStatus authStatus = [PHPhotoLibrary authorizationStatus];
+        if (authStatus == PHAuthorizationStatusNotDetermined) {
+            [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+                if (status == PHAuthorizationStatusAuthorized) {
+                    [self fetchAllAlbums];
+                    [self fetchAllPhotos];
+                }
+                
+                if (finished) {
+                    finished(status == PHAuthorizationStatusAuthorized);
+                }
+            }];
+        } else if (authStatus == PHAuthorizationStatusAuthorized) {
+            [self fetchAllAlbums];
+            [self fetchAllPhotos];
+            
+            if (finished) {
+                finished(YES);
+            }
+        } else {
+            if (finished) {
+                finished(NO);
+            }
+        }
+    }
+}
+
 - (void)fetchAssetsWithAssetCollection:(PHAssetCollection *)assetCollection {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
@@ -39,6 +69,7 @@
         }
     }
     _assets = assetModels;
+    
 }
 
 #pragma mark - Private

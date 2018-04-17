@@ -18,8 +18,6 @@
 + (NSString *)deviceName;
 + (NSString *)deviceSystemVersion;
 
-+ (void)getAuthorizationStatusWithFinished:(void(^)(BOOL granted))finished;
-
 + (dispatch_source_t)startCountDownWithSeconds:(NSUInteger)seconds
                                      executing:(void(^)(NSUInteger current))executing
                                       finished:(void(^)(void))finished;

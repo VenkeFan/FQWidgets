@@ -75,8 +75,12 @@ DEFER_STRINGIFY(__FILE__) " line " DEFER_STRINGIFY(__LINE__)
 
 #pragma mark - ******************* Version *******************
 
+#ifndef kiOS9Later
+#define kiOS9Later ([UIDevice currentDevice].systemVersion.doubleValue >= 9.0)
+#endif
+
 #ifndef kiOS10Later
-#define kiOS10Later ([UIDevice systemVersion] >= 10)
+#define kiOS10Later ([UIDevice currentDevice].systemVersion.doubleValue >= 10.0)
 #endif
 
 #define kIsiPhoneX  ((kScreenWidth == 375.f && kScreenHeight == 812.f ? YES : NO))

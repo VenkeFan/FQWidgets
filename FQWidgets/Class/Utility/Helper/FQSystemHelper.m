@@ -137,31 +137,6 @@ NSString * const kSystemUpTimeOffsetUserKey = @"kSystemUpTimeOffsetUserKey";
     return [UIDevice currentDevice].systemVersion;
 }
 
-+ (void)getAuthorizationStatusWithFinished:(void (^)(BOOL))finished {
-    
-    BOOL cameraAuthorized = ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] == AVAuthorizationStatusAuthorized);
-    BOOL microphoneAuthorized = ([AVAudioSession sharedInstance].recordPermission == AVAudioSessionRecordPermissionGranted);
-    
-    if (kiOS10Later) {
-        [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-            BOOL granted = (settings.authorizationStatus == UNAuthorizationStatusAuthorized)
-            && cameraAuthorized && cameraAuthorized;
-            
-            if (finished) {
-                finished(granted);
-            }
-        }];
-    } else {
-//        [UIApplication sharedApplication].isRegisteredForRemoteNotifications;
-        BOOL granted = ([[[UIApplication sharedApplication] currentUserNotificationSettings] types] != UIUserNotificationTypeNone)
-        && cameraAuthorized && microphoneAuthorized;
-        
-        if (finished) {
-            finished(granted);
-        }
-    }
-}
-
 + (dispatch_source_t)startCountDownWithSeconds:(NSUInteger)seconds
                                      executing:(void(^)(NSUInteger current))executing
                                       finished:(void(^)(void))finished {

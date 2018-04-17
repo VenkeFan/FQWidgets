@@ -201,23 +201,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     self.view.backgroundColor = [UIColor whiteColor];
     
     {
-//        {
-//            unsigned int count = 0;
-//            Ivar *ivars = class_copyIvarList([self.navigationController.navigationBar class], &count);
-//            
-//            for (int i = 0; i < count; i++) {
-//                Ivar ivar = ivars[i];
-//                NSString *objcName = [NSString stringWithUTF8String:ivar_getName(ivar)];
-//                NSString *objcType = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];
-//                NSLog(@"%@ : %@", objcName, objcType);
-//            }
-//            
-////            UIView *view = [self.navigationController.navigationBar valueForKey:@"_barBackgroundView"];
-//            UIView *view = [self.navigationController.navigationBar valueForKey:@"_backgroundView"];
-//            NSLog(@"%@", view);
-//        }
-//        
-        
 //        self.navigationItem.rightBarButtonItem = ({
 //            UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //            [closeBtn setTitle:@"Close" forState:UIControlStateNormal];
@@ -234,7 +217,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
             FQImageButton *btn = [[FQImageButton alloc] init];
             btn.imageOrientation = FQImageButtonOrientation_Right;
             btn.selected = NO;
-            [btn setTitle:self.selectedAlbum.localizedTitle forState:UIControlStateNormal];
             [btn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
             btn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(17)];
             [btn setImage:[UIImage imageNamed:@"camera_triangle"] forState:UIControlStateNormal];
@@ -276,7 +258,26 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         }];
     }
     
-    [self.collectionView reloadData];
+    [self.assetsManager requestPhotoAuthAuthorizationWithFinished:^(BOOL granted) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (granted) {
+                [_titleBtn setTitle:self.selectedAlbum.localizedTitle forState:UIControlStateNormal];
+                [_titleBtn sizeToFit];
+                [self.collectionView reloadData];
+                
+                self.albumTableView.dataArray = self.albumArray;
+                [self.albumTableView reloadData];
+            } else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:[FQSystemHelper appName]
+                                                                               message:[NSString stringWithFormat:@"请去 设置-%@ 打开相机权限", [FQSystemHelper appName]]
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        });
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -294,29 +295,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
-}
-
-#pragma mark - FQCameraViewControllerDelegate
-
-- (void)cameraViewCtr:(FQCameraViewController *)viewCtr didConfirmWithOutputType:(FQCameraOutputType)outputType image:(UIImage *)image {
-    if ([self.delegate respondsToSelector:@selector(assetsViewCtr:didSelectedWithAssetArray:)]) {
-        [self.delegate assetsViewCtr:self didSelectedWithAssetArray:@[image]];
-    }
-    
-    __block NSInteger preIndex = -1;
-    [self.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse
-                                                                usingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                                                                    if ([obj isEqual:self]) {
-                                                                        preIndex = idx - 1;
-                                                                        *stop = YES;
-                                                                    }
-                                                                }];
-    if (preIndex >= 0 && preIndex < self.navigationController.viewControllers.count) {
-        [self.navigationController setNavigationBarHidden:NO animated:YES];
-        [self.navigationController popToViewController:self.navigationController.viewControllers[preIndex] animated:YES];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
 }
 
 #pragma mark - FQAssetsCollectionCellDelegate
@@ -401,6 +379,29 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     }
     
     [self.confirmBtn setTitle:ConfirmBtnTitle(self.checkedPhotoArray.count) forState:UIControlStateNormal];
+}
+
+#pragma mark - FQCameraViewControllerDelegate
+
+- (void)cameraViewCtr:(FQCameraViewController *)viewCtr didConfirmWithOutputType:(FQCameraOutputType)outputType image:(UIImage *)image {
+    if ([self.delegate respondsToSelector:@selector(assetsViewCtr:didSelectedWithAssetArray:)]) {
+        [self.delegate assetsViewCtr:self didSelectedWithAssetArray:@[image]];
+    }
+    
+    __block NSInteger preIndex = -1;
+    [self.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse
+                                                                usingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                                                    if ([obj isEqual:self]) {
+                                                                        preIndex = idx - 1;
+                                                                        *stop = YES;
+                                                                    }
+                                                                }];
+    if (preIndex >= 0 && preIndex < self.navigationController.viewControllers.count) {
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        [self.navigationController popToViewController:self.navigationController.viewControllers[preIndex] animated:YES];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - FQAssetsBrowseViewControllerDelegate
@@ -556,7 +557,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 - (FQAssetsAlbumView *)albumTableView {
     if (!_albumTableView) {
-        FQAssetsAlbumView *tableView = [[FQAssetsAlbumView alloc] initWithDataArray:self.albumArray];
+        FQAssetsAlbumView *tableView = [[FQAssetsAlbumView alloc] init];
         tableView.delegate = self;
         [self.view addSubview:tableView];
         _albumTableView = tableView;
@@ -566,7 +567,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        UICollectionView *collView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kNavBarHeight - BottomViewHeight - kSafeAreaBottomY) collectionViewLayout:self.flowLayout];
+        UICollectionView *collView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - BottomViewHeight - kSafeAreaBottomY) collectionViewLayout:self.flowLayout];
         collView.backgroundColor = [UIColor whiteColor];
         collView.delegate = self;
         collView.dataSource = self;

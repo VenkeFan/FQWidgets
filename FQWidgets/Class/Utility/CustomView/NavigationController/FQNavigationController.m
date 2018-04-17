@@ -23,6 +23,24 @@
     __weak typeof(self) weakSelf = self;
     self.interactivePopGestureRecognizer.delegate = weakSelf;
     self.delegate = weakSelf;
+    
+    
+//    {
+//        unsigned int count = 0;
+//        Ivar *ivars = class_copyIvarList([self.navigationController.navigationBar class], &count);
+//        
+//        for (int i = 0; i < count; i++) {
+//            Ivar ivar = ivars[i];
+//            NSString *objcName = [NSString stringWithUTF8String:ivar_getName(ivar)];
+//            NSString *objcType = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];
+//            NSLog(@"%@ : %@", objcName, objcType);
+//        }
+//        
+//        //            UIView *view = [self.navigationController.navigationBar valueForKey:@"_barBackgroundView"];
+//        UIView *view = [self.navigationController.navigationBar valueForKey:@"_backgroundView"];
+//        NSLog(@"%@", view);
+//    }
+//    
 }
 
 - (void)didReceiveMemoryWarning {

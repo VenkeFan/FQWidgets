@@ -213,7 +213,7 @@
     }
     NSLog(@"开始存入相册");
     
-    if ([UIDevice systemVersion] >= 9.0) {
+    if (kiOS9Later) {
         [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
             if (status != PHAuthorizationStatusAuthorized) {
                 return;

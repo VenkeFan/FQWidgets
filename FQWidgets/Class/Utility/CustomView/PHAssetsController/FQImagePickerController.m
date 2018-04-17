@@ -107,7 +107,6 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         FQImageButton *btn = [[FQImageButton alloc] init];
         btn.imageOrientation = FQImageButtonOrientation_Right;
         btn.selected = NO;
-        [btn setTitle:self.selectedAlbum.localizedTitle forState:UIControlStateNormal];
         [btn setTitleColor:kHeaderFontColor forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(17)];
         [btn setImage:[UIImage imageNamed:@"camera_triangle"] forState:UIControlStateNormal];
@@ -119,7 +118,26 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         btn;
     });
     
-    [self.collectionView reloadData];
+    [self.assetsManager requestPhotoAuthAuthorizationWithFinished:^(BOOL granted) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (granted) {
+                [_titleBtn setTitle:self.selectedAlbum.localizedTitle forState:UIControlStateNormal];
+                [_titleBtn sizeToFit];
+                [self.collectionView reloadData];
+                
+                self.albumTableView.dataArray = self.albumArray;
+                [self.albumTableView reloadData];
+            } else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:[FQSystemHelper appName]
+                                                                               message:[NSString stringWithFormat:@"请去 设置-%@ 打开相机权限", [FQSystemHelper appName]]
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        });
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -242,7 +260,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 - (FQAssetsAlbumView *)albumTableView {
     if (!_albumTableView) {
-        FQAssetsAlbumView *tableView = [[FQAssetsAlbumView alloc] initWithDataArray:self.albumArray];
+        FQAssetsAlbumView *tableView = [[FQAssetsAlbumView alloc] init];
         tableView.delegate = self;
         [self.view addSubview:tableView];
         _albumTableView = tableView;
@@ -252,7 +270,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
-        UICollectionView *collView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kNavBarHeight - kSafeAreaBottomY) collectionViewLayout:self.flowLayout];
+        UICollectionView *collView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - kSafeAreaBottomY) collectionViewLayout:self.flowLayout];
         collView.backgroundColor = [UIColor whiteColor];
         collView.delegate = self;
         collView.dataSource = self;

@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong, readonly) PHAssetCollection *currentAlbum;
 
+- (void)requestPhotoAuthAuthorizationWithFinished:(void(^)(BOOL granted))finished;
 - (void)fetchAssetsWithAssetCollection:(PHAssetCollection *)assetCollection;
 
 @end

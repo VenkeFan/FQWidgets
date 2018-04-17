@@ -24,11 +24,13 @@
 
 @interface FQAssetsAlbumView : UIView
 
-- (instancetype)initWithDataArray:(NSArray *)dataArray;
 - (void)displayWithAnimation:(void(^)(void))animation;
 - (void)dismissWithAnimation:(void(^)(void))animation;
 
+- (void)reloadData;
+
 @property (nonatomic, weak) id<FQAssetsAlbumViewDelegate> delegate;
+@property (nonatomic, copy) NSArray<PHAssetCollection *> *dataArray;
 @property (nonatomic, assign, readonly, getter=isDisplayed) BOOL displayed;
 
 @end

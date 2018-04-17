@@ -10,7 +10,6 @@
 
 @interface FQAssetsAlbumView () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
-@property (nonatomic, copy) NSArray<PHAssetCollection *> *dataArray;
 @property (nonatomic, weak) UIView *contentView;
 @property (nonatomic, weak) UITableView *tableView;
 
@@ -18,24 +17,23 @@
 
 @implementation FQAssetsAlbumView
 
-- (instancetype)initWithDataArray:(NSArray *)dataArray {
+- (instancetype)init {
     if (self = [super initWithFrame:[UIScreen mainScreen].bounds]) {
-        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+        self.hidden = YES;
+        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfOnTapped)];
         tap.delegate = self;
         [self addGestureRecognizer:tap];
-        
-        _dataArray = dataArray;
-        
-        if (_dataArray.count > 0) {
-            [self.tableView reloadData];
-        }
     }
     return self;
 }
 
 #pragma mark - Public
+
+- (void)reloadData {
+    [self.tableView reloadData];
+}
 
 - (void)displayWithAnimation:(void (^)(void))animation {
     self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
