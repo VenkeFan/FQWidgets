@@ -94,7 +94,7 @@
 
 - (void)p_resizeImageView {
     if (!self.imageView.image) {
-        self.scaleView.contentSize = self.view.bounds.size;
+        self.scaleView.contentSize = self.scaleView.bounds.size;
         self.scaleView.contentOffset = CGPointZero;
         return;
     }
@@ -104,12 +104,12 @@
     CGFloat newHeight = imgSize.height / imgSize.width * newWidth;
     
     self.imageView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    if (newHeight > kScreenHeight) {
+    if (newHeight > CGRectGetHeight(self.scaleView.bounds)) {
         self.scaleView.contentSize = CGSizeMake(newWidth, newHeight);
         self.scaleView.contentOffset = CGPointZero;
     } else {
         self.scaleView.zoomScale = 1.0;
-        self.scaleView.contentSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
+        self.scaleView.contentSize = self.scaleView.bounds.size;
         self.scaleView.contentOffset = CGPointZero;
         self.imageView.center = CGPointMake(CGRectGetWidth(self.scaleView.frame) * 0.5, CGRectGetHeight(self.scaleView.frame) * 0.5);
     }
@@ -120,9 +120,8 @@
 - (void)p_setContentInsets {
     CGFloat left = ABS(CutImageFrame.origin.x - self.imageView.frame.origin.x);
     CGFloat top = ABS(CutImageFrame.origin.y - self.imageView.frame.origin.y);
-    CGFloat bottom = ABS(top - kSafeAreaBottomY);
     
-    self.scaleView.contentInset = UIEdgeInsetsMake(top, left, bottom, left);
+    self.scaleView.contentInset = UIEdgeInsetsMake(top, left, top, left);
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -141,13 +140,13 @@
     self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                     scrollView.contentSize.height * 0.5 + offsetY);
     
-    if (self.imageView.frame.size.height <= kScreenHeight) {
-        scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height);
+    if (self.imageView.frame.size.height <= CGRectGetHeight(scrollView.bounds)) {
+        scrollView.contentSize = scrollView.bounds.size;
         scrollView.contentOffset = CGPointZero;
         self.imageView.center = CGPointMake(CGRectGetWidth(self.scaleView.frame) * 0.5,
                                         CGRectGetHeight(self.scaleView.frame) * 0.5);
     }
-    
+
     [self p_setContentInsets];
     
 //    NSLog(@"imageViewFrame: (%f, %f, %f, %f)", self.imageView.frame.origin.x, self.imageView.frame.origin.y, self.imageView.frame.size.width, self.imageView.frame.size.height);

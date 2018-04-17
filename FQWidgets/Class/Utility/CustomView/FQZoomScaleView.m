@@ -178,7 +178,7 @@
     CGFloat newHeight = imgSize.height / imgSize.width * newWidth;
     
     _imageView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    if (newHeight > kScreenHeight) {
+    if (newHeight > CGRectGetHeight(self.bounds)) {
         self.contentSize = CGSizeMake(newWidth, newHeight);
         self.contentOffset = CGPointZero;
     } else {
