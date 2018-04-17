@@ -104,7 +104,8 @@
     CGSize imgSize = imgView.image.size;
     CGSize newSize = CGSizeZero;
     
-    if (imgSize.width == imgSize.height) {
+    CGFloat ratio = imgSize.width / imgSize.height;
+    if (ratio <= 1.01 && ratio >= 0.99) {
         // 方图
         CGFloat squareWidth = kScreenWidth * 2 / 3.0;
         newSize = CGSizeMake(squareWidth, squareWidth);

@@ -59,6 +59,9 @@
 		B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */; };
 		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
+		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
+		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
+		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +178,12 @@
 		B902D82E2080A6CB0080D294 /* FQNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQNavigationController.h; sourceTree = "<group>"; };
 		B94076092080CC940052AA40 /* FQAnimatedTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAnimatedTransitioning.h; sourceTree = "<group>"; };
 		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
+		B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCutImageViewController.h; sourceTree = "<group>"; };
+		B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCutImageViewController.m; sourceTree = "<group>"; };
+		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
+		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
+		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
+		B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAssetsAlbumView.m; sourceTree = "<group>"; };
 		C6ABD05655548B0555B53540 /* Pods_FQWidgets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FQWidgets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -453,6 +462,12 @@
 				B902D7CE207E1A3F0080D294 /* FQAssetsManager.m */,
 				B902D7CD207E1A3F0080D294 /* FQAssetsViewController.h */,
 				B902D7C9207E1A3F0080D294 /* FQAssetsViewController.m */,
+				B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */,
+				B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */,
+				B9FF0E022084C08A00A7678A /* FQImagePickerController.h */,
+				B9FF0E032084C08A00A7678A /* FQImagePickerController.m */,
+				B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */,
+				B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */,
 			);
 			path = PHAssetsController;
 			sourceTree = "<group>";
@@ -741,6 +756,7 @@
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
+				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
 				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
@@ -759,11 +775,13 @@
 				B902D802207E1A3F0080D294 /* FQAssetsBrowseViewController.m in Sources */,
 				B902D7F6207E1A3F0080D294 /* WLMessageViewController.m in Sources */,
 				B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */,
+				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,
 				B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */,
 				B902D804207E1A3F0080D294 /* FQAssetsManager.m in Sources */,
 				B902D7FE207E1A3F0080D294 /* FQAssetWriter.m in Sources */,
 				B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */,
+				B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */,
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,
 				B902D76F207E18450080D294 /* main.m in Sources */,
 				B902D80A207E1A3F0080D294 /* FQTabBarController.m in Sources */,

@@ -8,11 +8,11 @@
 
 #import "WLMessageViewController.h"
 #import "FQAssetsViewController.h"
+#import "FQImagePickerController.h"
 
 #import "FQThumbnailView.h"
-#import "FQImageButton.h"
 
-@interface WLMessageViewController () <FQAssetsViewControllerDelegate>
+@interface WLMessageViewController () <FQAssetsViewControllerDelegate, FQImagePickerControllerDelegate>
 
 @property (nonatomic, weak) FQThumbnailView *thumbView;
 @property (nonatomic, weak) UIImageView *imageView;
@@ -26,55 +26,38 @@
     
     self.view.backgroundColor = [UIColor cyanColor];
     
-    {
-        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
-        imgBtn.layer.borderWidth = 1;
-        imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
-        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
-        imgBtn.imageView.backgroundColor = [UIColor greenColor];
-        
-        imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
-        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
-        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
-        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
-        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
-        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
-        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [imgBtn setTitle:@"9" forState:UIControlStateNormal];
-        [imgBtn sizeToFit];
-        
-        [self.view addSubview:imgBtn];
-    }
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.layer.borderWidth = 1.0;
-    btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    btn.frame = CGRectMake(20, kNavBarHeight + 20, 120, 45);
-    [btn setTitle:@"拍照摄像" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [btn addBlockForControlEvents:UIControlEventTouchUpInside
-                            block:^(id  _Nonnull sender) {
-                                FQAssetsViewController *ctr = [FQAssetsViewController new];
-                                ctr.delegate = self;
-                                [self.navigationController pushViewController:ctr animated:YES];
-//                                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:ctr] animated:YES completion:nil];
-                            }];
+    __weak typeof(self) weakSelf = self;
+    UIButton *btn = [self buttonWithTitle:@"拍照摄像" block:^(id sender) {
+        FQAssetsViewController *ctr = [FQAssetsViewController new];
+        ctr.delegate = weakSelf;
+        [weakSelf.navigationController pushViewController:ctr animated:YES];
+    }];
     [self.view addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).offset(20);
+        make.top.mas_equalTo(self.view).offset(20);
+        make.size.mas_equalTo(CGSizeMake(120, 45));
+    }];
+    
+    
+    UIButton *cutBtn = [self buttonWithTitle:@"头像裁剪" block:^(id sender) {
+        FQImagePickerController *ctr = [FQImagePickerController new];
+        ctr.delegate = weakSelf;
+        [weakSelf.navigationController pushViewController:ctr animated:YES];
+    }];
+    [self.view addSubview:cutBtn];
+    [cutBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(btn.mas_bottom).offset(20);
+        make.left.mas_equalTo(btn);
+        make.size.mas_equalTo(btn);
+    }];
+    
  
     {
         FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
         thumView.frame = CGRectMake(20, kNavBarHeight + 70, 0, 0);
         [self.view addSubview:thumView];
         self.thumbView = thumView;
-    }
-    
-    {
-//        UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(20, kNavBarHeight + 65, kScreenWidth - 40, kScreenHeight - (kNavBarHeight + 65 + kTabBarHeight + kNavBarHeight + 10))];
-//        imgView.backgroundColor = [UIColor lightGrayColor];
-//        imgView.contentMode = UIViewContentModeScaleAspectFit;
-//        [self.view addSubview:imgView];
-//        self.imageView = imgView;
     }
 }
 
@@ -93,6 +76,28 @@
     
 //    self.imageView.image = (UIImage *)assetArray.firstObject;
 //    NSLog(@"%zd %f -- %f", self.imageView.image.imageOrientation, self.imageView.image.size.width, self.imageView.image.size.height);
+}
+
+#pragma mark - FQImagePickerControllerDelegate
+
+- (void)imagePickerController:(FQImagePickerController *)ctr didPickedImage:(UIImage *)image {
+    CGRect frame = [self.thumbView frameWithImgArray:@[image]];
+    frame.origin.x = self.thumbView.frame.origin.x;
+    frame.origin.y = self.thumbView.frame.origin.y;
+    self.thumbView.frame = frame;
+}
+
+#pragma mark - Getter
+
+- (UIButton *)buttonWithTitle:(NSString *)title block:(void(^)(id sender))block {
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.layer.borderWidth = 1.0;
+    btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [btn setTitle:title forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [btn addBlockForControlEvents:UIControlEventTouchUpInside block:block];
+    
+    return btn;
 }
 
 @end

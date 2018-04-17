@@ -48,19 +48,6 @@
 
 #pragma mark - Public
 
-- (void)setImage:(UIImage *)image {
-    _image = image;
-    
-    [_imageView.layer removeAnimationForKey:@"ImageViewAnimationKey"];
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionFade;
-    transition.duration = 0.1;
-    [_imageView.layer addAnimation:transition forKey:@"ImageViewAnimationKey"];
-    _imageView.image = image;
-    
-    [self p_resizeImageView];
-}
-
 - (void)setImageWithUrlString:(NSString *)urlString {
     if ([urlString isKindOfClass:[UIImage class]]) {
         UIImage *img = (UIImage *)urlString;
@@ -91,6 +78,19 @@
                                 [self setImage:image];
                              });
                          }];
+}
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    
+    [_imageView.layer removeAnimationForKey:@"ImageViewAnimationKey"];
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFade;
+    transition.duration = 0.1;
+    [_imageView.layer addAnimation:transition forKey:@"ImageViewAnimationKey"];
+    _imageView.image = image;
+    
+    [self p_resizeImageView];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -182,9 +182,9 @@
         self.contentSize = CGSizeMake(newWidth, newHeight);
         self.contentOffset = CGPointZero;
     } else {
+        self.zoomScale = 1.0;
         self.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
         self.contentOffset = CGPointZero;
-        self.zoomScale = 1.0;
         _imageView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, CGRectGetHeight(self.frame) * 0.5);
     }
 }

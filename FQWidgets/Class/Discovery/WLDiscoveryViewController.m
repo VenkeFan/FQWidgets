@@ -8,6 +8,7 @@
 
 #import "WLDiscoveryViewController.h"
 #import "FQRefreshHeader.h"
+#import "FQImageButton.h"
 
 @interface WLDiscoveryViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -24,6 +25,29 @@
     self.view.backgroundColor = [UIColor redColor];
     
     [self.tableView.mj_header beginRefreshing];
+    
+    
+    
+    {
+        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
+        imgBtn.layer.borderWidth = 1;
+        imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
+        imgBtn.imageView.backgroundColor = [UIColor greenColor];
+        
+        imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
+        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
+        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
+        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
+        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
+        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [imgBtn setTitle:@"9" forState:UIControlStateNormal];
+        [imgBtn sizeToFit];
+        
+        [self.view addSubview:imgBtn];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
