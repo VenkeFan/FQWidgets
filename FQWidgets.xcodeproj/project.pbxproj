@@ -60,6 +60,7 @@
 		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
+		B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
 		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
@@ -180,6 +181,8 @@
 		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
 		B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCutImageViewController.h; sourceTree = "<group>"; };
 		B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCutImageViewController.m; sourceTree = "<group>"; };
+		B9C16A2A2085A3600068CE32 /* UIImage+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+FQExtension.h"; sourceTree = "<group>"; };
+		B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FQExtension.m"; sourceTree = "<group>"; };
 		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
 		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
 		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
@@ -392,6 +395,8 @@
 				B902D821207F720A0080D294 /* UIViewController+FQNavigationController.m */,
 				B902D826208086EC0080D294 /* UINavigationController+FQNavigation.h */,
 				B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */,
+				B9C16A2A2085A3600068CE32 /* UIImage+FQExtension.h */,
+				B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -758,6 +763,7 @@
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
 				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
 				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
+				B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
 				B902D825207F85700080D294 /* FQSystemHelper.m in Sources */,

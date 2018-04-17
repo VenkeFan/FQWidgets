@@ -8,8 +8,8 @@
 
 #import "FQCameraViewController.h"
 #import <AVFoundation/AVFoundation.h>
-
 #import "FQAssetWriter.h"
+#import "UIImage+FQExtension.h"
 
 @interface FQCameraViewController () <FQCameraOperateViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureSession *_session;
@@ -174,7 +174,7 @@
                                                   
                                                   NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                                                   UIImage *image = [[UIImage alloc] initWithData:imgData];
-                                                  _stillImage = image;
+                                                  _stillImage = [image fixOrientation];
                                                   
                                                   [_session stopRunning];
                                                   
