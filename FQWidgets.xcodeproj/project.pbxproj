@@ -61,6 +61,14 @@
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
 		B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */; };
+		B9C16A35208730A30068CE32 /* weibo_7.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A2D208730A20068CE32 /* weibo_7.json */; };
+		B9C16A36208730A30068CE32 /* weibo_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A2E208730A30068CE32 /* weibo_2.json */; };
+		B9C16A37208730A30068CE32 /* weibo_0.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A2F208730A30068CE32 /* weibo_0.json */; };
+		B9C16A38208730A30068CE32 /* weibo_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A30208730A30068CE32 /* weibo_1.json */; };
+		B9C16A39208730A30068CE32 /* weibo_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A31208730A30068CE32 /* weibo_3.json */; };
+		B9C16A3A208730A30068CE32 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A32208730A30068CE32 /* weibo_5.json */; };
+		B9C16A3B208730A30068CE32 /* weibo_4.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A33208730A30068CE32 /* weibo_4.json */; };
+		B9C16A3C208730A30068CE32 /* weibo_6.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A34208730A30068CE32 /* weibo_6.json */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
 		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
@@ -183,6 +191,14 @@
 		B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCutImageViewController.m; sourceTree = "<group>"; };
 		B9C16A2A2085A3600068CE32 /* UIImage+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+FQExtension.h"; sourceTree = "<group>"; };
 		B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FQExtension.m"; sourceTree = "<group>"; };
+		B9C16A2D208730A20068CE32 /* weibo_7.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_7.json; sourceTree = "<group>"; };
+		B9C16A2E208730A30068CE32 /* weibo_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_2.json; sourceTree = "<group>"; };
+		B9C16A2F208730A30068CE32 /* weibo_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_0.json; sourceTree = "<group>"; };
+		B9C16A30208730A30068CE32 /* weibo_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_1.json; sourceTree = "<group>"; };
+		B9C16A31208730A30068CE32 /* weibo_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_3.json; sourceTree = "<group>"; };
+		B9C16A32208730A30068CE32 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
+		B9C16A33208730A30068CE32 /* weibo_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_4.json; sourceTree = "<group>"; };
+		B9C16A34208730A30068CE32 /* weibo_6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_6.json; sourceTree = "<group>"; };
 		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
 		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
 		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
@@ -294,6 +310,14 @@
 		B902D792207E1A3F0080D294 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B9C16A2F208730A30068CE32 /* weibo_0.json */,
+				B9C16A30208730A30068CE32 /* weibo_1.json */,
+				B9C16A2E208730A30068CE32 /* weibo_2.json */,
+				B9C16A31208730A30068CE32 /* weibo_3.json */,
+				B9C16A33208730A30068CE32 /* weibo_4.json */,
+				B9C16A32208730A30068CE32 /* weibo_5.json */,
+				B9C16A34208730A30068CE32 /* weibo_6.json */,
+				B9C16A2D208730A20068CE32 /* weibo_7.json */,
 				B902D793207E1A3F0080D294 /* WL_4.jpg */,
 				B902D794207E1A3F0080D294 /* WL_5.jpg */,
 				B902D795207E1A3F0080D294 /* WL_7.jpg */,
@@ -326,8 +350,8 @@
 		B902D79F207E1A3F0080D294 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				B902D7A0207E1A3F0080D294 /* WLHomeViewController.m */,
 				B902D7A1207E1A3F0080D294 /* WLHomeViewController.h */,
+				B902D7A0207E1A3F0080D294 /* WLHomeViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -644,13 +668,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C16A39208730A30068CE32 /* weibo_3.json in Resources */,
+				B9C16A35208730A30068CE32 /* weibo_7.json in Resources */,
 				B902D819207E29D80080D294 /* Localizable.strings in Resources */,
+				B9C16A38208730A30068CE32 /* weibo_1.json in Resources */,
 				B902D76C207E18450080D294 /* LaunchScreen.storyboard in Resources */,
+				B9C16A36208730A30068CE32 /* weibo_2.json in Resources */,
 				B902D7E9207E1A3F0080D294 /* WL_4.jpg in Resources */,
 				B902D7EF207E1A3F0080D294 /* WL_1.jpg in Resources */,
 				B902D7EE207E1A3F0080D294 /* WL_3.jpg in Resources */,
+				B9C16A3B208730A30068CE32 /* weibo_4.json in Resources */,
+				B9C16A37208730A30068CE32 /* weibo_0.json in Resources */,
 				B902D7EB207E1A3F0080D294 /* WL_7.jpg in Resources */,
 				B902D7F1207E1A3F0080D294 /* WL_8.jpg in Resources */,
+				B9C16A3C208730A30068CE32 /* weibo_6.json in Resources */,
 				B902D7ED207E1A3F0080D294 /* WL_2.jpg in Resources */,
 				B902D7F0207E1A3F0080D294 /* WL_0.jpg in Resources */,
 				B902D7EC207E1A3F0080D294 /* WL_6.jpg in Resources */,
@@ -658,6 +689,7 @@
 				B902D7EA207E1A3F0080D294 /* WL_5.jpg in Resources */,
 				B902D769207E18450080D294 /* Assets.xcassets in Resources */,
 				B902D767207E18450080D294 /* Main.storyboard in Resources */,
+				B9C16A3A208730A30068CE32 /* weibo_5.json in Resources */,
 				B902D7F2207E1A3F0080D294 /* WL_Wide_0.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -73,9 +73,6 @@
     frame.origin.x = self.thumbView.frame.origin.x;
     frame.origin.y = self.thumbView.frame.origin.y;
     self.thumbView.frame = frame;
-    
-//    self.imageView.image = (UIImage *)assetArray.firstObject;
-//    NSLog(@"%zd %f -- %f", self.imageView.image.imageOrientation, self.imageView.image.size.width, self.imageView.image.size.height);
 }
 
 #pragma mark - FQImagePickerControllerDelegate

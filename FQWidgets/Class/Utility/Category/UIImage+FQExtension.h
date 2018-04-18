@@ -11,5 +11,6 @@
 @interface UIImage (FQExtension)
 
 - (UIImage *)fixOrientation;
+- (UIImage *)compress;
 
 @end

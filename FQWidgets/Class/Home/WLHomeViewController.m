@@ -9,6 +9,7 @@
 #import "WLHomeViewController.h"
 
 #import "FQThumbnailView.h"
+#import "FQImageButton.h"
 
 @interface WLHomeViewController ()
 
@@ -27,10 +28,33 @@
 }
 
 - (void)layoutUI {
-    FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
-    CGRect frame = [thumView frameWithImgArray:self.imgArray];
-    thumView.frame = CGRectMake(20, kNavBarHeight + 30, frame.size.width, frame.size.height);
-    [self.view addSubview:thumView];
+    {
+        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
+        imgBtn.layer.borderWidth = 1;
+        imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
+        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
+        imgBtn.imageView.backgroundColor = [UIColor greenColor];
+        
+        imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
+        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
+        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
+        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
+        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
+        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
+        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [imgBtn setTitle:@"9" forState:UIControlStateNormal];
+        [imgBtn sizeToFit];
+        
+        [self.view addSubview:imgBtn];
+    }
+    
+    {
+        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
+        CGRect frame = [thumView frameWithImgArray:self.imgArray];
+        thumView.frame = CGRectMake(20, kNavBarHeight + 30, frame.size.width, frame.size.height);
+        [self.view addSubview:thumView];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
