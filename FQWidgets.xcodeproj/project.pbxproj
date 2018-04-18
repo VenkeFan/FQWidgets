@@ -69,6 +69,10 @@
 		B9C16A3A208730A30068CE32 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A32208730A30068CE32 /* weibo_5.json */; };
 		B9C16A3B208730A30068CE32 /* weibo_4.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A33208730A30068CE32 /* weibo_4.json */; };
 		B9C16A3C208730A30068CE32 /* weibo_6.json in Resources */ = {isa = PBXBuildFile; fileRef = B9C16A34208730A30068CE32 /* weibo_6.json */; };
+		B9C16A41208741750068CE32 /* WLFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A40208741750068CE32 /* WLFeedCell.m */; };
+		B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A43208748D70068CE32 /* WLFeedModel.m */; };
+		B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A4620874AC20068CE32 /* WLTimelineViewModel.m */; };
+		B9C16A4A208760440068CE32 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A49208760440068CE32 /* YYFPSLabel.m */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
 		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
@@ -199,6 +203,14 @@
 		B9C16A32208730A30068CE32 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
 		B9C16A33208730A30068CE32 /* weibo_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_4.json; sourceTree = "<group>"; };
 		B9C16A34208730A30068CE32 /* weibo_6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_6.json; sourceTree = "<group>"; };
+		B9C16A3F208741750068CE32 /* WLFeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLFeedCell.h; sourceTree = "<group>"; };
+		B9C16A40208741750068CE32 /* WLFeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLFeedCell.m; sourceTree = "<group>"; };
+		B9C16A42208748D70068CE32 /* WLFeedModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLFeedModel.h; sourceTree = "<group>"; };
+		B9C16A43208748D70068CE32 /* WLFeedModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLFeedModel.m; sourceTree = "<group>"; };
+		B9C16A4520874AC20068CE32 /* WLTimelineViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLTimelineViewModel.h; sourceTree = "<group>"; };
+		B9C16A4620874AC20068CE32 /* WLTimelineViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLTimelineViewModel.m; sourceTree = "<group>"; };
+		B9C16A48208760440068CE32 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
+		B9C16A49208760440068CE32 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
 		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
 		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
@@ -437,6 +449,7 @@
 		B902D7B7207E1A3F0080D294 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				B9C16A3E208741580068CE32 /* Timeline */,
 				B902D82C2080A6CB0080D294 /* NavigationController */,
 				B902D7BB207E1A3F0080D294 /* Camera */,
 				B902D7D9207E1A3F0080D294 /* FQBadgeView.h */,
@@ -556,6 +569,21 @@
 				B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */,
 			);
 			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		B9C16A3E208741580068CE32 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				B9C16A48208760440068CE32 /* YYFPSLabel.h */,
+				B9C16A49208760440068CE32 /* YYFPSLabel.m */,
+				B9C16A3F208741750068CE32 /* WLFeedCell.h */,
+				B9C16A40208741750068CE32 /* WLFeedCell.m */,
+				B9C16A42208748D70068CE32 /* WLFeedModel.h */,
+				B9C16A43208748D70068CE32 /* WLFeedModel.m */,
+				B9C16A4520874AC20068CE32 /* WLTimelineViewModel.h */,
+				B9C16A4620874AC20068CE32 /* WLTimelineViewModel.m */,
+			);
+			path = Timeline;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -789,12 +817,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C16A4A208760440068CE32 /* YYFPSLabel.m in Sources */,
 				B902D80C207E1A3F0080D294 /* FQPlayerView.m in Sources */,
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
 				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
 				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
+				B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */,
 				B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
@@ -808,10 +838,12 @@
 				B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */,
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
+				B9C16A41208741750068CE32 /* WLFeedCell.m in Sources */,
 				B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */,
 				B902D7FA207E1A3F0080D294 /* FQImageButton.m in Sources */,
 				B902D802207E1A3F0080D294 /* FQAssetsBrowseViewController.m in Sources */,
 				B902D7F6207E1A3F0080D294 /* WLMessageViewController.m in Sources */,
+				B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */,
 				B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */,
 				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,

@@ -7,12 +7,19 @@
 //
 
 #import "WLDiscoveryViewController.h"
+#import "WLTimelineViewModel.h"
+#import "WLFeedCell.h"
 #import "FQRefreshHeader.h"
+#import "YYFPSLabel.h"
+
+static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 
 @interface WLDiscoveryViewController () <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) WLTimelineViewModel *viewModel;
+@property (nonatomic, strong) NSArray *dataArray;
+
 @property (nonatomic, weak) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
@@ -24,25 +31,47 @@
     self.view.backgroundColor = [UIColor redColor];
     
     [self.tableView.mj_header beginRefreshing];
+    
+    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, 20, 0, 0)];
+    [fpsLabel sizeToFit];
+    [self.view addSubview:fpsLabel];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 #pragma mark - Network
 
 - (void)refreshData {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView.mj_header endRefreshing];
-    });
+    [self.viewModel fetchListWithFinished:^(BOOL succeed, BOOL hasMore) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (succeed) {
+                [self.tableView reloadData];
+                [self.tableView.mj_header endRefreshing];
+            } else {
+                [FQProgressHUDHelper showErrorWithMessage:@"刷新数据错误"];
+            }
+            
+            self.tableView.mj_footer.hidden = !hasMore;
+        });
+    }];
 }
 
 - (void)loadMoreData {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView.mj_footer endRefreshing];
-    });
+    [self.viewModel fetchMoreWithFinished:^(BOOL succeed, BOOL hasMore) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (succeed) {
+                [self.tableView reloadData];
+                [self.tableView.mj_footer endRefreshing];
+            } else {
+                [FQProgressHUDHelper showErrorWithMessage:@"获取更多数据错误"];
+            }
+            
+            self.tableView.mj_footer.hidden = !hasMore;
+        });
+    }];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
@@ -51,25 +80,41 @@
     return self.dataArray.count;
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return [(WLFeedModel *)self.dataArray[indexPath.row] modelHeight];
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellID = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-    }
+    WLFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellID];
+    
+    cell.textLabel.text = [(WLFeedModel *)self.dataArray[indexPath.row] text];
+    cell.textLabel.textColor = kBodyFontColor;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
     
     return cell;
 }
 
 #pragma mark - Getter
 
+- (WLTimelineViewModel *)viewModel {
+    if (!_viewModel) {
+        _viewModel = [WLTimelineViewModel new];
+    }
+    return _viewModel;
+}
+
+- (NSArray *)dataArray {
+    return self.viewModel.dataArray;
+}
+
 - (UITableView *)tableView {
     if (!_tableView) {
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - kNavBarHeight - kTabBarHeight)];
         tableView.delegate = self;
         tableView.dataSource = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.rowHeight = 50;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tableView.rowHeight = kSizeScale(50);
+        [tableView registerClass:[WLFeedCell class] forCellReuseIdentifier:reuseCellID];
         [self.view addSubview:tableView];
         _tableView = tableView;
         
@@ -83,13 +128,6 @@
         tableView.mj_footer = footer;
     }
     return _tableView;
-}
-
-- (NSMutableArray *)dataArray {
-    if (!_dataArray) {
-        _dataArray = [NSMutableArray array];
-    }
-    return _dataArray;
 }
 
 @end

@@ -300,7 +300,7 @@
     if (!_assetWriter) {
         dispatch_async(self.writingQueue, ^{
             NSError *error;
-            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeQuickTimeMovie error:&error];
+            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeMPEG4 error:&error];
             if (error) {
                 NSLog(@"AVAssetWriter 初始化失败: %@", error);
             }
@@ -318,7 +318,7 @@
 
 - (NSURL *)filePath {
     if (!_filePath) {
-        _filePath = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), @"movie_fq.mov"]];
+        _filePath = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), @"movie_fq.mp4"]];
     }
     return _filePath;
 }
