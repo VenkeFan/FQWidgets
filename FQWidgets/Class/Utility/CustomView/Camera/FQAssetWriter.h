@@ -20,7 +20,6 @@
 - (void)setupAssetWriterAudioInput:(CMFormatDescriptionRef)currentFormatDescription;
 
 - (void)startRecording;
-- (void)stopRecording;
 - (void)stopRecordingWithFinished:(void(^)(void))finished;
 - (void)cancelRecording;
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType;

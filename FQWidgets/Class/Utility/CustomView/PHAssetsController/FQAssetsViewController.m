@@ -79,6 +79,19 @@
                                                 resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                                     self.imgLayer.contents = (__bridge id)result.CGImage;
                                                 }];
+        
+        if (itemModel.asset.mediaType == PHAssetMediaTypeVideo) {
+            [[PHImageManager defaultManager] requestAVAssetForVideo:itemModel.asset
+                                                            options:nil
+                                                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                          if ([asset isKindOfClass:[AVURLAsset class]]) {
+                                                              AVURLAsset *urlAsset = (AVURLAsset *)asset;
+                                                              NSNumber *size;
+                                                              [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+                                                              itemModel.quality = size.floatValue;
+                                                          }
+                                                      }];
+        }
     }
 }
 
@@ -308,6 +321,11 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
     if (itemModel.asset.mediaType == PHAssetMediaTypeVideo) {
         if (self.checkedPhotoArray.count != 0) {
             [FQProgressHUDHelper showErrorWithMessage:@"已选图片后不能选择视频"];
+            return;
+        }
+        
+        if (itemModel.quality > kMaxVideoUploadQuality) {
+            [FQProgressHUDHelper showErrorWithMessage:@"视频最大5M"];
             return;
         }
         

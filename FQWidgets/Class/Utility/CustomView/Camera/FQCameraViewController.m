@@ -101,8 +101,8 @@
         [_imageOutput setOutputSettings:@{AVVideoCodecKey: AVVideoCodecJPEG}];
         
         _session = [[AVCaptureSession alloc] init];
-        if ([_session canSetSessionPreset:AVCaptureSessionPresetHigh]) {
-            [_session setSessionPreset:AVCaptureSessionPresetHigh];
+        if ([_session canSetSessionPreset:AVCaptureSessionPresetMedium]) {
+            [_session setSessionPreset:AVCaptureSessionPresetMedium];
         }
         if ([_session canAddInput:_videoInput]) {
             [_session addInput:_videoInput];

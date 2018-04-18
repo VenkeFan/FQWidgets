@@ -9,9 +9,10 @@
 #ifndef WLMacroDefine_h
 #define WLMacroDefine_h
 
-#pragma mark - 录制视频最大秒数 ß
+#pragma mark - Other
 
-#define kMaxVideoRecordDuration      10.0
+#define kMaxVideoRecordDuration         10.0
+#define kMaxVideoUploadQuality          5.0
 
 #pragma mark - BackgroundColor
 

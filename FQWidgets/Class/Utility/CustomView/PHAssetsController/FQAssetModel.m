@@ -16,6 +16,7 @@
         _asset = asset;
         _checked = NO;
         _checkedIndex = -1;
+        _quality = 0;
     }
     return self;
 }
@@ -27,6 +28,12 @@
     //    copyModel.checked = _checked;
     //    copyModel.checkedIndex = _checkedIndex;
     //    return copyModel;
+}
+
+#pragma mark - Setter
+
+- (void)setQuality:(CGFloat)quality {
+    _quality = quality / (1024 * 1024.0);
 }
 
 @end

@@ -53,10 +53,6 @@
     });
 }
 
-- (void)stopRecording {
-    [self stopRecordingWithFinished:nil];
-}
-
 - (void)stopRecordingWithFinished:(void (^)(void))finished {
     NSLog(@"正在停止写入");
     dispatch_async(_writingQueue, ^{
@@ -81,6 +77,13 @@
                 }
                 default:
                     break;
+            }
+            
+            {
+                AVURLAsset *urlAsset = [AVURLAsset assetWithURL:self.filePath];
+                NSNumber *size;
+                [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+                NSLog(@"录制的视频大小: %f M.", size.floatValue / (1024 * 1024.0));
             }
             
             if (finished) {
@@ -121,6 +124,8 @@
                 NSLog(@"写入中途错误: %@", _assetWriter.error);
             }
         }
+    } else {
+        NSLog(@"写入失败");
     }
 }
 
@@ -152,10 +157,12 @@
             [_assetWriter addInput:_assetVideoInput];
         } else {
             _readyToRecordVideo = NO;
+            NSLog(@"AssetWriter add VideoInput error");
         }
         _readyToRecordVideo = YES;
     } else {
         _readyToRecordVideo = NO;
+        NSLog(@"AssetWriter add VideoInput error");
     }
 }
 
@@ -186,10 +193,12 @@
             [_assetWriter addInput:_assetAudioInput];
         } else{
             _readyToRecordAudio = NO;
+            NSLog(@"AssetWriter add AudioInput error");
         }
         _readyToRecordAudio = YES;
     } else {
         _readyToRecordAudio = NO;
+        NSLog(@"AssetWriter add AudioInput error");
     }
 }
 

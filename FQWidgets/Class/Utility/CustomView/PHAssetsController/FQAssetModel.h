@@ -23,5 +23,6 @@ typedef NS_ENUM(NSInteger, FQAssetModelType) {
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, assign, getter=isChecked) BOOL checked;
 @property (nonatomic, assign) NSInteger checkedIndex;
+@property (nonatomic, assign) CGFloat quality;      ///< 资源质量大小，以M为单位
 
 @end
