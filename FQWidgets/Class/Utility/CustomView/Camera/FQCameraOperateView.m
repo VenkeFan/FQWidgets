@@ -91,6 +91,33 @@
     [self invalidateTimer];
 }
 
+#pragma mark - FQPlayerViewDelegate
+
+- (void)playerView:(FQPlayerView *)playerView statusDidChanged:(FQPlayerViewStatus)status {
+    if (status == FQPlayerViewStatus_Stopped || status == FQPlayerViewStatus_Completed) {
+        self.playerView.hidden = YES;
+    }
+    
+    switch (status) {
+        case FQPlayerViewStatus_ReadyToPlay:
+        case FQPlayerViewStatus_Playing:
+            self.playerView.hidden = NO;
+            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"camera_video_pause"] forState:UIControlStateNormal];
+            break;
+        case FQPlayerViewStatus_Paused:
+            self.playerView.hidden = NO;
+            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"camera_video_play"] forState:UIControlStateNormal];
+            break;
+        case FQPlayerViewStatus_Stopped:
+        case FQPlayerViewStatus_Completed:
+            self.playerView.hidden = YES;
+            break;
+        default:
+            
+            break;
+    }
+}
+
 #pragma mark - Private
 
 - (void)setCancelAndConfirmHidden:(BOOL)hidden {
@@ -117,7 +144,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.countLabel.attributedText = mutAttr;
                 [weakSelf.progressView setProgress:(kMaxVideoRecordDuration - duration) / kMaxVideoRecordDuration animated:YES];
-                NSLog(@"正在录制倒计时: %@", mutAttr.string);
             });
             
             duration--;
@@ -174,12 +200,20 @@
 }
 
 - (void)confirmBtnClicked {
+    if (self.playerView.playerViewStatus == FQPlayerViewStatus_Playing) {
+        [self.playerView stop];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(cameraOperateView:didConfirmedWithOutputType:)]) {
         [self.delegate cameraOperateView:self didConfirmedWithOutputType:self.outputType];
     }
 }
 
 - (void)cancelBtnClicked {
+    if (self.playerView.playerViewStatus == FQPlayerViewStatus_Playing) {
+        [self.playerView stop];
+    }
+    
     [self setCancelAndConfirmHidden:YES];
     
     if (_outputType == FQCameraOutputType_Video) {
@@ -218,33 +252,6 @@
 - (void)transformBtnClicked:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(cameraOperateViewDidTransformCamera:)]) {
         [self.delegate cameraOperateViewDidTransformCamera:self];
-    }
-}
-
-#pragma mark - FQPlayerViewDelegate
-
-- (void)playerView:(FQPlayerView *)playerView statusDidChanged:(FQPlayerViewStatus)status {
-    if (status == FQPlayerViewStatus_Stopped || status == FQPlayerViewStatus_Completed) {
-        self.playerView.hidden = YES;
-    }
-    
-    switch (status) {
-        case FQPlayerViewStatus_ReadyToPlay:
-        case FQPlayerViewStatus_Playing:
-            self.playerView.hidden = NO;
-            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"camera_video_pause"] forState:UIControlStateNormal];
-            break;
-        case FQPlayerViewStatus_Paused:
-            self.playerView.hidden = NO;
-            [self.playBtn setBackgroundImage:[UIImage imageNamed:@"camera_video_play"] forState:UIControlStateNormal];
-            break;
-        case FQPlayerViewStatus_Stopped:
-        case FQPlayerViewStatus_Completed:
-            self.playerView.hidden = YES;
-            break;
-        default:
-            
-            break;
     }
 }
 

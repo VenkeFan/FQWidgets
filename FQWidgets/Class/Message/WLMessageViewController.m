@@ -11,11 +11,12 @@
 #import "FQImagePickerController.h"
 
 #import "FQThumbnailView.h"
+#import "FQReaderPlayerView.h"
 
 @interface WLMessageViewController () <FQAssetsViewControllerDelegate, FQImagePickerControllerDelegate>
 
 @property (nonatomic, weak) FQThumbnailView *thumbView;
-@property (nonatomic, weak) UIImageView *imageView;
+@property (nonatomic, weak) FQReaderPlayerView *playerView;
 
 @end
 
@@ -59,6 +60,12 @@
         [self.view addSubview:thumView];
         self.thumbView = thumView;
     }
+    
+    {
+        FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithFrame:CGRectMake(20, kNavBarHeight + 70, kScreenWidth - 40, 350)];
+        [self.view addSubview:playerView];
+        self.playerView = playerView;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +76,16 @@
 #pragma mark - FQAssetsViewControllerDelegate
 
 - (void)assetsViewCtr:(FQAssetsViewController *)viewCtr didSelectedWithAssetArray:(NSArray *)assetArray {
+    
+    if ([assetArray.firstObject isKindOfClass:[FQAssetModel class]]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.playerView playWithAsset:[(FQAssetModel *)assetArray.firstObject avAsset]];
+        });
+        
+        return;
+    }
+    
+    
     CGRect frame = [self.thumbView frameWithImgArray:assetArray];
     frame.origin.x = self.thumbView.frame.origin.x;
     frame.origin.y = self.thumbView.frame.origin.y;

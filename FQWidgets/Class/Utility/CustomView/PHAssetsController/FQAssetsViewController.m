@@ -89,6 +89,7 @@
                                                               NSNumber *size;
                                                               [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
                                                               itemModel.quality = size.floatValue;
+                                                              itemModel.avAsset = asset;
                                                           }
                                                       }];
         }
@@ -324,10 +325,10 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
             return;
         }
         
-        if (itemModel.quality > kMaxVideoUploadQuality) {
-            [FQProgressHUDHelper showErrorWithMessage:@"视频最大5M"];
-            return;
-        }
+//        if (itemModel.quality > kMaxVideoUploadQuality) {
+//            [FQProgressHUDHelper showErrorWithMessage:@"视频最大5M"];
+//            return;
+//        }
         
         itemModel.checked = !itemModel.isChecked;
         if (itemModel.isChecked) {
@@ -525,30 +526,34 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
         return;
     }
     
-    NSMutableArray *imgArray = [NSMutableArray array];
-    
-    dispatch_apply(self.checkedPhotoArray.count, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t index) {
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-        options.networkAccessAllowed = NO;
-        options.synchronous = YES;
-        options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-        options.resizeMode = PHImageRequestOptionsResizeModeExact;
+    if (self.checkedVideo) {
+        [self.delegate assetsViewCtr:self didSelectedWithAssetArray:@[self.checkedVideo]];
+    } else {
+        NSMutableArray *imgArray = [NSMutableArray array];
         
-        PHAsset *asset = self.checkedPhotoArray[index].asset;
-        CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-        CGFloat pixelWidth = kScreenWidth * kScreenScale;
-        CGFloat pixelHeight = pixelWidth / aspectRatio;
-        CGSize imageSize = CGSizeMake(pixelWidth, pixelHeight);
-        
-        [[PHImageManager defaultManager] requestImageForAsset:asset
-                                                   targetSize:imageSize
-                                                  contentMode:PHImageContentModeAspectFit
-                                                      options:options
-                                                resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                                                    [imgArray addObject:result];
-                                                }];
-    });
-    [self.delegate assetsViewCtr:self didSelectedWithAssetArray:imgArray];
+        dispatch_apply(self.checkedPhotoArray.count, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t index) {
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.networkAccessAllowed = NO;
+            options.synchronous = YES;
+            options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            options.resizeMode = PHImageRequestOptionsResizeModeExact;
+            
+            PHAsset *asset = self.checkedPhotoArray[index].asset;
+            CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
+            CGFloat pixelWidth = kScreenWidth * kScreenScale;
+            CGFloat pixelHeight = pixelWidth / aspectRatio;
+            CGSize imageSize = CGSizeMake(pixelWidth, pixelHeight);
+            
+            [[PHImageManager defaultManager] requestImageForAsset:asset
+                                                       targetSize:imageSize
+                                                      contentMode:PHImageContentModeAspectFit
+                                                          options:options
+                                                    resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                                                        [imgArray addObject:result];
+                                                    }];
+        });
+        [self.delegate assetsViewCtr:self didSelectedWithAssetArray:imgArray];
+    }
     
     [self.navigationController popViewControllerAnimated:YES];
 }

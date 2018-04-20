@@ -73,6 +73,9 @@
 		B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A43208748D70068CE32 /* WLFeedModel.m */; };
 		B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A4620874AC20068CE32 /* WLTimelineViewModel.m */; };
 		B9C16A4A208760440068CE32 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A49208760440068CE32 /* YYFPSLabel.m */; };
+		B9C16A4D20877FC40068CE32 /* FQVideoExportSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A4C20877FC40068CE32 /* FQVideoExportSession.m */; };
+		B9C16A5020887D870068CE32 /* FQAssetReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A4F20887D870068CE32 /* FQAssetReader.m */; };
+		B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A5220889B9D0068CE32 /* FQReaderPlayerView.m */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
 		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
@@ -211,6 +214,12 @@
 		B9C16A4620874AC20068CE32 /* WLTimelineViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLTimelineViewModel.m; sourceTree = "<group>"; };
 		B9C16A48208760440068CE32 /* YYFPSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFPSLabel.h; sourceTree = "<group>"; };
 		B9C16A49208760440068CE32 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
+		B9C16A4B20877FC40068CE32 /* FQVideoExportSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQVideoExportSession.h; sourceTree = "<group>"; };
+		B9C16A4C20877FC40068CE32 /* FQVideoExportSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQVideoExportSession.m; sourceTree = "<group>"; };
+		B9C16A4E20887D870068CE32 /* FQAssetReader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetReader.h; sourceTree = "<group>"; };
+		B9C16A4F20887D870068CE32 /* FQAssetReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAssetReader.m; sourceTree = "<group>"; };
+		B9C16A5120889B9D0068CE32 /* FQReaderPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQReaderPlayerView.h; sourceTree = "<group>"; };
+		B9C16A5220889B9D0068CE32 /* FQReaderPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQReaderPlayerView.m; sourceTree = "<group>"; };
 		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
 		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
 		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
@@ -474,6 +483,10 @@
 			children = (
 				B902D7BC207E1A3F0080D294 /* FQAssetWriter.h */,
 				B902D7C1207E1A3F0080D294 /* FQAssetWriter.m */,
+				B9C16A4E20887D870068CE32 /* FQAssetReader.h */,
+				B9C16A4F20887D870068CE32 /* FQAssetReader.m */,
+				B9C16A4B20877FC40068CE32 /* FQVideoExportSession.h */,
+				B9C16A4C20877FC40068CE32 /* FQVideoExportSession.m */,
 				B902D7BF207E1A3F0080D294 /* FQCameraOperateView.h */,
 				B902D7BE207E1A3F0080D294 /* FQCameraOperateView.m */,
 				B902D7BD207E1A3F0080D294 /* FQCameraViewController.h */,
@@ -543,6 +556,8 @@
 				B902D7E2207E1A3F0080D294 /* FQPlayerOperateView.m */,
 				B902D7E1207E1A3F0080D294 /* FQPlayerView.h */,
 				B902D7E3207E1A3F0080D294 /* FQPlayerView.m */,
+				B9C16A5120889B9D0068CE32 /* FQReaderPlayerView.h */,
+				B9C16A5220889B9D0068CE32 /* FQReaderPlayerView.m */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -845,11 +860,14 @@
 				B902D7F6207E1A3F0080D294 /* WLMessageViewController.m in Sources */,
 				B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */,
 				B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */,
+				B9C16A5020887D870068CE32 /* FQAssetReader.m in Sources */,
+				B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */,
 				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,
 				B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */,
 				B902D804207E1A3F0080D294 /* FQAssetsManager.m in Sources */,
 				B902D7FE207E1A3F0080D294 /* FQAssetWriter.m in Sources */,
+				B9C16A4D20877FC40068CE32 /* FQVideoExportSession.m in Sources */,
 				B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */,
 				B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */,
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,

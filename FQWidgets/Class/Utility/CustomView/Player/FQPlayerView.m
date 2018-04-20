@@ -419,6 +419,8 @@ NSString * const FQPlayerViewStatusMapping[] = {
     if (!_preImgLayer) {
         CALayer *layer = [CALayer layer];
         layer.frame = self.bounds;
+        layer.contentsGravity = kCAGravityResizeAspect;
+        self.layer.masksToBounds = YES;
         [self.layer addSublayer:layer];
         _preImgLayer = layer;
     }

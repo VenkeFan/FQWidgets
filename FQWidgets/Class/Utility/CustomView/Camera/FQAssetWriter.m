@@ -26,14 +26,13 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _writingQueue = dispatch_queue_create("com.welike.camera.fqassetwriter", DISPATCH_QUEUE_SERIAL);
+        _writingQueue = dispatch_queue_create("com.welike.assetwriter.fq", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
 
 - (void)dealloc {
     NSLog(@"FQAssetWriter dealloc");
-    NSLog(@"取消写入");
     [_assetWriter cancelWriting];
     _assetWriter = nil;
 }
@@ -45,7 +44,7 @@
     dispatch_async(_writingQueue, ^{
         if (!_assetWriter) {
             NSError *error;
-            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeQuickTimeMovie error:&error];
+            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeMPEG4 error:&error];
             if (error) {
                 NSLog(@"FQAssetWriter 初始化失败: %@", error);
             }
@@ -79,12 +78,10 @@
                     break;
             }
             
-            {
-                AVURLAsset *urlAsset = [AVURLAsset assetWithURL:self.filePath];
-                NSNumber *size;
-                [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
-                NSLog(@"录制的视频大小: %f M.", size.floatValue / (1024 * 1024.0));
-            }
+            AVURLAsset *urlAsset = [AVURLAsset assetWithURL:self.filePath];
+            NSNumber *size;
+            [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+            NSLog(@"录制的视频大小: %f M.", size.floatValue / (1024 * 1024.0));
             
             if (finished) {
                 finished();
@@ -103,12 +100,11 @@
             NSLog(@"开始写入");
             [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
         } else {
-            NSLog(@"开始写入错误: %@", _assetWriter.error);
+            NSLog(@"开始写入就错误: %@", _assetWriter.error);
         }
     }
     
     if (_assetWriter.status == AVAssetWriterStatusWriting){
-        NSLog(@"正在写入");
         if (mediaType == AVMediaTypeVideo){
             if (!_assetVideoInput.readyForMoreMediaData){
                 return;
@@ -295,26 +291,6 @@
 }
 
 #pragma mark - Getter
-
-- (AVAssetWriter *)assetWriter {
-    if (!_assetWriter) {
-        dispatch_async(self.writingQueue, ^{
-            NSError *error;
-            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeMPEG4 error:&error];
-            if (error) {
-                NSLog(@"AVAssetWriter 初始化失败: %@", error);
-            }
-        });
-    }
-    return _assetWriter;
-}
-
-- (dispatch_queue_t)writingQueue {
-    if (!_writingQueue) {
-        _writingQueue = dispatch_queue_create("com.welike.camera.fqassetwriter", DISPATCH_QUEUE_SERIAL);
-    }
-    return _writingQueue;
-}
 
 - (NSURL *)filePath {
     if (!_filePath) {

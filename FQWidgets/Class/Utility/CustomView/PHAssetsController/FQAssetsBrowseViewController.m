@@ -48,7 +48,7 @@
     CGSize imageSize = CGSizeMake(pixelWidth, pixelHeight);
     [[PHImageManager defaultManager] requestImageForAsset:asset
                                                targetSize:imageSize
-                                              contentMode:PHImageContentModeAspectFit
+                                              contentMode:PHImageContentModeAspectFill
                                                   options:options
                                             resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                                                 if (itemModel.asset.mediaType == PHAssetMediaTypeImage) {

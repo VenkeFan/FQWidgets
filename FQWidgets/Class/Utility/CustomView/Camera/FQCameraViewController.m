@@ -11,6 +11,9 @@
 #import "FQAssetWriter.h"
 #import "UIImage+FQExtension.h"
 
+static char * const VideoOutputQueueKey = "com.welike.videoOutputQueue.fq";
+static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
+
 @interface FQCameraViewController () <FQCameraOperateViewDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate> {
     AVCaptureSession *_session;
     
@@ -91,11 +94,11 @@
         
         _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
         _videoOutput.alwaysDiscardsLateVideoFrames = YES;
-        [_videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create("VideoOutputQueue", NULL)];
+        [_videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create(VideoOutputQueueKey, NULL)];
         [_videoOutput setVideoSettings:@{(NSString*)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)}];
         
         _audioOutput = [[AVCaptureAudioDataOutput alloc] init];
-        [_audioOutput setSampleBufferDelegate:self queue:dispatch_queue_create("AudioOutputQueue", NULL)];
+        [_audioOutput setSampleBufferDelegate:self queue:dispatch_queue_create(AudioOutputQueueKey, NULL)];
         
         _imageOutput = [[AVCaptureStillImageOutput alloc] init];
         [_imageOutput setOutputSettings:@{AVVideoCodecKey: AVVideoCodecJPEG}];
@@ -290,7 +293,7 @@
         [_session removeOutput:_videoOutput];
         AVCaptureVideoDataOutput *videoOutput = [[AVCaptureVideoDataOutput alloc] init];
         videoOutput.alwaysDiscardsLateVideoFrames = YES;
-        [videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create("VideoOutputQueue", NULL)];
+        [videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create(VideoOutputQueueKey, NULL)];
         [videoOutput setVideoSettings:@{(NSString*)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)}];
         if ([_session canAddOutput:videoOutput]) {
             [_session addOutput:videoOutput];
@@ -398,8 +401,29 @@
                 succeed(flashMode);
             }
         } else {
-            NSLog(@"闪光灯模式 %zd 失败: %@", flashMode, error);
+            NSLog(@"闪光灯模式 %zd 切换失败: %@", flashMode, error);
         }
+    }
+}
+
+- (void)p_setFrameRate {
+    BOOL isSupport = NO;
+    CMTime perferTimescale = CMTimeMake(1, 15);
+    for (AVFrameRateRange *supportFrame in self.activeCamera.activeFormat.videoSupportedFrameRateRanges) {
+        int32_t min = CMTimeCompare(perferTimescale, supportFrame.minFrameDuration);
+        int32_t max = CMTimeCompare(perferTimescale, supportFrame.maxFrameDuration);
+        
+        if (max <= 0 && min >= 0) {
+            isSupport = YES;
+            break;
+        }
+    }
+    
+    if (isSupport) {
+        [self.activeCamera lockForConfiguration:nil];
+        self.activeCamera.activeVideoMaxFrameDuration = perferTimescale;
+        self.activeCamera.activeVideoMinFrameDuration = perferTimescale;
+        [self.activeCamera unlockForConfiguration];
     }
 }
 
