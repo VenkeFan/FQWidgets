@@ -50,10 +50,10 @@
     }
     
     {
-        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
-        CGRect frame = [thumView frameWithImgArray:self.imgArray];
-        thumView.frame = CGRectMake(20, kNavBarHeight + 30, frame.size.width, frame.size.height);
-        [self.view addSubview:thumView];
+//        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
+//        CGRect frame = [thumView frameWithImgArray:self.imgArray];
+//        thumView.frame = CGRectMake(20, kNavBarHeight + 30, frame.size.width, frame.size.height);
+//        [self.view addSubview:thumView];
     }
 }
 

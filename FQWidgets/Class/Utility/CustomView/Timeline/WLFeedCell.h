@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WLLabel.h"
 #import "WLTimelineViewModel.h"
+#import "WLLabel.h"
+#import "FQThumbnailView.h"
 
 @interface WLFeedToolBar : UIView
 
@@ -39,6 +40,8 @@
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) WLFeedProfileView *profileView;
 @property (nonatomic, strong) WLLabel *feedLabel;
+@property (nonatomic, strong) FQThumbnailView *thumbView;
+
 @property (nonatomic, strong) WLFeedCardView *cardView;
 @property (nonatomic, strong) WLFeedToolBar *toolBar;
 

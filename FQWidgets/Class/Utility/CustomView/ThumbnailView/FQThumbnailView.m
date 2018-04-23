@@ -8,6 +8,8 @@
 
 #import "FQThumbnailView.h"
 #import "FQImageBrowseView.h"
+#import "WLFeedModel.h"
+#import "UIImageView+FQExtension.h"
 
 #define ThumbnailWidth              kSizeScale(98)
 #define Spacing                     5
@@ -67,12 +69,62 @@
     
     for (int i = 0; i < imgArray.count; i++) {
         UIImageView *imgView = [self p_imageViewWithImageName:imgArray[i]];
-        imgView.contentMode = UIViewContentModeScaleAspectFill;
         imgView.frame = CGRectMake((i % self.numberInRow) * (width + Spacing), ( i /self.numberInRow) * (width + Spacing), width, width);
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
         [contentView addSubview:imgView];
     }
     
     return contentView.frame;
+}
+
+- (void)setImages:(NSArray<WLPicture *> *)images
+         imgWidth:(CGFloat)imgWidth
+        imgHeight:(CGFloat)imgHeight
+          spacing:(CGFloat)spacing {
+    _imgArray = images;
+    
+    [self.imgViewArray removeAllObjects];
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    if (images.count == 0) {
+        return;
+    }
+    
+    NSInteger numberInRow = 3;
+    
+    if (images.count == 4) {
+        numberInRow = 2;
+    }
+    
+    for (int i = 0; i < images.count; i++) {
+        WLPicture *pic = images[i];
+        UIImageView *imgView = [[UIImageView alloc] init];
+        imgView.frame = CGRectMake((i % self.numberInRow) * (imgWidth + spacing), ( i /self.numberInRow) * (imgHeight + spacing), imgWidth, imgHeight);
+        imgView.contentMode = UIViewContentModeScaleToFill;
+        [imgView fq_setImageWithURLString:pic.bmiddle.url.absoluteString
+                                completed:^(UIImage *image, NSURL *url, NSError *error) {
+                                    CGFloat width = imgWidth;
+                                    CGFloat height = imgHeight;
+                                    
+                                    if (image.size.width / image.size.height > 1.01) {
+                                        // 宽图
+                                        CGFloat scaleWidth = image.size.width / image.size.height * height;
+                                        imgView.layer.contentsRect = CGRectMake(0, 0, width / scaleWidth, 1.0);
+                                        
+                                    } else {
+                                        // 长图
+                                        CGFloat scaleHeight = image.size.height / image.size.width * width;
+                                        imgView.layer.contentsRect = CGRectMake(0, 0, 1.0, height / scaleHeight);
+                                    }
+                                }];
+        [self addSubview:imgView];
+        
+        imgView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewTap:)];
+        [imgView addGestureRecognizer:tap];
+
+        [self.imgViewArray addObject:imgView];
+    }
 }
 
 #pragma mark - Event
@@ -89,8 +141,8 @@
     [_imgArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         FQImageBrowseItemModel *item = [[FQImageBrowseItemModel alloc] init];
         item.thumbView = self.imgViewArray[idx];
-        item.imgURL = _imgArray[idx];
-        
+        item.imageInfo = obj;
+
         [itemArray addObject:item];
     }];
     
@@ -109,7 +161,7 @@
         // 方图
         CGFloat squareWidth = kScreenWidth * 2 / 3.0;
         newSize = CGSizeMake(squareWidth, squareWidth);
-    } else if (imgSize.width > imgSize.height) {
+    } else if (ratio > 1.01) {
         // 宽图
         CGFloat width = kScreenWidth * 2 / 3.0;
         CGFloat height = kScreenWidth * 0.5;

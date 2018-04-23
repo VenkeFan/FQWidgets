@@ -32,7 +32,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         CGFloat width = kScreenWidth / 3.0;
         
         CALayer *line = [CALayer layer];
-        line.frame = CGRectMake(cellPaddingLeft, 0, kScreenWidth - cellPaddingLeft * 2, cellLineHeight);
+        line.frame = CGRectMake(cellPaddingLeft, 0, cellContentWidth, cellLineHeight);
         line.backgroundColor = kUIColorFromRGB(0xDDDDDD).CGColor;
         [self.layer addSublayer:line];
         
@@ -132,22 +132,6 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     return self;
 }
 
-//- (CATextLayer *)textLayerWithFont:(UIFont *)font {
-//    CATextLayer *txtLayer = [CATextLayer layer];
-//    txtLayer.backgroundColor = [UIColor redColor].CGColor;
-//    txtLayer.contentsScale = [UIScreen mainScreen].scale;
-//    txtLayer.alignmentMode = kCAAlignmentJustified;
-//    txtLayer.truncationMode = kCATruncationEnd;
-//
-//    CFStringRef fontName = (__bridge CFStringRef)font.fontName;
-//    CGFontRef fontRef = CGFontCreateWithFontName(fontName);
-//    txtLayer.font = fontRef;
-//    txtLayer.fontSize = font.pointSize;
-//    CGFontRelease(fontRef);
-//
-//    return txtLayer;
-//}
-
 - (void)setItemModel:(WLFeedModel *)itemModel {
     self.frame = itemModel.layout.profileFrame;
     _nameLayer.frame = itemModel.layout.nameFrame;
@@ -172,7 +156,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         
         _contentView = [[UIView alloc] initWithFrame:CGRectMake(cellPaddingLeft,
                                                                 cellPaddingTop,
-                                                                CGRectGetWidth(frame) - cellPaddingLeft * 2,
+                                                                cellContentWidth,
                                                                 0)];
         _contentView.backgroundColor = [UIColor yellowColor];
         [self addSubview:_contentView];
@@ -183,6 +167,9 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         _feedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
         _feedLabel.backgroundColor = [UIColor magentaColor];
         [_contentView addSubview:_feedLabel];
+        
+        _thumbView = [[FQThumbnailView alloc] initWithFrame:CGRectZero];
+        [_contentView addSubview:_thumbView];
         
         _cardView = [[WLFeedCardView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), cellCardHeight)];
         _cardView.hidden = YES;
@@ -214,15 +201,34 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     }
     
     {
-        CGRect cardFrame = _cardView.frame;
-        cardFrame.origin.y = CGRectGetMaxY(_feedLabel.frame);
-        _cardView.frame = cardFrame;
-        
-        if (itemModel.pageInfo) {
-            _cardView.hidden = NO;
-            [_cardView setItemModel:itemModel];
-        } else {
+        // 配图杀一切
+        if (itemModel.pics.count > 0) {
+            _thumbView.hidden = NO;
             _cardView.hidden = YES;
+            
+            [_thumbView setImages:itemModel.pics
+                         imgWidth:itemModel.layout.picSize.width
+                        imgHeight:itemModel.layout.picSize.height
+                          spacing:cellPicSpacing];
+            
+            CGRect thumbFrame = _thumbView.frame;
+            thumbFrame.origin.y = CGRectGetMaxY(_feedLabel.frame);
+            thumbFrame.size = itemModel.layout.picGroupSize;
+            _thumbView.frame = thumbFrame;
+            
+        } else {
+            _thumbView.hidden = YES;
+            
+            CGRect cardFrame = _cardView.frame;
+            cardFrame.origin.y = CGRectGetMaxY(_feedLabel.frame);
+            _cardView.frame = cardFrame;
+            
+            if (itemModel.pageInfo) {
+                _cardView.hidden = NO;
+                [_cardView setItemModel:itemModel];
+            } else {
+                _cardView.hidden = YES;
+            }
         }
     }
     

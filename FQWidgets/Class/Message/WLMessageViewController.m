@@ -62,9 +62,9 @@
     }
     
     {
-        FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithFrame:CGRectMake(20, kNavBarHeight + 70, kScreenWidth - 40, 350)];
-        [self.view addSubview:playerView];
-        self.playerView = playerView;
+//        FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithFrame:CGRectMake(20, kNavBarHeight + 70, kScreenWidth - 40, 350)];
+//        [self.view addSubview:playerView];
+//        self.playerView = playerView;
     }
 }
 
@@ -86,19 +86,19 @@
     }
     
     
-    CGRect frame = [self.thumbView frameWithImgArray:assetArray];
-    frame.origin.x = self.thumbView.frame.origin.x;
-    frame.origin.y = self.thumbView.frame.origin.y;
-    self.thumbView.frame = frame;
+//    CGRect frame = [self.thumbView frameWithImgArray:assetArray];
+//    frame.origin.x = self.thumbView.frame.origin.x;
+//    frame.origin.y = self.thumbView.frame.origin.y;
+//    self.thumbView.frame = frame;
 }
 
 #pragma mark - FQImagePickerControllerDelegate
 
 - (void)imagePickerController:(FQImagePickerController *)ctr didPickedImage:(UIImage *)image {
-    CGRect frame = [self.thumbView frameWithImgArray:@[image]];
-    frame.origin.x = self.thumbView.frame.origin.x;
-    frame.origin.y = self.thumbView.frame.origin.y;
-    self.thumbView.frame = frame;
+//    CGRect frame = [self.thumbView frameWithImgArray:@[image]];
+//    frame.origin.x = self.thumbView.frame.origin.x;
+//    frame.origin.y = self.thumbView.frame.origin.y;
+//    self.thumbView.frame = frame;
 }
 
 #pragma mark - Getter

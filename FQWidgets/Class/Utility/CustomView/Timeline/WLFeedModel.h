@@ -243,6 +243,9 @@ typedef NS_ENUM(NSUInteger, WLPictureBadgeType) {
 
 @property (nonatomic, assign) CGFloat textHeight;
 
+@property (nonatomic, assign) CGSize picSize;
+@property (nonatomic, assign) CGSize picGroupSize;
+
 @end
 
 /**

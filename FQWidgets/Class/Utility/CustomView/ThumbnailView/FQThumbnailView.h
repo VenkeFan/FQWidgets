@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class WLPicture;
 
 @interface FQThumbnailView : UIView
 
 - (CGRect)frameWithImgArray:(NSArray *)imgArray;
+- (void)setImages:(NSArray<WLPicture *> *)images
+         imgWidth:(CGFloat)imgWidth
+        imgHeight:(CGFloat)imgHeight
+          spacing:(CGFloat)spacing;
 
 @end

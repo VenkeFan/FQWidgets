@@ -80,30 +80,32 @@
 
 - (void)p_layoutFeedContentWithFeedModel:(WLFeedModel *)feedModel {
     CGFloat y = 0;
-    CGFloat width = kScreenWidth - cellPaddingLeft * 2;
     
-    CGFloat profileHeight = [self p_layoutProfileWithFeedModel:feedModel width:width];
-    feedModel.layout.profileFrame = CGRectMake(0, 0, width, profileHeight);
+    [self p_layoutProfileWithFeedModel:feedModel];
     y += CGRectGetHeight(feedModel.layout.profileFrame);
     
-    CGFloat textHeight = [self p_layoutText:feedModel.text width:width];
-    feedModel.layout.textHeight = textHeight;
-    y += textHeight;
+    [self p_layoutTextWithFeedModel:feedModel];
+    y += feedModel.layout.textHeight;
     
-    if (feedModel.pageInfo) {
-        y += cellCardHeight;
+    if (feedModel.pics.count > 0) {
+        [self p_layoutPictures:feedModel];
+        y += feedModel.layout.picGroupSize.height;
+    } else {
+        if (feedModel.pageInfo) {
+            y += cellCardHeight;
+        }
     }
     
-    feedModel.layout.contentFrame = CGRectMake(cellPaddingLeft, cellPaddingTop, width, y);
+    feedModel.layout.contentFrame = CGRectMake(cellPaddingLeft, cellPaddingTop, cellContentWidth, y);
     feedModel.layout.cellHeight = CGRectGetMaxY(feedModel.layout.contentFrame) + cellToolBarHeight + cellMarginY;
 }
 
-- (CGFloat)p_layoutProfileWithFeedModel:(WLFeedModel *)feedModel width:(CGFloat)width {
+- (void)p_layoutProfileWithFeedModel:(WLFeedModel *)feedModel {
     CGFloat x = cellAvatarSize + cellPaddingX;
     CGFloat y = kSizeScale(5);
     
     CGFloat nameHeight = [feedModel.user.screenName sizeWithAttributes:@{NSFontAttributeName: cellNameFont}].height;
-    CGRect nameFrame = CGRectMake(x, y, width - x, nameHeight);
+    CGRect nameFrame = CGRectMake(x, y, cellContentWidth - x, nameHeight);
     y += (nameHeight + kSizeScale(2));
     
     CGFloat timeHeight = [feedModel.source sizeWithAttributes:@{NSFontAttributeName: cellDateTimeFont}].height;
@@ -111,17 +113,64 @@
     
     feedModel.layout.nameFrame = nameFrame;
     feedModel.layout.timeFrame = timeFrame;
-    
-    return cellAvatarSize;
+    feedModel.layout.profileFrame = CGRectMake(0, 0, cellContentWidth, cellAvatarSize);
 }
 
-- (CGFloat)p_layoutText:(NSString *)text width:(CGFloat)width {
-    CGFloat height = [text boundingRectWithSize:CGSizeMake(width, kScreenHeight)
-                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                     attributes:@{NSFontAttributeName: cellBodyFont}
-                                        context:nil].size.height;
+- (void)p_layoutTextWithFeedModel:(WLFeedModel *)feedModel {
+    CGFloat height = [feedModel.text boundingRectWithSize:CGSizeMake(cellContentWidth, kScreenHeight)
+                                                  options:NSStringDrawingUsesLineFragmentOrigin
+                                               attributes:@{NSFontAttributeName: cellBodyFont}
+                                                  context:nil].size.height;
+    feedModel.layout.textHeight = height;
+}
+
+- (void)p_layoutPictures:(WLFeedModel *)feedModel {
+    if (feedModel.pics.count == 0) {
+        feedModel.layout.picSize = feedModel.layout.picGroupSize = CGSizeZero;
+        return;
+    }
     
-    return height;
+    if (feedModel.pics.count == 1) {
+        WLPicture *pic = feedModel.pics.firstObject;
+        CGSize newSize = CGSizeMake(pic.bmiddle.width, pic.bmiddle.height);
+        
+        CGFloat ratio = pic.bmiddle.width / (float)pic.bmiddle.height;
+        if (ratio <= 1.01 && ratio >= 0.99) {
+            // 方图
+            CGFloat squareWidth = cellContentWidth * 2 / 3.0;
+            newSize = CGSizeMake(squareWidth, squareWidth);
+        } else if (ratio > 1.01) {
+            // 宽图
+            CGFloat width = cellContentWidth * 2 / 3.0;
+            CGFloat height = cellContentWidth * 0.5;
+            newSize = CGSizeMake(width, height);
+        } else {
+            // 长图
+            CGFloat width = cellContentWidth * 0.5;
+            CGFloat height = cellContentWidth * 2 / 3.0;
+            newSize = CGSizeMake(width, height);
+        }
+        
+        feedModel.layout.picSize = feedModel.layout.picGroupSize = newSize;
+        return;
+    }
+    
+    NSInteger numberInRow = 3;
+    CGFloat picWidth = cellContentWidth / numberInRow - (numberInRow - 1) * cellPicSpacing;
+    
+    if (feedModel.pics.count == 4) {
+        numberInRow = 2;
+    }
+    
+    
+    CGFloat totalWidth = feedModel.pics.count >= numberInRow
+    ? numberInRow * (picWidth + cellPicSpacing) - cellPicSpacing
+    : feedModel.pics.count * (picWidth + cellPicSpacing) - cellPicSpacing;
+    
+    CGFloat totalHeight = ceilf((feedModel.pics.count / (float)numberInRow)) * (picWidth + cellPicSpacing) - cellPicSpacing;
+    
+    feedModel.layout.picSize = CGSizeMake(picWidth, picWidth);
+    feedModel.layout.picGroupSize = CGSizeMake(totalWidth, totalHeight);
 }
 
 #pragma mark - Getter

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class WLPicture;
 
 @interface FQImageBrowseItemModel : NSObject
 
-@property (nonatomic, weak) UIView *thumbView;
-@property (nonatomic, copy) NSString *imgURL;
+@property (nonatomic, weak) UIImageView *thumbView;
+@property (nonatomic, strong) WLPicture *imageInfo;
 
 @end
 

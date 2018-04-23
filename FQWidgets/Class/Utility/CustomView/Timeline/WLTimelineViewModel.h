@@ -13,6 +13,7 @@
 
 #define cellPaddingTop                      kSizeScale(10)  // 内容区域距上边的距离
 #define cellPaddingLeft                     kSizeScale(15)  // 内容区域距左边的距离
+#define cellContentWidth                    (kScreenWidth - cellPaddingLeft * 2) // cell内容区域宽度
 #define cellAvatarSize                      kSizeScale(46)  // 头像大小
 #define cellPaddingX                        kSizeScale(10)  // 内容之间的留白
 #define cellPaddingY                        kSizeScale(10)  // 内容之间的留白
@@ -20,6 +21,7 @@
 #define cellToolBarHeight                   kSizeScale(38)  // 底部操作栏高度
 #define cellCardHeight                      kSizeScale(96)  // 口香糖卡片高度
 #define cellVideoHeight                     kSizeScale(186) // 视频展示高度
+#define cellPicSpacing                      kSizeScale(5)   // 图片之间的间隔
 
 #define cellNameFont                        [UIFont systemFontOfSize:kSizeScale(16)]
 #define cellBodyFont                        [UIFont systemFontOfSize:kSizeScale(17)]

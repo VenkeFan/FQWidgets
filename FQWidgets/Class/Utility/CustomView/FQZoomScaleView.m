@@ -7,6 +7,7 @@
 //
 
 #import "FQZoomScaleView.h"
+#import "UIImageView+FQExtension.h"
 
 @interface FQZoomScaleView () <UIScrollViewDelegate>
 
@@ -39,6 +40,7 @@
         [self addGestureRecognizer:longPress];
         
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:self.bounds];
+//        imgView.contentMode = UIViewContentModeScaleToFill;
         imgView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:imgView];
         _imageView = imgView;
@@ -48,36 +50,9 @@
 
 #pragma mark - Public
 
-- (void)setImageWithUrlString:(NSString *)urlString {
-    if ([urlString isKindOfClass:[UIImage class]]) {
-        UIImage *img = (UIImage *)urlString;
-        [self setImage:img];
-        return;
-    }
-    
-    NSURL *url = nil;
-    if ([urlString isKindOfClass:[NSString class]]) {
-        url = [NSURL URLWithString:urlString];
-    } else if ([urlString isKindOfClass:[NSURL class]]) {
-        url = (NSURL *)urlString;
-    }
-    
-    if (!url) {
-        return;
-    }
-    
-    [_imageView setImageWithURL:url
-                        placeholder:nil
-                            options:YYWebImageOptionAvoidSetImage
-                         completion:^(UIImage * _Nullable image, NSURL * _Nonnull url, YYWebImageFromType from, YYWebImageStage stage, NSError * _Nullable error) {
-                             if (!image) {
-                                 return;
-                             }
-                             
-                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [self setImage:image];
-                             });
-                         }];
+- (void)setImageWithUrlString:(NSString *)urlString placeholder:(UIImage *)placeholder imageSize:(CGSize)imageSize {
+    [_imageView fq_setImageWithURLString:urlString placeholder:placeholder];
+    [self p_resizeImageView:_imageView imageSize:imageSize];
 }
 
 - (void)setImage:(UIImage *)image {
@@ -90,7 +65,7 @@
     [_imageView.layer addAnimation:transition forKey:@"ImageViewAnimationKey"];
     _imageView.image = image;
     
-    [self p_resizeImageView];
+    [self p_resizeImageView:_imageView imageSize:image.size];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -156,7 +131,7 @@
 
 #pragma mark - Private
 
-- (void)p_resizeImageView {
+- (void)p_resizeImageView:(UIImageView *)imageView imageSize:(CGSize)imageSize {
     /*
      单图：比例图宽=屏宽。
      图片实际宽度>=屏宽像素时，图宽缩放至=屏幕宽度。图高按比例缩放。
@@ -166,18 +141,11 @@
      缩放后图高>屏幕高度时，顶部对齐居上显示，可上下滑动。
      缩放后图高<=屏幕高度时，上下居中显示。
      */
-    if (!_imageView.image) {
-        self.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
-        self.contentOffset = CGPointZero;
-        self.zoomScale = 1.0;
-        return;
-    }
-    CGSize imgSize = _imageView.image.size;
     
     CGFloat newWidth = kScreenWidth;
-    CGFloat newHeight = imgSize.height / imgSize.width * newWidth;
+    CGFloat newHeight = imageSize.height / imageSize.width * newWidth;
     
-    _imageView.frame = CGRectMake(0, 0, newWidth, newHeight);
+    imageView.frame = CGRectMake(0, 0, newWidth, newHeight);
     if (newHeight > CGRectGetHeight(self.bounds)) {
         self.contentSize = CGSizeMake(newWidth, newHeight);
         self.contentOffset = CGPointZero;
@@ -185,7 +153,7 @@
         self.zoomScale = 1.0;
         self.contentSize = CGSizeMake(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
         self.contentOffset = CGPointZero;
-        _imageView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, CGRectGetHeight(self.frame) * 0.5);
+        imageView.center = CGPointMake(CGRectGetWidth(self.frame) * 0.5, CGRectGetHeight(self.frame) * 0.5);
     }
 }
 

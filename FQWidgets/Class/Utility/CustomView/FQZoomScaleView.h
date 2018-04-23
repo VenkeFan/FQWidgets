@@ -23,6 +23,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, weak) id<FQZoomScaleViewDelegate> zoomScaleDelegate;
 
-- (void)setImageWithUrlString:(NSString *)urlString;
+- (void)setImageWithUrlString:(NSString *)urlString placeholder:(UIImage *)placeholder imageSize:(CGSize)imageSize;
 
 @end

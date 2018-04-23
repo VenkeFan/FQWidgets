@@ -8,6 +8,7 @@
 
 #import "FQImageBrowseView.h"
 #import "FQZoomScaleView.h"
+#import "WLFeedModel.h"
 
 #define AnimateDuration         0.3
 
@@ -48,14 +49,9 @@
 - (void)setItem:(FQImageBrowseItemModel *)item {
     _item = item;
     
-    UIImage *img = nil;
-    if ([item.imgURL isKindOfClass:[NSString class]]) {
-        img = [UIImage imageNamed:item.imgURL];
-    } else if ([item.imgURL isKindOfClass:[UIImage class]]) {
-        img = (UIImage *)item.imgURL;
-    }
-    
-    [_scaleView setImage:img];
+    [_scaleView setImageWithUrlString:item.imageInfo.large.url.absoluteString
+                          placeholder:item.thumbView.image
+                            imageSize:CGSizeMake(item.imageInfo.large.width, item.imageInfo.large.height)];
 }
 
 #pragma mark - FQZoomScaleViewDelegate
@@ -75,6 +71,7 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
 @interface FQImageBrowseView () <FQImageBrowseCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, weak) UIView *contentView;
+
 @property (nonatomic, weak) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, weak) UIPageControl *pageControl;
@@ -112,8 +109,6 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     CGRect fromFrame = [fromView convertRect:fromView.bounds toView:toView];
     
     UIImageView *tmpView = [[UIImageView alloc] initWithFrame:fromFrame];
-//    tmpView.layer.contents = fromView.layer.contents;
-//    tmpView.layer.contentsGravity = kCAGravityResizeAspect;
     tmpView.image = fromView.image;
     tmpView.contentMode = UIViewContentModeScaleAspectFit;
     tmpView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -146,6 +141,7 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
                          cell.scaleView.zoomScale > cell.scaleView.minimumZoomScale
                          ? [cell.scaleView setZoomScale:cell.scaleView.minimumZoomScale]
                          : nil;
+                         cell.scaleView.contentOffset = CGPointZero;
                          
                          fromView.frame = toFrame;
                          self.contentView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
@@ -192,7 +188,7 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     if (gesture.state == UIGestureRecognizerStateChanged) {
         self.pageControl.hidden = YES;
         
-        CGFloat floatValue = (marginalValue-translationY)/marginalValue;
+        CGFloat floatValue = (marginalValue - translationY) / marginalValue;
         
         if (floatValue <= 0.7) {
             floatValue = 0.7;

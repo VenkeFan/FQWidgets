@@ -59,6 +59,7 @@
 		B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */; };
 		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
 		B90CA438208A154500BC14F4 /* CALayer+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */; };
+		B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */; };
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
 		B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */; };
@@ -196,6 +197,8 @@
 		B902D82E2080A6CB0080D294 /* FQNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQNavigationController.h; sourceTree = "<group>"; };
 		B90CA436208A154500BC14F4 /* CALayer+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+FQExtension.h"; sourceTree = "<group>"; };
 		B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+FQExtension.m"; sourceTree = "<group>"; };
+		B90CA439208DB5E600BC14F4 /* UIImageView+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FQExtension.h"; sourceTree = "<group>"; };
+		B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+FQExtension.m"; sourceTree = "<group>"; };
 		B94076092080CC940052AA40 /* FQAnimatedTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAnimatedTransitioning.h; sourceTree = "<group>"; };
 		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
 		B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCutImageViewController.h; sourceTree = "<group>"; };
@@ -450,6 +453,8 @@
 				B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */,
 				B90CA436208A154500BC14F4 /* CALayer+FQExtension.h */,
 				B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */,
+				B90CA439208DB5E600BC14F4 /* UIImageView+FQExtension.h */,
+				B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -857,6 +862,7 @@
 				B902D80B207E1A3F0080D294 /* FQPlayerOperateView.m in Sources */,
 				B902D807207E1A3F0080D294 /* FQRefreshHeader.m in Sources */,
 				B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */,
+				B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */,
 				B902D800207E1A3F0080D294 /* FQThumbnailView.m in Sources */,
 				B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */,
 				B902D809207E1A3F0080D294 /* FQTabBarView.m in Sources */,
