@@ -189,6 +189,10 @@
 }
 @end
 
+@implementation WLFeedLayout
+
+@end
+
 @implementation WLFeedModel
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"statusID" : @"id",
@@ -247,6 +251,11 @@
             _retweetedStatus.pageInfo = _pageInfo;
         }
     }
+    
+    if (!_layout) {
+        _layout = [[WLFeedLayout alloc] init];
+    }
+    
     return YES;
     
 }

@@ -23,6 +23,7 @@
 #define kHeaderFontColor        kUIColorFromRGB(0x313131)
 #define kNameFontColor          kUIColorFromRGB(0x313131)
 #define kBodyFontColor          kUIColorFromRGB(0x626262)
+#define kDescFontColor          kUIColorFromRGB(0x5C5C5C)
 #define kDateTimeFontColor      kUIColorFromRGB(0xAFB0B1)
 #define kLinkFontColor          kUIColorFromRGB(0x2B98EE)
 #define kLightFontColor         kUIColorFromRGB(0xC4C4C4)
@@ -31,6 +32,7 @@
 #define kHeaderFontSize         kSizeScale(20)
 #define kNameFontSize           kSizeScale(16)
 #define kBodyFontSize           kSizeScale(17)
+#define kDescFontSize           kSizeScale(15)
 #define kDateTimeFontSize       kSizeScale(12)
 #define kLinkFontSize           kSizeScale(14)
 #define kLightFontSize          kSizeScale(12)
@@ -40,6 +42,7 @@
 #define kNavBarTitleFont        kMediumFont(kHeaderFontSize)
 #define kNameFont               kMediumFont(kNameFontSize)
 #define kBodyFont               kMediumFont(kBodyFontSize)
+#define kDescFont               kMediumFont(kDescFontSize)
 #define kDateTimeFont           kMediumFont(kDateTimeFontSize)
 #define kLinkFont               kMediumFont(kLinkFontSize)
 

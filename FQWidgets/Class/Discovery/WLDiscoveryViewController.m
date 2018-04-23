@@ -17,7 +17,7 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 @interface WLDiscoveryViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) WLTimelineViewModel *viewModel;
-@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSArray<WLFeedModel *> *dataArray;
 
 @property (nonatomic, weak) UITableView *tableView;
 
@@ -28,13 +28,15 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = kUIColorFromRGB(0xF6F6F6);
     
     [self.tableView.mj_header beginRefreshing];
     
-    YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, 20, 0, 0)];
-    [fpsLabel sizeToFit];
-    [self.view addSubview:fpsLabel];
+    {
+        YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, 20, 0, 0)];
+        [fpsLabel sizeToFit];
+        [self.view addSubview:fpsLabel];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +48,7 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 
 - (void)refreshData {
     [self.viewModel fetchListWithFinished:^(BOOL succeed, BOOL hasMore) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (succeed) {
                 [self.tableView reloadData];
                 [self.tableView.mj_header endRefreshing];
@@ -61,7 +63,7 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 
 - (void)loadMoreData {
     [self.viewModel fetchMoreWithFinished:^(BOOL succeed, BOOL hasMore) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (succeed) {
                 [self.tableView reloadData];
                 [self.tableView.mj_footer endRefreshing];
@@ -80,16 +82,13 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
     return self.dataArray.count;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return [(WLFeedModel *)self.dataArray[indexPath.row] modelHeight];
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.dataArray[indexPath.row].layout.cellHeight; // cellPaddingTop + cellAvatarSize + cellMarginY;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     WLFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellID];
-    
-    cell.textLabel.text = [(WLFeedModel *)self.dataArray[indexPath.row] text];
-    cell.textLabel.textColor = kBodyFontColor;
-    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    [cell setItemModel:self.dataArray[indexPath.row]];
     
     return cell;
 }
@@ -110,10 +109,10 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 - (UITableView *)tableView {
     if (!_tableView) {
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - kNavBarHeight - kTabBarHeight)];
+        tableView.backgroundColor = [UIColor clearColor];
         tableView.delegate = self;
         tableView.dataSource = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        tableView.rowHeight = kSizeScale(50);
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[WLFeedCell class] forCellReuseIdentifier:reuseCellID];
         [self.view addSubview:tableView];
         _tableView = tableView;
