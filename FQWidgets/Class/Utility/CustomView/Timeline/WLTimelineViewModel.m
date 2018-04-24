@@ -82,22 +82,33 @@
     CGFloat y = 0;
     
     [self p_layoutProfileWithFeedModel:feedModel];
-    y += CGRectGetHeight(feedModel.layout.profileFrame);
+    y += (feedModel.layout.profileHeight + cellPaddingY);
     
     [self p_layoutTextWithFeedModel:feedModel];
-    y += feedModel.layout.textHeight;
+    feedModel.layout.textTop = y;
+    y += (feedModel.layout.textHeight + cellPaddingY);
     
-    if (feedModel.pics.count > 0) {
+    if (feedModel.retweetedStatus) {
+        y -= cellPaddingY;
+        [self p_layoutRetweeted:feedModel];
+        feedModel.layout.retweetedViewTop = y;
+        feedModel.retweetedStatus.layout.retweetedTextTop = y + cellPaddingY;
+        feedModel.retweetedStatus.layout.picGroupTop = feedModel.retweetedStatus.layout.retweetedTextTop + feedModel.retweetedStatus.layout.retweetedTextHeight + cellPaddingY;
+        feedModel.retweetedStatus.layout.cardTop = feedModel.retweetedStatus.layout.picGroupTop;
+        y += feedModel.layout.retweetedViewHeight;
+        
+    } else if (feedModel.pics.count > 0) {
         [self p_layoutPictures:feedModel];
-        y += feedModel.layout.picGroupSize.height;
-    } else {
-        if (feedModel.pageInfo) {
-            y += cellCardHeight;
-        }
+        feedModel.layout.picGroupTop = y;
+        y += (feedModel.layout.picGroupSize.height + cellPaddingY);
+        
+    } else if (feedModel.pageInfo) {
+        feedModel.layout.cardTop = y;
+        y += (cellCardHeight + cellPaddingY);
     }
     
-    feedModel.layout.contentFrame = CGRectMake(cellPaddingLeft, cellPaddingTop, cellContentWidth, y);
-    feedModel.layout.cellHeight = CGRectGetMaxY(feedModel.layout.contentFrame) + cellToolBarHeight + cellMarginY;
+    feedModel.layout.contentHeight = y;
+    feedModel.layout.cellHeight = cellPaddingTop + feedModel.layout.contentHeight + cellToolBarHeight + cellMarginY;
 }
 
 - (void)p_layoutProfileWithFeedModel:(WLFeedModel *)feedModel {
@@ -113,7 +124,7 @@
     
     feedModel.layout.nameFrame = nameFrame;
     feedModel.layout.timeFrame = timeFrame;
-    feedModel.layout.profileFrame = CGRectMake(0, 0, cellContentWidth, cellAvatarSize);
+    feedModel.layout.profileHeight = cellAvatarSize;
 }
 
 - (void)p_layoutTextWithFeedModel:(WLFeedModel *)feedModel {
@@ -162,7 +173,6 @@
         numberInRow = 2;
     }
     
-    
     CGFloat totalWidth = feedModel.pics.count >= numberInRow
     ? numberInRow * (picWidth + cellPicSpacing) - cellPicSpacing
     : feedModel.pics.count * (picWidth + cellPicSpacing) - cellPicSpacing;
@@ -171,6 +181,40 @@
     
     feedModel.layout.picSize = CGSizeMake(picWidth, picWidth);
     feedModel.layout.picGroupSize = CGSizeMake(totalWidth, totalHeight);
+}
+
+- (void)p_layoutRetweeted:(WLFeedModel *)feedModel {
+    CGFloat height = 0;
+    [self p_layoutRetweetedText:feedModel.retweetedStatus];
+    height += (feedModel.retweetedStatus.layout.retweetedTextHeight + cellPaddingY);
+    
+    if (feedModel.retweetedStatus.pics.count > 0) {
+        [self p_layoutRetweetedPics:feedModel.retweetedStatus];
+        height += (feedModel.retweetedStatus.layout.picGroupSize.height + cellPaddingY);
+    } else if (feedModel.retweetedStatus.pageInfo) {
+        height += (cellCardHeight + cellPaddingY);
+    }
+    
+    feedModel.layout.retweetedViewHeight = height + cellPaddingY;
+}
+
+- (void)p_layoutRetweetedText:(WLFeedModel *)feedModel {
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"@%@", feedModel.user.screenName] attributes:@{NSForegroundColorAttributeName: kLinkFontColor}];
+    
+    [attrStr appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@":%@", feedModel.text]
+                                                                    attributes:@{NSForegroundColorAttributeName: kBodyFontColor}]];
+    
+    [attrStr addAttributes:@{NSFontAttributeName: cellBodyFont} range:NSMakeRange(0, attrStr.string.length)];
+    
+    CGFloat height = [attrStr boundingRectWithSize:CGSizeMake(cellContentWidth, kScreenHeight)
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                           context:nil].size.height;
+    feedModel.layout.retweetedTextHeight = height;
+    feedModel.layout.retweetedText = attrStr;
+}
+
+- (void)p_layoutRetweetedPics:(WLFeedModel *)feedModel {
+    [self p_layoutPictures:feedModel];
 }
 
 #pragma mark - Getter

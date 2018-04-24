@@ -133,7 +133,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 }
 
 - (void)setItemModel:(WLFeedModel *)itemModel {
-    self.frame = itemModel.layout.profileFrame;
+    self.frame = CGRectMake(0, 0, cellContentWidth, itemModel.layout.profileHeight);
     _nameLayer.frame = itemModel.layout.nameFrame;
     _timeLayer.frame = itemModel.layout.timeFrame;
     
@@ -153,7 +153,6 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
-        
         _contentView = [[UIView alloc] initWithFrame:CGRectMake(cellPaddingLeft,
                                                                 cellPaddingTop,
                                                                 cellContentWidth,
@@ -167,6 +166,16 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         _feedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
         _feedLabel.backgroundColor = [UIColor magentaColor];
         [_contentView addSubview:_feedLabel];
+        
+        {
+            _retweetedView = [[UIView alloc] initWithFrame:CGRectMake(-cellPaddingLeft, 0, kScreenWidth, 0)];
+            _retweetedView.backgroundColor = [UIColor lightGrayColor]; // kUIColorFromRGB(0xF7F7F7);
+            [_contentView addSubview:_retweetedView];
+            
+            _retweetedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
+            _retweetedLabel.backgroundColor = [UIColor cyanColor];
+            [_contentView addSubview:_retweetedLabel];
+        }
         
         _thumbView = [[FQThumbnailView alloc] initWithFrame:CGRectZero];
         [_contentView addSubview:_thumbView];
@@ -184,7 +193,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 - (void)setItemModel:(WLFeedModel *)itemModel {
     {
         CGRect contentFrame = _contentView.frame;
-        contentFrame.size.height = itemModel.layout.contentFrame.size.height;
+        contentFrame.size.height = itemModel.layout.contentHeight;
         _contentView.frame = contentFrame;
     }
     
@@ -194,15 +203,60 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     
     {
         CGRect textFrame = _feedLabel.frame;
-        textFrame.origin.y = CGRectGetMaxY(itemModel.layout.profileFrame);
+        textFrame.origin.y = itemModel.layout.textTop; // CGRectGetMaxY(itemModel.layout.profileFrame);
         textFrame.size.height = itemModel.layout.textHeight;
         _feedLabel.frame = textFrame;
         _feedLabel.text = itemModel.text;
     }
     
     {
-        // 配图杀一切
-        if (itemModel.pics.count > 0) {
+        if (itemModel.retweetedStatus) {
+            _retweetedView.hidden = NO;
+            _retweetedLabel.hidden = NO;
+            
+            CGRect retweetedFrame = _retweetedView.frame;
+            retweetedFrame.origin.y = itemModel.layout.retweetedViewTop; // CGRectGetMaxY(_feedLabel.frame);
+            retweetedFrame.size.height = itemModel.layout.retweetedViewHeight;
+            _retweetedView.frame = retweetedFrame;
+            
+            CGRect retweetedLabFrame = _retweetedLabel.frame;
+            retweetedLabFrame.origin.y = itemModel.retweetedStatus.layout.retweetedTextTop; // CGRectGetMaxY(_feedLabel.frame);
+            retweetedLabFrame.size.height = itemModel.retweetedStatus.layout.retweetedTextHeight;
+            _retweetedLabel.frame = retweetedLabFrame;
+            _retweetedLabel.attributedText = itemModel.retweetedStatus.layout.retweetedText;
+            
+            if (itemModel.retweetedStatus.pics.count > 0) {
+                _thumbView.hidden = NO;
+                _cardView.hidden = YES;
+                
+                [_thumbView setImages:itemModel.retweetedStatus.pics
+                             imgWidth:itemModel.retweetedStatus.layout.picSize.width
+                            imgHeight:itemModel.retweetedStatus.layout.picSize.height
+                              spacing:cellPicSpacing];
+                
+                CGRect thumbFrame = _thumbView.frame;
+                thumbFrame.origin.y = itemModel.retweetedStatus.layout.picGroupTop; // CGRectGetMaxY(_retweetedLabel.frame);
+                thumbFrame.size = itemModel.retweetedStatus.layout.picGroupSize;
+                _thumbView.frame = thumbFrame;
+                
+            } else {
+                _thumbView.hidden = YES;
+                
+                if (itemModel.retweetedStatus.pageInfo) {
+                    _cardView.hidden = NO;
+                    [_cardView setItemModel:itemModel.retweetedStatus];
+                    
+                    CGRect cardFrame = _cardView.frame;
+                    cardFrame.origin.y = itemModel.retweetedStatus.layout.cardTop; // CGRectGetMaxY(_retweetedLabel.frame);
+                    _cardView.frame = cardFrame;
+                } else {
+                    _cardView.hidden = YES;
+                }
+            }
+            
+        } else if (itemModel.pics.count > 0) {
+            _retweetedView.hidden = YES;
+            _retweetedLabel.hidden = YES;
             _thumbView.hidden = NO;
             _cardView.hidden = YES;
             
@@ -212,20 +266,22 @@ CATextLayer * textLayerWithFont(UIFont *font) {
                           spacing:cellPicSpacing];
             
             CGRect thumbFrame = _thumbView.frame;
-            thumbFrame.origin.y = CGRectGetMaxY(_feedLabel.frame);
+            thumbFrame.origin.y = itemModel.layout.picGroupTop; // CGRectGetMaxY(_feedLabel.frame);
             thumbFrame.size = itemModel.layout.picGroupSize;
             _thumbView.frame = thumbFrame;
             
         } else {
+            _retweetedView.hidden = YES;
+            _retweetedLabel.hidden = YES;
             _thumbView.hidden = YES;
-            
-            CGRect cardFrame = _cardView.frame;
-            cardFrame.origin.y = CGRectGetMaxY(_feedLabel.frame);
-            _cardView.frame = cardFrame;
             
             if (itemModel.pageInfo) {
                 _cardView.hidden = NO;
                 [_cardView setItemModel:itemModel];
+                
+                CGRect cardFrame = _cardView.frame;
+                cardFrame.origin.y = itemModel.layout.cardTop; // CGRectGetMaxY(_feedLabel.frame);
+                _cardView.frame = cardFrame;
             } else {
                 _cardView.hidden = YES;
             }

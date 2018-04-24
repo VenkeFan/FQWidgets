@@ -557,9 +557,9 @@
 			isa = PBXGroup;
 			children = (
 				B902D7DB207E1A3F0080D294 /* FQTabBarController.h */,
-				B902D7DC207E1A3F0080D294 /* FQTabBarView.m */,
 				B902D7DD207E1A3F0080D294 /* FQTabBarController.m */,
 				B902D7DE207E1A3F0080D294 /* FQTabBarView.h */,
+				B902D7DC207E1A3F0080D294 /* FQTabBarView.m */,
 			);
 			path = TabBarController;
 			sourceTree = "<group>";

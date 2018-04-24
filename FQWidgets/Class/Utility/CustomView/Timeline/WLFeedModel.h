@@ -235,16 +235,28 @@ typedef NS_ENUM(NSUInteger, WLPictureBadgeType) {
 
 @property (nonatomic, assign) CGFloat cellHeight;
 
-@property (nonatomic, assign) CGRect contentFrame;
+@property (nonatomic, assign) CGFloat contentHeight;
 
-@property (nonatomic, assign) CGRect profileFrame;
+@property (nonatomic, assign) CGFloat profileHeight;
 @property (nonatomic, assign) CGRect nameFrame;
 @property (nonatomic, assign) CGRect timeFrame;
 
+@property (nonatomic, assign) CGFloat textTop;
 @property (nonatomic, assign) CGFloat textHeight;
 
 @property (nonatomic, assign) CGSize picSize;
 @property (nonatomic, assign) CGSize picGroupSize;
+@property (nonatomic, assign) CGFloat picGroupTop;
+
+@property (nonatomic, assign) CGFloat cardTop;
+
+@property (nonatomic, assign) CGFloat retweetedViewTop;
+@property (nonatomic, assign) CGFloat retweetedViewHeight;
+
+@property (nonatomic, assign) CGFloat retweetedTextTop;
+@property (nonatomic, assign) CGFloat retweetedTextHeight;
+
+@property (nonatomic, copy) NSAttributedString *retweetedText;
 
 @end
 

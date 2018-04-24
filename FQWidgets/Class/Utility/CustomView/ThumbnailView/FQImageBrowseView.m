@@ -108,15 +108,24 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     
     CGRect fromFrame = [fromView convertRect:fromView.bounds toView:toView];
     
+    UIImage *image = fromView.image;
+    CGFloat newWidth = CGRectGetWidth(self.frame);
+    CGFloat newHeight = image.size.height / image.size.width * newWidth;
+    CGFloat originY = kStatusBarHeight;
+    if (newHeight < CGRectGetHeight(self.frame)) {
+        newHeight = CGRectGetHeight(self.frame);
+        originY = 0;
+    }
+    
     UIImageView *tmpView = [[UIImageView alloc] initWithFrame:fromFrame];
-    tmpView.image = fromView.image;
+    tmpView.image = image;
     tmpView.contentMode = UIViewContentModeScaleAspectFit;
     tmpView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.contentView addSubview:tmpView];
     
     [UIView animateWithDuration:AnimateDuration
                      animations:^{
-                         tmpView.frame = self.frame;
+                         tmpView.frame = (CGRect){.origin = CGPointMake(0, originY), .size = CGSizeMake(newWidth, newHeight)};
                          self.alpha = 1.0;
                      }
                      completion:^(BOOL finished) {
@@ -189,12 +198,12 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
         self.pageControl.hidden = YES;
         
         CGFloat floatValue = (marginalValue - translationY) / marginalValue;
-        
         if (floatValue <= 0.7) {
             floatValue = 0.7;
         }
         self.collectionView.transform = CGAffineTransformTranslate(CGAffineTransformMakeScale(floatValue, floatValue), 0, translation.y);
         self.contentView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:floatValue];
+        
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
         if (translationY >= marginalValue) {
             [self p_dismissWithTranslationY:translation.y];

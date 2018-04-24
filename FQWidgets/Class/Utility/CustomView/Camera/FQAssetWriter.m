@@ -95,8 +95,8 @@
 }
 
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType {
-    if (_assetWriter.status == AVAssetWriterStatusUnknown){
-        if ([_assetWriter startWriting]){
+    if (_assetWriter.status == AVAssetWriterStatusUnknown) {
+        if ([_assetWriter startWriting]) {
             NSLog(@"开始写入");
             [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
         } else {
@@ -104,19 +104,19 @@
         }
     }
     
-    if (_assetWriter.status == AVAssetWriterStatusWriting){
-        if (mediaType == AVMediaTypeVideo){
-            if (!_assetVideoInput.readyForMoreMediaData){
+    if (_assetWriter.status == AVAssetWriterStatusWriting) {
+        if (mediaType == AVMediaTypeVideo) {
+            if (!_assetVideoInput.readyForMoreMediaData) {
                 return;
             }
-            if (![_assetVideoInput appendSampleBuffer:sampleBuffer]){
+            if (![_assetVideoInput appendSampleBuffer:sampleBuffer]) {
                 NSLog(@"写入中途错误: %@", _assetWriter.error);
             }
-        } else if (mediaType == AVMediaTypeAudio){
-            if (!_assetAudioInput.readyForMoreMediaData){
+        } else if (mediaType == AVMediaTypeAudio) {
+            if (!_assetAudioInput.readyForMoreMediaData) {
                 return;
             }
-            if (![_assetAudioInput appendSampleBuffer:sampleBuffer]){
+            if (![_assetAudioInput appendSampleBuffer:sampleBuffer]) {
                 NSLog(@"写入中途错误: %@", _assetWriter.error);
             }
         }
@@ -131,9 +131,9 @@
     NSUInteger numPixels = dimensions.width * dimensions.height;
     NSUInteger bitsPerSecond;
     
-    if (numPixels < (640 * 480)){
+    if (numPixels < (640 * 480)) {
         bitsPerPixel = 4.05;
-    } else{
+    } else {
         bitsPerPixel = 11.4;
     }
     
@@ -168,10 +168,9 @@
     const AudioChannelLayout *currentChannelLayout = CMAudioFormatDescriptionGetChannelLayout(currentFormatDescription, &aclSize);
     
     NSData *currentChannelLayoutData = nil;
-    if (currentChannelLayout && aclSize > 0 ){
+    if (currentChannelLayout && aclSize > 0 ) {
         currentChannelLayoutData = [NSData dataWithBytes:currentChannelLayout length:aclSize];
-    }
-    else{
+    } else {
         currentChannelLayoutData = [NSData data];
     }
     
@@ -185,9 +184,9 @@
         _assetAudioInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeAudio outputSettings:audioCompressionSettings];
         _assetAudioInput.expectsMediaDataInRealTime = YES;
         
-        if ([_assetWriter canAddInput:_assetAudioInput]){
+        if ([_assetWriter canAddInput:_assetAudioInput]) {
             [_assetWriter addInput:_assetAudioInput];
-        } else{
+        } else {
             _readyToRecordAudio = NO;
             NSLog(@"AssetWriter add AudioInput error");
         }
@@ -203,7 +202,7 @@
     if ([fileManager fileExistsAtPath:self.filePath.path]){
         NSError *error;
         BOOL success = [fileManager removeItemAtPath:self.filePath.path error:&error];
-        if (!success){
+        if (!success) {
             NSLog(@"%@", error);
         } else {
             NSLog(@"删除视频文件成功");
