@@ -25,6 +25,8 @@
 
 @implementation FQThumbnailView
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor redColor];
@@ -35,47 +37,47 @@
 
 #pragma mark - Public
 
-- (CGRect)frameWithImgArray:(NSArray *)imgArray {
-    _imgArray = imgArray;
-    
-    [self.imgViewArray removeAllObjects];
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    if (imgArray.count == 0) {
-        return CGRectZero;
-    }
-    
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
-    
-    if (imgArray.count == 1) {
-        UIImageView *imgView = [self p_imageViewWithImageName:imgArray[0]];
-        [contentView addSubview:imgView];
-        CGSize size = [self p_resizeImageView:imgView];
-        imgView.frame = CGRectMake(0, 0, size.width, size.height);
-        contentView.frame = imgView.frame;
-        
-        return contentView.frame;;
-    }
-    
-    
-    CGFloat width = ThumbnailWidth;
-    CGRect frame = contentView.frame;
-    frame.size.width = imgArray.count >= self.numberInRow
-    ? self.numberInRow * (width + Spacing) - Spacing
-    : imgArray.count * (width + Spacing) - Spacing;
-    frame.size.height = ceilf((imgArray.count / (float)self.numberInRow)) * (width + Spacing) - Spacing;
-    contentView.frame = frame;
-    
-    for (int i = 0; i < imgArray.count; i++) {
-        UIImageView *imgView = [self p_imageViewWithImageName:imgArray[i]];
-        imgView.frame = CGRectMake((i % self.numberInRow) * (width + Spacing), ( i /self.numberInRow) * (width + Spacing), width, width);
-        imgView.contentMode = UIViewContentModeScaleAspectFill;
-        [contentView addSubview:imgView];
-    }
-    
-    return contentView.frame;
-}
+//- (CGRect)frameWithImgArray:(NSArray *)imgArray {
+//    _imgArray = imgArray;
+//    
+//    [self.imgViewArray removeAllObjects];
+//    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//    
+//    if (imgArray.count == 0) {
+//        return CGRectZero;
+//    }
+//    
+//    UIView *contentView = [[UIView alloc] init];
+//    [self addSubview:contentView];
+//    
+//    if (imgArray.count == 1) {
+//        UIImageView *imgView = [self p_imageViewWithImageName:imgArray[0]];
+//        [contentView addSubview:imgView];
+//        CGSize size = [self p_resizeImageView:imgView];
+//        imgView.frame = CGRectMake(0, 0, size.width, size.height);
+//        contentView.frame = imgView.frame;
+//        
+//        return contentView.frame;;
+//    }
+//    
+//    
+//    CGFloat width = ThumbnailWidth;
+//    CGRect frame = contentView.frame;
+//    frame.size.width = imgArray.count >= self.numberInRow
+//    ? self.numberInRow * (width + Spacing) - Spacing
+//    : imgArray.count * (width + Spacing) - Spacing;
+//    frame.size.height = ceilf((imgArray.count / (float)self.numberInRow)) * (width + Spacing) - Spacing;
+//    contentView.frame = frame;
+//    
+//    for (int i = 0; i < imgArray.count; i++) {
+//        UIImageView *imgView = [self p_imageViewWithImageName:imgArray[i]];
+//        imgView.frame = CGRectMake((i % self.numberInRow) * (width + Spacing), ( i /self.numberInRow) * (width + Spacing), width, width);
+//        imgView.contentMode = UIViewContentModeScaleAspectFill;
+//        [contentView addSubview:imgView];
+//    }
+//    
+//    return contentView.frame;
+//}
 
 - (void)setImages:(NSArray<WLPicture *> *)images
          imgWidth:(CGFloat)imgWidth

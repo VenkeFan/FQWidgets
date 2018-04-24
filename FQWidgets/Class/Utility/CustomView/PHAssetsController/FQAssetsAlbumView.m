@@ -17,6 +17,8 @@
 
 @implementation FQAssetsAlbumView
 
+#pragma mark - LifeCycle
+
 - (instancetype)init {
     if (self = [super initWithFrame:[UIScreen mainScreen].bounds]) {
         self.hidden = YES;

@@ -160,30 +160,34 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         _contentView.backgroundColor = [UIColor yellowColor];
         [self addSubview:_contentView];
         
+        // profile
         _profileView = [[WLFeedProfileView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
         [_contentView addSubview:_profileView];
         
+        // text
         _feedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
         _feedLabel.backgroundColor = [UIColor magentaColor];
         [_contentView addSubview:_feedLabel];
         
-        {
-            _retweetedView = [[UIView alloc] initWithFrame:CGRectMake(-cellPaddingLeft, 0, kScreenWidth, 0)];
-            _retweetedView.backgroundColor = [UIColor lightGrayColor]; // kUIColorFromRGB(0xF7F7F7);
-            [_contentView addSubview:_retweetedView];
-            
-            _retweetedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
-            _retweetedLabel.backgroundColor = [UIColor cyanColor];
-            [_contentView addSubview:_retweetedLabel];
-        }
+        // retweet
+        _retweetedView = [[UIView alloc] initWithFrame:CGRectMake(-cellPaddingLeft, 0, kScreenWidth, 0)];
+        _retweetedView.backgroundColor = [UIColor lightGrayColor]; // kUIColorFromRGB(0xF7F7F7);
+        [_contentView addSubview:_retweetedView];
         
+        _retweetedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
+        _retweetedLabel.backgroundColor = [UIColor cyanColor];
+        [_contentView addSubview:_retweetedLabel];
+        
+        // pictures
         _thumbView = [[FQThumbnailView alloc] initWithFrame:CGRectZero];
         [_contentView addSubview:_thumbView];
         
+        // card
         _cardView = [[WLFeedCardView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), cellCardHeight)];
         _cardView.hidden = YES;
         [_contentView addSubview:_cardView];
         
+        // toolbar
         _toolBar = [[WLFeedToolBar alloc] init];
         [self addSubview:_toolBar];
     }
@@ -203,7 +207,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     
     {
         CGRect textFrame = _feedLabel.frame;
-        textFrame.origin.y = itemModel.layout.textTop; // CGRectGetMaxY(itemModel.layout.profileFrame);
+        textFrame.origin.y = itemModel.layout.textTop;
         textFrame.size.height = itemModel.layout.textHeight;
         _feedLabel.frame = textFrame;
         _feedLabel.text = itemModel.text;
@@ -215,12 +219,12 @@ CATextLayer * textLayerWithFont(UIFont *font) {
             _retweetedLabel.hidden = NO;
             
             CGRect retweetedFrame = _retweetedView.frame;
-            retweetedFrame.origin.y = itemModel.layout.retweetedViewTop; // CGRectGetMaxY(_feedLabel.frame);
+            retweetedFrame.origin.y = itemModel.layout.retweetedViewTop;
             retweetedFrame.size.height = itemModel.layout.retweetedViewHeight;
             _retweetedView.frame = retweetedFrame;
             
             CGRect retweetedLabFrame = _retweetedLabel.frame;
-            retweetedLabFrame.origin.y = itemModel.retweetedStatus.layout.retweetedTextTop; // CGRectGetMaxY(_feedLabel.frame);
+            retweetedLabFrame.origin.y = itemModel.retweetedStatus.layout.retweetedTextTop;
             retweetedLabFrame.size.height = itemModel.retweetedStatus.layout.retweetedTextHeight;
             _retweetedLabel.frame = retweetedLabFrame;
             _retweetedLabel.attributedText = itemModel.retweetedStatus.layout.retweetedText;
@@ -235,7 +239,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
                               spacing:cellPicSpacing];
                 
                 CGRect thumbFrame = _thumbView.frame;
-                thumbFrame.origin.y = itemModel.retweetedStatus.layout.picGroupTop; // CGRectGetMaxY(_retweetedLabel.frame);
+                thumbFrame.origin.y = itemModel.retweetedStatus.layout.picGroupTop;
                 thumbFrame.size = itemModel.retweetedStatus.layout.picGroupSize;
                 _thumbView.frame = thumbFrame;
                 
@@ -247,7 +251,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
                     [_cardView setItemModel:itemModel.retweetedStatus];
                     
                     CGRect cardFrame = _cardView.frame;
-                    cardFrame.origin.y = itemModel.retweetedStatus.layout.cardTop; // CGRectGetMaxY(_retweetedLabel.frame);
+                    cardFrame.origin.y = itemModel.retweetedStatus.layout.cardTop;
                     _cardView.frame = cardFrame;
                 } else {
                     _cardView.hidden = YES;
@@ -266,7 +270,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
                           spacing:cellPicSpacing];
             
             CGRect thumbFrame = _thumbView.frame;
-            thumbFrame.origin.y = itemModel.layout.picGroupTop; // CGRectGetMaxY(_feedLabel.frame);
+            thumbFrame.origin.y = itemModel.layout.picGroupTop;
             thumbFrame.size = itemModel.layout.picGroupSize;
             _thumbView.frame = thumbFrame;
             
@@ -280,7 +284,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
                 [_cardView setItemModel:itemModel];
                 
                 CGRect cardFrame = _cardView.frame;
-                cardFrame.origin.y = itemModel.layout.cardTop; // CGRectGetMaxY(_feedLabel.frame);
+                cardFrame.origin.y = itemModel.layout.cardTop;
                 _cardView.frame = cardFrame;
             } else {
                 _cardView.hidden = YES;

@@ -11,7 +11,7 @@
 
 @interface FQThumbnailView : UIView
 
-- (CGRect)frameWithImgArray:(NSArray *)imgArray;
+//- (CGRect)frameWithImgArray:(NSArray *)imgArray;
 - (void)setImages:(NSArray<WLPicture *> *)images
          imgWidth:(CGFloat)imgWidth
         imgHeight:(CGFloat)imgHeight

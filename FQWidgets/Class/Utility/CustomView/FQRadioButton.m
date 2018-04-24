@@ -19,6 +19,8 @@ static NSMutableDictionary *_groupRadioDic = nil;
 
 @implementation FQRadioButton
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithGroupName:(NSString *)groupName {
     if (self = [super init]) {
         self.exclusiveTouch = YES;

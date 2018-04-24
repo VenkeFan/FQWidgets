@@ -37,6 +37,8 @@
 
 @implementation FQImageBrowseCell
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _scaleView = [[FQZoomScaleView alloc] initWithFrame:self.bounds];
@@ -45,6 +47,8 @@
     }
     return self;
 }
+
+#pragma mark - Public
 
 - (void)setItem:(FQImageBrowseItemModel *)item {
     _item = item;
@@ -79,6 +83,8 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
 @end
 
 @implementation FQImageBrowseView
+
+#pragma mark - LifeCycle
 
 - (instancetype)initWithItemArray:(NSArray<FQImageBrowseItemModel *> *)itemArry {
     if (itemArry.count == 0) {
@@ -243,11 +249,9 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     [UIView animateWithDuration:AnimateDuration
                      animations:^(){
                          if(translationY > 0) {
-                             self.collectionView.transform = CGAffineTransformTranslate(CGAffineTransformMakeScale(self.collectionView.transform.a, self.collectionView.transform.a),
-                                                                                        0, kScreenHeight);
+                             self.collectionView.transform = CGAffineTransformTranslate(CGAffineTransformMakeScale(self.collectionView.transform.a, self.collectionView.transform.a), 0, kScreenHeight);
                          } else {
-                             self.collectionView.transform = CGAffineTransformTranslate(CGAffineTransformMakeScale(self.collectionView.transform.a, self.collectionView.transform.a),
-                                                                                        0, -kScreenHeight);
+                             self.collectionView.transform = CGAffineTransformTranslate(CGAffineTransformMakeScale(self.collectionView.transform.a, self.collectionView.transform.a), 0, -kScreenHeight);
                          }
                          
                          self.alpha = 0.0;

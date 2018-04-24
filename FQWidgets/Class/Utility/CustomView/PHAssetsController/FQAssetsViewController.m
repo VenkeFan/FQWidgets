@@ -38,6 +38,8 @@
 
 @implementation FQAssetsCollectionCell
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.contentView.layer.masksToBounds = YES;
@@ -45,6 +47,8 @@
     }
     return self;
 }
+
+#pragma mark - Public
 
 - (void)setItemModel:(FQAssetModel *)itemModel {
     _itemModel = itemModel;
@@ -208,6 +212,8 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 @end
 
 @implementation FQAssetsViewController
+
+#pragma mark - LifeCycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];

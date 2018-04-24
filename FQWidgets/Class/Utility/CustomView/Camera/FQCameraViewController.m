@@ -344,28 +344,24 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
     
     switch ([UIDevice currentDevice].orientation) {
         case UIDeviceOrientationFaceUp:
-            NSLog(@"屏幕朝上平躺");
+            
             break;
         case UIDeviceOrientationFaceDown:
-            NSLog(@"屏幕朝下平躺");
+            
             break;
         case UIDeviceOrientationUnknown:
-            NSLog(@"未知方向");
+            
             break;
         case UIDeviceOrientationLandscapeLeft:
-            NSLog(@"屏幕向左橫置");
             videoOrientation = AVCaptureVideoOrientationLandscapeRight;
             break;
         case UIDeviceOrientationLandscapeRight:
-            NSLog(@"屏幕向右橫置");
             videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
             break;
         case UIDeviceOrientationPortrait:
-            NSLog(@"屏幕直立");
             videoOrientation = AVCaptureVideoOrientationPortrait;
             break;
         case UIDeviceOrientationPortraitUpsideDown:
-            NSLog(@"屏幕直立，上下顛倒");
             videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
             break;
     }

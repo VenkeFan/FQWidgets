@@ -10,6 +10,8 @@
 
 @implementation FQAssetModel
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithType:(FQAssetModelType)type asset:(PHAsset *)asset {
     if (self = [super init]) {
         _type = type;

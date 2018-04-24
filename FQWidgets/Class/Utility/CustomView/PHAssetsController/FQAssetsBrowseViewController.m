@@ -24,6 +24,8 @@
 
 @implementation FQAssetsBrowseCell
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.scaleView];
@@ -31,6 +33,8 @@
     }
     return self;
 }
+
+#pragma mark - Public
 
 - (void)setItemModel:(FQAssetModel *)itemModel {
     _itemModel = itemModel;
@@ -70,7 +74,6 @@
                                                                                               resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
                                                                                                   [self.playerView setAsset:asset];
                                                                                               }];
-                                                    
                                                 }
                                             }];
     
@@ -120,6 +123,8 @@ static NSString * const reusCellID = @"FQAssetsBrowseCell";
 @end
 
 @implementation FQAssetsBrowseViewController
+
+#pragma mark - LifeCycle
 
 - (instancetype)initWithItemArray:(NSArray<FQAssetModel *> *)itemArray checkedNumber:(NSInteger)checkedNumber {
     if (self = [super init]) {

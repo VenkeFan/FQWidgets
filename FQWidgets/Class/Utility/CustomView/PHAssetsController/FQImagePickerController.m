@@ -25,6 +25,8 @@
 
 @implementation FQImagePickerCollectionCell
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.contentView.layer.masksToBounds = YES;
@@ -32,6 +34,8 @@
     }
     return self;
 }
+
+#pragma mark - Public
 
 - (void)setItemModel:(FQAssetModel *)itemModel {
     _itemModel = itemModel;
@@ -98,6 +102,8 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 @implementation FQImagePickerController
 
+#pragma mark - LifeCycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -142,7 +148,7 @@ UICollectionViewDelegate, UICollectionViewDataSource> {
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 - (void)dealloc {

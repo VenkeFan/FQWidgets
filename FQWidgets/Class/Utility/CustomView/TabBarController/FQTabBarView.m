@@ -22,14 +22,14 @@
 
 @implementation FQTabBarView
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self layoutUI];
     }
     return self;
 }
-
-#pragma mark - UI
 
 - (void)layoutUI {
     self.backgroundColor = [UIColor whiteColor];
@@ -173,6 +173,8 @@
 @end
 
 @implementation FQTabBarItem
+
+#pragma mark - LifeCycle
 
 - (instancetype)initWithType:(FQTabBarItemType)type {
     if (self = [self initWithFrame:CGRectMake(0, 0, kSingleTabBarHeight, kSingleTabBarHeight)]) {

@@ -85,6 +85,38 @@
     NSLog(@"FQCutImageViewController dealloc");
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return self.imageView;
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
+    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+
+    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
+    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+
+    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+                                    scrollView.contentSize.height * 0.5 + offsetY);
+    
+    if (self.imageView.frame.size.height <= CGRectGetHeight(scrollView.bounds)) {
+        scrollView.contentSize = scrollView.bounds.size;
+        scrollView.contentOffset = CGPointZero;
+        self.imageView.center = CGPointMake(CGRectGetWidth(self.scaleView.frame) * 0.5,
+                                        CGRectGetHeight(self.scaleView.frame) * 0.5);
+    }
+
+    [self p_setContentInsets];
+    
+//    NSLog(@"imageViewFrame: (%f, %f, %f, %f)", self.imageView.frame.origin.x, self.imageView.frame.origin.y, self.imageView.frame.size.width, self.imageView.frame.size.height);
+//    NSLog(@"contentInset: (%f, %f, %f, %f)", scrollView.contentInset.top, scrollView.contentInset.left, scrollView.contentInset.bottom, scrollView.contentInset.right);
+//    NSLog(@"contentSize: (%f, %f)", scrollView.contentSize.width, scrollView.contentSize.height);
+//    NSLog(@"contentOffset: (%f, %f)", scrollView.contentOffset.x, scrollView.contentOffset.y);
+//    NSLog(@"******************************************************************************************************");
+}
+
 #pragma mark - Private
 
 - (void)p_setImageViewWithImage:(UIImage *)image {
@@ -122,38 +154,6 @@
     CGFloat top = ABS(CutImageFrame.origin.y - self.imageView.frame.origin.y);
     
     self.scaleView.contentInset = UIEdgeInsetsMake(top, left, top, left);
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.imageView;
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width) ?
-    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-
-    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height) ?
-    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-
-    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                    scrollView.contentSize.height * 0.5 + offsetY);
-    
-    if (self.imageView.frame.size.height <= CGRectGetHeight(scrollView.bounds)) {
-        scrollView.contentSize = scrollView.bounds.size;
-        scrollView.contentOffset = CGPointZero;
-        self.imageView.center = CGPointMake(CGRectGetWidth(self.scaleView.frame) * 0.5,
-                                        CGRectGetHeight(self.scaleView.frame) * 0.5);
-    }
-
-    [self p_setContentInsets];
-    
-//    NSLog(@"imageViewFrame: (%f, %f, %f, %f)", self.imageView.frame.origin.x, self.imageView.frame.origin.y, self.imageView.frame.size.width, self.imageView.frame.size.height);
-//    NSLog(@"contentInset: (%f, %f, %f, %f)", scrollView.contentInset.top, scrollView.contentInset.left, scrollView.contentInset.bottom, scrollView.contentInset.right);
-//    NSLog(@"contentSize: (%f, %f)", scrollView.contentSize.width, scrollView.contentSize.height);
-//    NSLog(@"contentOffset: (%f, %f)", scrollView.contentOffset.x, scrollView.contentOffset.y);
-//    NSLog(@"******************************************************************************************************");
 }
 
 #pragma mark - Event

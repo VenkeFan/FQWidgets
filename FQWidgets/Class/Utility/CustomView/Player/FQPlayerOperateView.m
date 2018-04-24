@@ -12,11 +12,6 @@
 
 @property (nonatomic, weak) UIActivityIndicatorView *indicatorView;
 @property (nonatomic, weak) UIButton *playBtn;
-
-//@property (nonatomic, weak) UIView *controlView;
-//@property (nonatomic, strong) UIButton *ctrPlayBtn;
-//@property (nonatomic, strong) UIButton *ctrStopBtn;
-
 @property (nonatomic, weak) UIView *progressView;
 @property (nonatomic, strong) UILabel *leftLab;
 @property (nonatomic, strong) UILabel *rightLab;
@@ -26,6 +21,8 @@
 @end
 
 @implementation FQPlayerOperateView
+
+#pragma mark - LifeCycle
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -38,12 +35,6 @@
 }
 
 - (void)layoutSubviews {
-//    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.mas_equalTo(self);
-//        make.top.mas_equalTo(self);
-//        make.height.mas_equalTo(kSizeScale(35));
-//    }];
-    
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self);
         make.bottom.mas_equalTo(self);
@@ -118,11 +109,9 @@
         case FQPlayerViewStatus_ReadyToPlay:
             break;
         case FQPlayerViewStatus_Playing:
-//            [self.ctrPlayBtn setTitle:@"暂停" forState:UIControlStateNormal];
             self.playBtn.hidden = YES;
             break;
         case FQPlayerViewStatus_Paused:
-//            [self.ctrPlayBtn setTitle:@"播放" forState:UIControlStateNormal];
             self.playBtn.hidden = NO;
             break;
         case FQPlayerViewStatus_CachingPaused:
@@ -277,54 +266,6 @@
 }
 
 #pragma mark ControlView
-
-//- (UIView *)controlView {
-//    if (!_controlView) {
-//        UIView *view = [[UIView alloc] init];
-//        view.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.6];
-//        [self addSubview:view];
-//        _controlView = view;
-//
-//        [view addSubview:self.ctrPlayBtn];
-//        [self.ctrPlayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.center.mas_equalTo(view);
-//        }];
-//
-//        [view addSubview:self.ctrStopBtn];
-//        [self.ctrStopBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(self.ctrPlayBtn.mas_right).offset(kSizeScale(20));
-//            make.centerY.mas_equalTo(self.ctrPlayBtn);
-//        }];
-//    }
-//    return _controlView;
-//}
-//
-//- (UIButton *)ctrPlayBtn {
-//    if (!_ctrPlayBtn) {
-//        UIButton *btn = [self buttonWithTitle:@"播放"];
-//        [btn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        _ctrPlayBtn = btn;
-//    }
-//    return _ctrPlayBtn;
-//}
-//
-//- (UIButton *)ctrStopBtn {
-//    if (!_ctrStopBtn) {
-//        UIButton *btn = [self buttonWithTitle:@"停止"];
-//        [btn addTarget:self action:@selector(stopBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        _ctrStopBtn = btn;
-//    }
-//    return _ctrStopBtn;
-//}
-
-- (UIButton *)buttonWithTitle:(NSString *)title {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [btn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
-    
-    return btn;
-}
 
 - (UIButton *)playBtn {
     if (!_playBtn) {

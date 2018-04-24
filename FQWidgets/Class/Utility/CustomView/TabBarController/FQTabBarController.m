@@ -17,6 +17,8 @@
 
 @implementation FQTabBarController
 
+#pragma mark - LifeCycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -62,7 +64,6 @@
     [self addChildViewController:subCtr];
     CGRect frame = subCtr.view.frame;
     frame.size.height -= (kTabBarHeight);
-//    subCtr.view.frame = frame;
     subCtr.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - kTabBarHeight);
     [self.view insertSubview:subCtr.view belowSubview:self.tabBarView];
 }

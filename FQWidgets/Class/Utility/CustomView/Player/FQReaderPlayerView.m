@@ -23,6 +23,8 @@
 
 @implementation FQReaderPlayerView
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithAsset:(AVAsset *)asset {
     if (self = [self initWithFrame:CGRectZero]) {
         _asset = asset;

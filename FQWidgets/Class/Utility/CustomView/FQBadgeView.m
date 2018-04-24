@@ -24,13 +24,16 @@ static NSUInteger const FQBadgeViewMaxNumber = 99;
 
 @implementation FQBadgeView
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithParentView:(UIView *)parentView {
     if (self = [super initWithFrame:CGRectMake(0, 0, FQBadgeViewSize, FQBadgeViewSize)]) {
         [parentView addSubview:self];
         _adjustX = kSizeScale(-5);
         _adjustY = kSizeScale(5);
         
-        [self layoutUI];
+        [self.layer addSublayer:self.shapeLayer];
+        [self.shapeLayer addSublayer:self.txtLayer];
     }
     return self;
 }
@@ -44,11 +47,6 @@ static NSUInteger const FQBadgeViewMaxNumber = 99;
     CGSize fontSize = [(NSString *)self.txtLayer.string sizeWithAttributes:@{NSFontAttributeName: self.font}];
     self.txtLayer.frame = CGRectMake(0, 0, fontSize.width, fontSize.height);
     self.txtLayer.position = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2);
-}
-
-- (void)layoutUI {
-    [self.layer addSublayer:self.shapeLayer];
-    [self.shapeLayer addSublayer:self.txtLayer];
 }
 
 #pragma mark - Setter

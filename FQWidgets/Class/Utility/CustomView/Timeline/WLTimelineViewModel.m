@@ -11,8 +11,6 @@
 @interface WLTimelineViewModel () {
     NSInteger _totalPage;
     NSInteger _pageIndex;
-    
-    BOOL _hasMore;
 }
 
 @property (nonatomic, strong) NSMutableArray<WLFeedModel *> *mutDataArray;
@@ -146,11 +144,11 @@
         CGSize newSize = CGSizeMake(pic.bmiddle.width, pic.bmiddle.height);
         
         CGFloat ratio = pic.bmiddle.width / (float)pic.bmiddle.height;
-        if (ratio <= 1.01 && ratio >= 0.99) {
+        if (ratio <= 1.1 && ratio >= 0.90) {
             // 方图
             CGFloat squareWidth = cellContentWidth * 2 / 3.0;
             newSize = CGSizeMake(squareWidth, squareWidth);
-        } else if (ratio > 1.01) {
+        } else if (ratio > 1.1) {
             // 宽图
             CGFloat width = cellContentWidth * 2 / 3.0;
             CGFloat height = cellContentWidth * 0.5;
