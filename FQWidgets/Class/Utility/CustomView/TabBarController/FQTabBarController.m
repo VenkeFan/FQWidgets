@@ -7,7 +7,6 @@
 //
 
 #import "FQTabBarController.h"
-#import "WLPublishViewController.h"
 
 @interface FQTabBarController () <FQTabBarViewDelegate>
 
