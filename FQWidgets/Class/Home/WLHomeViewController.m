@@ -7,13 +7,17 @@
 //
 
 #import "WLHomeViewController.h"
+#import "FQRefreshHeader.h"
+#import "UIScrollView+FQExtension.h"
 
-#import "FQThumbnailView.h"
-#import "FQImageButton.h"
+static NSString * const reuseCellID = @"WLFeedCell";
 
-@interface WLHomeViewController ()
+@interface WLHomeViewController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewEmptyDelegate, UIScrollViewEmptyDataSource> {
+    NSInteger _random;
+}
 
-@property (nonatomic, copy) NSArray *imgArray;
+@property (nonatomic, copy) NSArray *dataArray;
+@property (nonatomic, weak) UITableView *tableView;
 
 @end
 
@@ -24,56 +28,89 @@
     
     self.view.backgroundColor = [UIColor purpleColor];
 
-    [self layoutUI];
-}
-
-- (void)layoutUI {
-    {
-        FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
-        imgBtn.layer.borderWidth = 1;
-        imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
-        imgBtn.titleLabel.backgroundColor = [UIColor redColor];
-        imgBtn.imageView.backgroundColor = [UIColor greenColor];
-        
-        imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
-        imgBtn.imageOrientation = FQImageButtonOrientation_Right;
-        imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
-        [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
-        [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
-        imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
-        imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [imgBtn setTitle:@"9" forState:UIControlStateNormal];
-        [imgBtn sizeToFit];
-        
-        [self.view addSubview:imgBtn];
-    }
-    
-    {
-//        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
-//        CGRect frame = [thumView frameWithImgArray:self.imgArray];
-//        thumView.frame = CGRectMake(20, kNavBarHeight + 30, frame.size.width, frame.size.height);
-//        [self.view addSubview:thumView];
-    }
+    [self.tableView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+}
+
+#pragma mark - Network
+
+- (void)refreshData {
+    _random = [self randomNumber];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [self.tableView reloadEmptyData];
+        [self.tableView.mj_header endRefreshing];
+    });
+}
+
+- (void)loadMoreData {
+    
+}
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellID];
+    
+    return cell;
+}
+
+#pragma mark - UIScrollViewEmptyDelegate & UIScrollViewEmptyDataSource
+
+- (void)emptyScrollViewDidClickedBtn:(UIScrollView *)scrollView {
+    [self.tableView.mj_header beginRefreshing];
+}
+
+- (UIImage *)imageForEmptyDataSource:(UIScrollView *)scrollView {
+    return _random == 0 ? [UIImage imageNamed:@"network_error"] : [UIImage imageNamed:@"empty_data"];
+}
+
+- (NSString *)descriptionForEmptyDataSource:(UIScrollView *)scrollView {
+    return _random == 0 ? @"Network connection error please refresh and try again" : @"";
+}
+
+- (NSString *)buttonTitleForEmptyDataSource:(UITableView *)tableView {
+    return _random == 0 ? @"Refresh" : @"";
 }
 
 #pragma mark - Getter
 
-- (NSArray *)imgArray {
-    if (!_imgArray) {
-        NSMutableArray *mutArray = [NSMutableArray array];
-        for (int i = 0; i < 9; i++) {
-            [mutArray addObject:[NSString stringWithFormat:@"WL_%zd.jpg", i]];
-        }
+- (UITableView *)tableView {
+    if (!_tableView) {
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - kNavBarHeight - kTabBarHeight)];
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        tableView.emptyDelegate = self;
+        tableView.emptyDataSource = self;
+        tableView.rowHeight = 50;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reuseCellID];
+        [self.view addSubview:tableView];
+        _tableView = tableView;
         
-        _imgArray = mutArray;
+        tableView.mj_header = [FQRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
+        
+        MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self
+                                                                                 refreshingAction:@selector(loadMoreData)];
+        [footer setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
+        [footer setTitle:@"上拉加载更多" forState:MJRefreshStatePulling];
+        [footer setTitle:@"正在加载" forState:MJRefreshStateRefreshing];
+        tableView.mj_footer = footer;
     }
-    return _imgArray;
+    return _tableView;
+}
+
+- (NSInteger)randomNumber {
+    return arc4random() % 2;
 }
 
 @end

@@ -101,7 +101,7 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.dataArray[indexPath.row].layout.cellHeight; // cellPaddingTop + cellAvatarSize + cellMarginY;
+    return self.dataArray[indexPath.row].layout.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

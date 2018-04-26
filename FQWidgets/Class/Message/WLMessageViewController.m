@@ -10,6 +10,7 @@
 #import "FQAssetsViewController.h"
 #import "FQImagePickerController.h"
 
+#import "FQImageButton.h"
 #import "FQThumbnailView.h"
 #import "FQReaderPlayerView.h"
 
@@ -27,6 +28,25 @@
     
     self.view.backgroundColor = [UIColor cyanColor];
     
+    
+    FQImageButton *imgBtn = [FQImageButton buttonWithType:UIButtonTypeCustom];
+    imgBtn.layer.borderWidth = 1;
+    imgBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    imgBtn.titleLabel.backgroundColor = [UIColor redColor];
+    imgBtn.imageView.backgroundColor = [UIColor greenColor];
+    
+    imgBtn.frame = CGRectMake(20, kNavBarHeight * 0.5, 0, 0);
+    imgBtn.imageOrientation = FQImageButtonOrientation_Right;
+    imgBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [imgBtn setImage:[UIImage imageNamed:@"camera_photo_selected"] forState:UIControlStateSelected];
+    [imgBtn setImage:[UIImage imageNamed:@"camera_photo_unselected"] forState:UIControlStateNormal];
+    [imgBtn setTitleColor:kBodyFontColor forState:UIControlStateNormal];
+    imgBtn.titleLabel.font = [UIFont systemFontOfSize:kSizeScale(11)];
+    imgBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [imgBtn setTitle:@"9" forState:UIControlStateNormal];
+    [imgBtn sizeToFit];
+    [self.view addSubview:imgBtn];
+    
     __weak typeof(self) weakSelf = self;
     UIButton *btn = [self buttonWithTitle:@"拍照摄像" block:^(id sender) {
         FQAssetsViewController *ctr = [FQAssetsViewController new];
@@ -36,7 +56,7 @@
     [self.view addSubview:btn];
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view).offset(20);
-        make.top.mas_equalTo(self.view).offset(20);
+        make.top.mas_equalTo(imgBtn.mas_bottom).offset(20);
         make.size.mas_equalTo(CGSizeMake(120, 45));
     }];
     

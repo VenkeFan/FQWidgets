@@ -60,6 +60,10 @@
 - (void)setImage:(UIImage *)image {
     _image = image;
     
+    if (!image) {
+        return;
+    }
+    
     [_imageView.layer removeAnimationForKey:@"ImageViewAnimationKey"];
     CATransition *transition = [CATransition animation];
     transition.type = kCATransitionFade;

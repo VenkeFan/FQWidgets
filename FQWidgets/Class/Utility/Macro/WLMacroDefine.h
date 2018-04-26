@@ -38,7 +38,18 @@
 #define kLightFontSize          kSizeScale(12)
 
 // font
-#define kMediumFont(size)       [UIFont systemFontOfSize:size weight:UIFontWeightMedium]
+#define kMediumFont(size)   \
+({  \
+UIFont *font;   \
+if (@available(iOS 8.2, *)) {   \
+font = [UIFont systemFontOfSize:size weight:UIFontWeightMedium];  \
+} else {    \
+font = [UIFont systemFontOfSize:size];    \
+}   \
+font;   \
+})
+
+
 #define kNavBarTitleFont        kMediumFont(kHeaderFontSize)
 #define kNameFont               kMediumFont(kNameFontSize)
 #define kBodyFont               kMediumFont(kBodyFontSize)
