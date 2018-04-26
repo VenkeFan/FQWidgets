@@ -11,7 +11,12 @@
 #import "WLLabel.h"
 #import "FQThumbnailView.h"
 
+@class WLFeedCell;
+
 @interface WLFeedToolBar : UIView
+
+@property (nonatomic, weak) WLFeedCell *cell;
+@property (nonatomic, weak) WLFeedModel *itemModel;
 
 @end
 
@@ -21,7 +26,8 @@
 @property (nonatomic, strong) CATextLayer *titleLayer;
 @property (nonatomic, strong) CATextLayer *descLayer;
 
-- (void)setItemModel:(WLFeedModel *)itemModel;
+@property (nonatomic, weak) WLFeedCell *cell;
+@property (nonatomic, weak) WLFeedModel *itemModel;
 
 @end
 
@@ -31,7 +37,8 @@
 @property (nonatomic, strong) CATextLayer *nameLayer;
 @property (nonatomic, strong) CATextLayer *timeLayer;
 
-- (void)setItemModel:(WLFeedModel *)itemModel;
+@property (nonatomic, weak) WLFeedCell *cell;
+@property (nonatomic, weak) WLFeedModel *itemModel;
 
 @end
 
@@ -46,7 +53,17 @@
 @property (nonatomic, strong) WLFeedCardView *cardView;
 @property (nonatomic, strong) WLFeedToolBar *toolBar;
 
-- (void)setItemModel:(WLFeedModel *)itemModel;
+@property (nonatomic, weak) WLFeedCell *cell;
+@property (nonatomic, weak) WLFeedModel *itemModel;
+
+@end
+
+@protocol WLFeedCellDelegate <NSObject>
+
+- (void)feedCell:(WLFeedCell *)cell didClickedTranspond:(WLFeedModel *)itemModel;
+- (void)feedCell:(WLFeedCell *)cell didClickedComment:(WLFeedModel *)itemModel;
+- (void)feedCell:(WLFeedCell *)cell didClickedLike:(WLFeedModel *)itemModel;
+- (void)feedCell:(WLFeedCell *)cell didClickedUser:(WLUser *)userModel;
 
 @end
 
@@ -54,5 +71,7 @@
 
 @property (nonatomic, strong) WLFeedContentView *feedView;
 @property (nonatomic, strong) WLFeedModel *itemModel;
+
+@property (nonatomic, weak) id<WLFeedCellDelegate> delegate;
 
 @end

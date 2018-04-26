@@ -14,7 +14,7 @@
 
 static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 
-@interface WLDiscoveryViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WLDiscoveryViewController () <WLFeedCellDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) WLTimelineViewModel *viewModel;
 @property (nonatomic, strong) NSArray<WLFeedModel *> *dataArray;
@@ -33,9 +33,9 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
     [self.tableView.mj_header beginRefreshing];
     
     {
-        YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, 20, 0, 0)];
+        YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, kStatusBarHeight, 0, 0)];
         [fpsLabel sizeToFit];
-        [self.view addSubview:fpsLabel];
+        [[UIApplication sharedApplication].keyWindow addSubview:fpsLabel];
     }
 }
 
@@ -76,6 +76,24 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
     }];
 }
 
+#pragma mark - WLFeedCellDelegate
+
+- (void)feedCell:(WLFeedCell *)cell didClickedUser:(WLUser *)userModel {
+    NSLog(@"点击了用户");
+}
+
+- (void)feedCell:(WLFeedCell *)cell didClickedTranspond:(WLFeedModel *)itemModel {
+    NSLog(@"点击了转发");
+}
+
+- (void)feedCell:(WLFeedCell *)cell didClickedComment:(WLFeedModel *)itemModel {
+    NSLog(@"点击了评论");
+}
+
+- (void)feedCell:(WLFeedCell *)cell didClickedLike:(WLFeedModel *)itemModel {
+    NSLog(@"点击了赞");
+}
+
 #pragma mark - UITableViewDelegate & UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -89,7 +107,7 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     WLFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellID];
     [cell setItemModel:self.dataArray[indexPath.row]];
-    
+    cell.delegate = self;
     return cell;
 }
 

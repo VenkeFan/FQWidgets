@@ -38,18 +38,21 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         
         UIButton *transpondBtn = [self buttonWithImgName:@"feed_transpond"
                                                    title:@"6"
-                                                       x:0];
+                                                       x:0
+                                                  action:@selector(transpondBtnClicked)];
         transpondBtn.backgroundColor = [UIColor cyanColor];
         [self addSubview:transpondBtn];
         
         UIButton *commentBtn = [self buttonWithImgName:@"feed_comment"
                                                  title:@"12"
-                                                     x:width];
+                                                     x:width
+                                                action:@selector(commentBtnClicked)];
         [self addSubview:commentBtn];
         
         UIButton *likeBtn = [self buttonWithImgName:@"feed_like_normal"
                                               title:@"18"
-                                                  x:width * 2];
+                                                  x:width * 2
+                                             action:@selector(likeBtnClicked)];
         likeBtn.backgroundColor = [UIColor cyanColor];
         [self addSubview:likeBtn];
     }
@@ -58,7 +61,8 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 
 - (UIButton *)buttonWithImgName:(NSString *)imgName
                           title:(NSString *)title
-                              x:(CGFloat)x {
+                              x:(CGFloat)x
+                         action:(SEL)action {
     CGFloat width = kScreenWidth / 3.0;
     CGFloat height = cellToolBarHeight;
     
@@ -69,8 +73,27 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     [btn setTitleColor:kUIColorFromRGB(0xA6A7A8) forState:UIControlStateNormal];
     [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 4, 0, 0)];
     btn.titleLabel.font = kMediumFont(kSizeScale(13));
+    [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     
     return btn;
+}
+
+- (void)transpondBtnClicked {
+    if ([_cell.delegate respondsToSelector:@selector(feedCell:didClickedTranspond:)]) {
+        [_cell.delegate feedCell:_cell didClickedTranspond:_itemModel];
+    }
+}
+
+- (void)commentBtnClicked {
+    if ([_cell.delegate respondsToSelector:@selector(feedCell:didClickedComment:)]) {
+        [_cell.delegate feedCell:_cell didClickedComment:_itemModel];
+    }
+}
+
+- (void)likeBtnClicked {
+    if ([_cell.delegate respondsToSelector:@selector(feedCell:didClickedLike:)]) {
+        [_cell.delegate feedCell:_cell didClickedLike:_itemModel];
+    }
 }
 
 @end
@@ -104,6 +127,8 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 }
 
 - (void)setItemModel:(WLFeedModel *)itemModel {
+    _itemModel = itemModel;
+    
     [_coverLayer fq_setImageWithURLString:itemModel.pageInfo.pagePic.absoluteString];
     _titleLayer.string = itemModel.pageInfo.pageTitle;
     _descLayer.string = itemModel.pageInfo.pageDesc;
@@ -133,6 +158,8 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 }
 
 - (void)setItemModel:(WLFeedModel *)itemModel {
+    _itemModel = itemModel;
+    
     self.frame = CGRectMake(0, 0, cellContentWidth, itemModel.layout.profileHeight);
     _nameLayer.frame = itemModel.layout.nameFrame;
     _timeLayer.frame = itemModel.layout.timeFrame;
@@ -144,6 +171,15 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     _nameLayer.string = itemModel.user.screenName;
     _timeLayer.string = itemModel.source;
     [CATransaction commit];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    CGPoint point = [[touches anyObject] locationInView:self];
+    if (CGRectContainsPoint(_avatarLayer.frame, point) || CGRectContainsPoint(_nameLayer.frame, point)) {
+        if ([_cell.delegate respondsToSelector:@selector(feedCell:didClickedUser:)]) {
+            [_cell.delegate feedCell:_cell didClickedUser:_itemModel.user];
+        }
+    }
 }
 
 @end
@@ -194,7 +230,17 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     return self;
 }
 
+- (void)setCell:(WLFeedCell *)cell {
+    _cell = cell;
+    
+    _profileView.cell = cell;
+    _cardView.cell = cell;
+    _toolBar.cell = cell;
+}
+
 - (void)setItemModel:(WLFeedModel *)itemModel {
+    _itemModel = itemModel;
+    
     {
         CGRect contentFrame = _contentView.frame;
         contentFrame.size.height = itemModel.layout.contentHeight;
@@ -230,65 +276,23 @@ CATextLayer * textLayerWithFont(UIFont *font) {
             _retweetedLabel.attributedText = itemModel.retweetedStatus.layout.retweetedText;
             
             if (itemModel.retweetedStatus.pics.count > 0) {
-                _thumbView.hidden = NO;
-                _cardView.hidden = YES;
-                
-                [_thumbView setImages:itemModel.retweetedStatus.pics
-                             imgWidth:itemModel.retweetedStatus.layout.picSize.width
-                            imgHeight:itemModel.retweetedStatus.layout.picSize.height
-                              spacing:cellPicSpacing];
-                
-                CGRect thumbFrame = _thumbView.frame;
-                thumbFrame.origin.y = itemModel.retweetedStatus.layout.picGroupTop;
-                thumbFrame.size = itemModel.retweetedStatus.layout.picGroupSize;
-                _thumbView.frame = thumbFrame;
+                [self p_setThumbView:itemModel.retweetedStatus];
                 
             } else {
-                _thumbView.hidden = YES;
-                
-                if (itemModel.retweetedStatus.pageInfo) {
-                    _cardView.hidden = NO;
-                    [_cardView setItemModel:itemModel.retweetedStatus];
-                    
-                    CGRect cardFrame = _cardView.frame;
-                    cardFrame.origin.y = itemModel.retweetedStatus.layout.cardTop;
-                    _cardView.frame = cardFrame;
-                } else {
-                    _cardView.hidden = YES;
-                }
+                [self p_setCardView:itemModel.retweetedStatus];
             }
             
         } else if (itemModel.pics.count > 0) {
             _retweetedView.hidden = YES;
             _retweetedLabel.hidden = YES;
-            _thumbView.hidden = NO;
-            _cardView.hidden = YES;
             
-            [_thumbView setImages:itemModel.pics
-                         imgWidth:itemModel.layout.picSize.width
-                        imgHeight:itemModel.layout.picSize.height
-                          spacing:cellPicSpacing];
-            
-            CGRect thumbFrame = _thumbView.frame;
-            thumbFrame.origin.y = itemModel.layout.picGroupTop;
-            thumbFrame.size = itemModel.layout.picGroupSize;
-            _thumbView.frame = thumbFrame;
+            [self p_setThumbView:itemModel];
             
         } else {
             _retweetedView.hidden = YES;
             _retweetedLabel.hidden = YES;
-            _thumbView.hidden = YES;
             
-            if (itemModel.pageInfo) {
-                _cardView.hidden = NO;
-                [_cardView setItemModel:itemModel];
-                
-                CGRect cardFrame = _cardView.frame;
-                cardFrame.origin.y = itemModel.layout.cardTop;
-                _cardView.frame = cardFrame;
-            } else {
-                _cardView.hidden = YES;
-            }
+            [self p_setCardView:itemModel];
         }
     }
     
@@ -298,6 +302,36 @@ CATextLayer * textLayerWithFont(UIFont *font) {
     
     {
         self.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_toolBar.frame));
+    }
+}
+
+- (void)p_setThumbView:(WLFeedModel *)itemModel {
+    _thumbView.hidden = NO;
+    _cardView.hidden = YES;
+    
+    [_thumbView setImages:itemModel.pics
+                 imgWidth:itemModel.layout.picSize.width
+                imgHeight:itemModel.layout.picSize.height
+                  spacing:cellPicSpacing];
+    
+    CGRect thumbFrame = _thumbView.frame;
+    thumbFrame.origin.y = itemModel.layout.picGroupTop;
+    thumbFrame.size = itemModel.layout.picGroupSize;
+    _thumbView.frame = thumbFrame;
+}
+
+- (void)p_setCardView:(WLFeedModel *)itemModel {
+    _thumbView.hidden = YES;
+    
+    if (itemModel.pageInfo) {
+        _cardView.hidden = NO;
+        [_cardView setItemModel:itemModel];
+        
+        CGRect cardFrame = _cardView.frame;
+        cardFrame.origin.y = itemModel.layout.cardTop;
+        _cardView.frame = cardFrame;
+    } else {
+        _cardView.hidden = YES;
     }
 }
 
@@ -317,6 +351,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
 }
 
 - (void)setItemModel:(WLFeedModel *)itemModel {
+    _feedView.cell = self;
     [_feedView setItemModel:itemModel];
 }
 
