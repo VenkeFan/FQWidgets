@@ -7,6 +7,7 @@
 //
 
 #import "UIImageView+FQExtension.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation UIImageView (FQExtension)
 
@@ -75,20 +76,20 @@
                    if (!image) {
                        return;
                    }
-                   
+
                    CGSize size = weakSelf.frame.size;
-                   
+
                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                       
+
                        UIImage *img = image;
                        if (cornerRadius > 0.0) {
                            img = [image imageByResizeToSize:size];
                            img = [img imageByRoundCornerRadius:cornerRadius borderWidth:borderWidth borderColor:borderColor];
                        }
-                       
+
                        dispatch_sync(dispatch_get_main_queue(), ^{
                            weakSelf.image = image;
-                           
+
                            if (completed) {
                                completed(image, url, error);
                            }

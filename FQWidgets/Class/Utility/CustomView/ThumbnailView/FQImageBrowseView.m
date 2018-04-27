@@ -115,6 +115,10 @@ static NSString * const reusCellID = @"FQImageBrowseCell";
     CGRect fromFrame = [fromView convertRect:fromView.bounds toView:toView];
     
     UIImage *image = fromView.image;
+    if (!image) {
+        return;
+    }
+    
     CGFloat newWidth = CGRectGetWidth(self.frame);
     CGFloat newHeight = image.size.height / image.size.width * newWidth;
     CGFloat originY = kStatusBarHeight;

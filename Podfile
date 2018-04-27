@@ -9,13 +9,14 @@ target 'FQWidgets' do
 pod 'AFNetworking'
 pod 'Masonry'
 pod 'YYKit'
-pod 'SDWebImage'
 pod 'FMDB'
 pod 'MBProgressHUD'
 pod 'MJRefresh'
 pod 'IQKeyboardManager'
 pod 'DZNEmptyDataSet'
 pod 'MBProgressHUD'
+pod 'SDWebImage', '~> 4.0'
+pod 'SDWebImage/WebP'
 
 pod 'Bugly'
 pod 'MLeaksFinder', :configurations => ['Debug']

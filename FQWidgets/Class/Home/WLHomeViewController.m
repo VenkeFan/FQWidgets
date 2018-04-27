@@ -8,7 +8,7 @@
 
 #import "WLHomeViewController.h"
 #import "FQRefreshHeader.h"
-#import "UIScrollView+FQExtension.h"
+#import "UIScrollView+FQEmptyData.h"
 
 static NSString * const reuseCellID = @"WLFeedCell";
 

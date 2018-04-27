@@ -1,12 +1,12 @@
 //
-//  UIScrollView+FQExtension.m
+//  UIScrollView+FQEmptyData.m
 //  FQWidgets
 //
 //  Created by fan qi on 2018/4/26.
 //  Copyright © 2018年 fan qi. All rights reserved.
 //
 
-#import "UIScrollView+FQExtension.h"
+#import "UIScrollView+FQEmptyData.h"
 
 @interface FQEmptyContainerView : UIView
 
@@ -118,7 +118,7 @@
 
 @end
 
-@implementation UIScrollView (FQExtension)
+@implementation UIScrollView (FQEmptyData)
 
 #pragma mark - Public
 

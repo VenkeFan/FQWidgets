@@ -1,5 +1,5 @@
 //
-//  UIScrollView+FQExtension.h
+//  UIScrollView+FQEmptyData.h
 //  FQWidgets
 //
 //  Created by fan qi on 2018/4/26.
@@ -24,7 +24,7 @@
 
 @end
 
-@interface UIScrollView (FQExtension)
+@interface UIScrollView (FQEmptyData)
 
 @property (nonatomic, weak) id<UIScrollViewEmptyDelegate> emptyDelegate;
 @property (nonatomic, weak) id<UIScrollViewEmptyDataSource> emptyDataSource;
