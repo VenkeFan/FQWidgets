@@ -49,9 +49,9 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 - (void)refreshData {
     [self.viewModel fetchListWithFinished:^(BOOL succeed, BOOL hasMore) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.tableView.mj_header endRefreshing];
             if (succeed) {
                 [self.tableView reloadData];
-                [self.tableView.mj_header endRefreshing];
             } else {
                 [FQProgressHUDHelper showErrorWithMessage:@"刷新数据错误"];
             }
@@ -64,9 +64,9 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 - (void)loadMoreData {
     [self.viewModel fetchMoreWithFinished:^(BOOL succeed, BOOL hasMore) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.tableView.mj_footer endRefreshing];
             if (succeed) {
                 [self.tableView reloadData];
-                [self.tableView.mj_footer endRefreshing];
             } else {
                 [FQProgressHUDHelper showErrorWithMessage:@"获取更多数据错误"];
             }

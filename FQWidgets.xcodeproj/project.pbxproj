@@ -32,7 +32,6 @@
 		B902D7F6207E1A3F0080D294 /* WLMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7A7207E1A3F0080D294 /* WLMessageViewController.m */; };
 		B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7AA207E1A3F0080D294 /* WLUserViewController.m */; };
 		B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7AD207E1A3F0080D294 /* WLPublishViewController.m */; };
-		B902D7F9207E1A3F0080D294 /* WLMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7AF207E1A3F0080D294 /* WLMainViewController.m */; };
 		B902D7FA207E1A3F0080D294 /* FQImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7B8207E1A3F0080D294 /* FQImageButton.m */; };
 		B902D7FB207E1A3F0080D294 /* FQRadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7BA207E1A3F0080D294 /* FQRadioButton.m */; };
 		B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7BE207E1A3F0080D294 /* FQCameraOperateView.m */; };
@@ -48,8 +47,6 @@
 		B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7D3207E1A3F0080D294 /* FQGradientCircleLayer.m */; };
 		B902D807207E1A3F0080D294 /* FQRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7D4207E1A3F0080D294 /* FQRefreshHeader.m */; };
 		B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7D7207E1A3F0080D294 /* FQZoomScaleView.m */; };
-		B902D809207E1A3F0080D294 /* FQTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7DC207E1A3F0080D294 /* FQTabBarView.m */; };
-		B902D80A207E1A3F0080D294 /* FQTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7DD207E1A3F0080D294 /* FQTabBarController.m */; };
 		B902D80B207E1A3F0080D294 /* FQPlayerOperateView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E2207E1A3F0080D294 /* FQPlayerOperateView.m */; };
 		B902D80C207E1A3F0080D294 /* FQPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E3207E1A3F0080D294 /* FQPlayerView.m */; };
 		B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D7E5207E1A3F0080D294 /* FQLanguageManager.m */; };
@@ -63,6 +60,8 @@
 		B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */; };
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
+		B9B92816209C000A00D4D317 /* WLMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B92811209C000900D4D317 /* WLMainViewController.m */; };
+		B9B92817209C000A00D4D317 /* WLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B92814209C000A00D4D317 /* WLTabBar.m */; };
 		B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */; };
 		B9C16A41208741750068CE32 /* WLFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A40208741750068CE32 /* WLFeedCell.m */; };
 		B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A43208748D70068CE32 /* WLFeedModel.m */; };
@@ -142,8 +141,6 @@
 		B902D7AA207E1A3F0080D294 /* WLUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLUserViewController.m; sourceTree = "<group>"; };
 		B902D7AC207E1A3F0080D294 /* WLPublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPublishViewController.h; sourceTree = "<group>"; };
 		B902D7AD207E1A3F0080D294 /* WLPublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPublishViewController.m; sourceTree = "<group>"; };
-		B902D7AF207E1A3F0080D294 /* WLMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMainViewController.m; sourceTree = "<group>"; };
-		B902D7B0207E1A3F0080D294 /* WLMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMainViewController.h; sourceTree = "<group>"; };
 		B902D7B5207E1A3F0080D294 /* WLMacroDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMacroDefine.h; sourceTree = "<group>"; };
 		B902D7B6207E1A3F0080D294 /* FQMacroDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQMacroDefine.h; sourceTree = "<group>"; };
 		B902D7B8207E1A3F0080D294 /* FQImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQImageButton.m; sourceTree = "<group>"; };
@@ -176,10 +173,6 @@
 		B902D7D7207E1A3F0080D294 /* FQZoomScaleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQZoomScaleView.m; sourceTree = "<group>"; };
 		B902D7D8207E1A3F0080D294 /* FQRadioButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQRadioButton.h; sourceTree = "<group>"; };
 		B902D7D9207E1A3F0080D294 /* FQBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQBadgeView.h; sourceTree = "<group>"; };
-		B902D7DB207E1A3F0080D294 /* FQTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQTabBarController.h; sourceTree = "<group>"; };
-		B902D7DC207E1A3F0080D294 /* FQTabBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQTabBarView.m; sourceTree = "<group>"; };
-		B902D7DD207E1A3F0080D294 /* FQTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQTabBarController.m; sourceTree = "<group>"; };
-		B902D7DE207E1A3F0080D294 /* FQTabBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQTabBarView.h; sourceTree = "<group>"; };
 		B902D7E0207E1A3F0080D294 /* FQPlayerOperateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQPlayerOperateView.h; sourceTree = "<group>"; };
 		B902D7E1207E1A3F0080D294 /* FQPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQPlayerView.h; sourceTree = "<group>"; };
 		B902D7E2207E1A3F0080D294 /* FQPlayerOperateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQPlayerOperateView.m; sourceTree = "<group>"; };
@@ -206,6 +199,10 @@
 		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
 		B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCutImageViewController.h; sourceTree = "<group>"; };
 		B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCutImageViewController.m; sourceTree = "<group>"; };
+		B9B92811209C000900D4D317 /* WLMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMainViewController.m; sourceTree = "<group>"; };
+		B9B92812209C000A00D4D317 /* WLMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMainViewController.h; sourceTree = "<group>"; };
+		B9B92814209C000A00D4D317 /* WLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBar.m; sourceTree = "<group>"; };
+		B9B92815209C000A00D4D317 /* WLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabBar.h; sourceTree = "<group>"; };
 		B9C16A2A2085A3600068CE32 /* UIImage+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+FQExtension.h"; sourceTree = "<group>"; };
 		B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FQExtension.m"; sourceTree = "<group>"; };
 		B9C16A3F208741750068CE32 /* WLFeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLFeedCell.h; sourceTree = "<group>"; };
@@ -420,8 +417,8 @@
 		B902D7AE207E1A3F0080D294 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B902D7AF207E1A3F0080D294 /* WLMainViewController.m */,
-				B902D7B0207E1A3F0080D294 /* WLMainViewController.h */,
+				B9B92813209C000A00D4D317 /* View */,
+				B9B92810209C000900D4D317 /* ViewController */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -484,7 +481,6 @@
 				B902D7C7207E1A3F0080D294 /* PHAssetsController */,
 				B902D7DF207E1A3F0080D294 /* Player */,
 				B902D7D2207E1A3F0080D294 /* RefreshHeader */,
-				B902D7DA207E1A3F0080D294 /* TabBarController */,
 				B902D7C2207E1A3F0080D294 /* ThumbnailView */,
 			);
 			path = CustomView;
@@ -550,17 +546,6 @@
 			path = RefreshHeader;
 			sourceTree = "<group>";
 		};
-		B902D7DA207E1A3F0080D294 /* TabBarController */ = {
-			isa = PBXGroup;
-			children = (
-				B902D7DB207E1A3F0080D294 /* FQTabBarController.h */,
-				B902D7DD207E1A3F0080D294 /* FQTabBarController.m */,
-				B902D7DE207E1A3F0080D294 /* FQTabBarView.h */,
-				B902D7DC207E1A3F0080D294 /* FQTabBarView.m */,
-			);
-			path = TabBarController;
-			sourceTree = "<group>";
-		};
 		B902D7DF207E1A3F0080D294 /* Player */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,6 +581,24 @@
 				B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */,
 			);
 			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		B9B92810209C000900D4D317 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B9B92812209C000A00D4D317 /* WLMainViewController.h */,
+				B9B92811209C000900D4D317 /* WLMainViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		B9B92813209C000A00D4D317 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B9B92815209C000A00D4D317 /* WLTabBar.h */,
+				B9B92814209C000A00D4D317 /* WLTabBar.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		B9C16A3E208741580068CE32 /* Timeline */ = {
@@ -864,6 +867,7 @@
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
 				B90CA438208A154500BC14F4 /* CALayer+FQExtension.m in Sources */,
+				B9B92817209C000A00D4D317 /* WLTabBar.m in Sources */,
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
 				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
 				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
@@ -874,11 +878,11 @@
 				B902D825207F85700080D294 /* FQSystemHelper.m in Sources */,
 				B902D80B207E1A3F0080D294 /* FQPlayerOperateView.m in Sources */,
 				B902D807207E1A3F0080D294 /* FQRefreshHeader.m in Sources */,
+				B9B92816209C000A00D4D317 /* WLMainViewController.m in Sources */,
 				B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */,
 				B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */,
 				B902D800207E1A3F0080D294 /* FQThumbnailView.m in Sources */,
 				B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */,
-				B902D809207E1A3F0080D294 /* FQTabBarView.m in Sources */,
 				B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */,
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
@@ -903,9 +907,7 @@
 				B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */,
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,
 				B902D76F207E18450080D294 /* main.m in Sources */,
-				B902D80A207E1A3F0080D294 /* FQTabBarController.m in Sources */,
 				B9C16A592089E5BB0068CE32 /* WLLabel.m in Sources */,
-				B902D7F9207E1A3F0080D294 /* WLMainViewController.m in Sources */,
 				B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */,
 				B902D761207E18450080D294 /* AppDelegate.m in Sources */,
 				B902D7FB207E1A3F0080D294 /* FQRadioButton.m in Sources */,

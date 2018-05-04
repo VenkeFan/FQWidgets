@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FQTabBarController.h"
 
-@interface WLMainViewController : FQTabBarController
+@interface WLMainViewController : UITabBarController
 
 @end

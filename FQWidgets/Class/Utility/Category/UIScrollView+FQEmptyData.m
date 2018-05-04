@@ -20,7 +20,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor redColor];
         
         _imageView = [[UIImageView alloc] init];
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
