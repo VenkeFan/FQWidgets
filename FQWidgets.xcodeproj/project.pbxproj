@@ -58,8 +58,12 @@
 		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
 		B90CA438208A154500BC14F4 /* CALayer+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */; };
 		B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */; };
+		B91A7D6120F04A3C00E4515D /* FQDynamicLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */; };
 		B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */; };
 		B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */; };
+		B9A20B2820B1C47900A93F73 /* FQCarouselView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A20B2720B1C47900A93F73 /* FQCarouselView.m */; };
+		B9A20B2B20B1C56500A93F73 /* FQCarouselViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A20B2A20B1C56500A93F73 /* FQCarouselViewFlowLayout.m */; };
+		B9A20B2E20B1CD5600A93F73 /* FQCarouselCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A20B2D20B1CD5600A93F73 /* FQCarouselCollectionCell.m */; };
 		B9B92816209C000A00D4D317 /* WLMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B92811209C000900D4D317 /* WLMainViewController.m */; };
 		B9B92817209C000A00D4D317 /* WLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B92814209C000A00D4D317 /* WLTabBar.m */; };
 		B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A2B2085A3600068CE32 /* UIImage+FQExtension.m */; };
@@ -195,10 +199,18 @@
 		B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+FQExtension.m"; sourceTree = "<group>"; };
 		B90CA439208DB5E600BC14F4 /* UIImageView+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FQExtension.h"; sourceTree = "<group>"; };
 		B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+FQExtension.m"; sourceTree = "<group>"; };
+		B91A7D5F20F04A3C00E4515D /* FQDynamicLoadingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQDynamicLoadingView.h; sourceTree = "<group>"; };
+		B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQDynamicLoadingView.m; sourceTree = "<group>"; };
 		B94076092080CC940052AA40 /* FQAnimatedTransitioning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAnimatedTransitioning.h; sourceTree = "<group>"; };
 		B940760A2080CC940052AA40 /* FQAnimatedTransitioning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQAnimatedTransitioning.m; sourceTree = "<group>"; };
 		B940760C2081F4AF0052AA40 /* FQCutImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCutImageViewController.h; sourceTree = "<group>"; };
 		B940760D2081F4AF0052AA40 /* FQCutImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCutImageViewController.m; sourceTree = "<group>"; };
+		B9A20B2620B1C47900A93F73 /* FQCarouselView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCarouselView.h; sourceTree = "<group>"; };
+		B9A20B2720B1C47900A93F73 /* FQCarouselView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCarouselView.m; sourceTree = "<group>"; };
+		B9A20B2920B1C56500A93F73 /* FQCarouselViewFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCarouselViewFlowLayout.h; sourceTree = "<group>"; };
+		B9A20B2A20B1C56500A93F73 /* FQCarouselViewFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCarouselViewFlowLayout.m; sourceTree = "<group>"; };
+		B9A20B2C20B1CD5600A93F73 /* FQCarouselCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQCarouselCollectionCell.h; sourceTree = "<group>"; };
+		B9A20B2D20B1CD5600A93F73 /* FQCarouselCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQCarouselCollectionCell.m; sourceTree = "<group>"; };
 		B9B92811209C000900D4D317 /* WLMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMainViewController.m; sourceTree = "<group>"; };
 		B9B92812209C000A00D4D317 /* WLMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMainViewController.h; sourceTree = "<group>"; };
 		B9B92814209C000A00D4D317 /* WLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBar.m; sourceTree = "<group>"; };
@@ -482,6 +494,14 @@
 				B902D7DF207E1A3F0080D294 /* Player */,
 				B902D7D2207E1A3F0080D294 /* RefreshHeader */,
 				B902D7C2207E1A3F0080D294 /* ThumbnailView */,
+				B9A20B2620B1C47900A93F73 /* FQCarouselView.h */,
+				B9A20B2720B1C47900A93F73 /* FQCarouselView.m */,
+				B9A20B2920B1C56500A93F73 /* FQCarouselViewFlowLayout.h */,
+				B9A20B2A20B1C56500A93F73 /* FQCarouselViewFlowLayout.m */,
+				B9A20B2C20B1CD5600A93F73 /* FQCarouselCollectionCell.h */,
+				B9A20B2D20B1CD5600A93F73 /* FQCarouselCollectionCell.m */,
+				B91A7D5F20F04A3C00E4515D /* FQDynamicLoadingView.h */,
+				B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -874,9 +894,11 @@
 				B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */,
 				B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
+				B9A20B2B20B1C56500A93F73 /* FQCarouselViewFlowLayout.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
 				B902D825207F85700080D294 /* FQSystemHelper.m in Sources */,
 				B902D80B207E1A3F0080D294 /* FQPlayerOperateView.m in Sources */,
+				B9A20B2E20B1CD5600A93F73 /* FQCarouselCollectionCell.m in Sources */,
 				B902D807207E1A3F0080D294 /* FQRefreshHeader.m in Sources */,
 				B9B92816209C000A00D4D317 /* WLMainViewController.m in Sources */,
 				B902D822207F720A0080D294 /* UIViewController+FQNavigationController.m in Sources */,
@@ -884,6 +906,7 @@
 				B902D800207E1A3F0080D294 /* FQThumbnailView.m in Sources */,
 				B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */,
 				B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */,
+				B9A20B2820B1C47900A93F73 /* FQCarouselView.m in Sources */,
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
 				B901D4932091D98F0070410A /* UIScrollView+FQEmptyData.m in Sources */,
@@ -906,6 +929,7 @@
 				B9C16A562089D2D40068CE32 /* YYFPSLabel.m in Sources */,
 				B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */,
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,
+				B91A7D6120F04A3C00E4515D /* FQDynamicLoadingView.m in Sources */,
 				B902D76F207E18450080D294 /* main.m in Sources */,
 				B9C16A592089E5BB0068CE32 /* WLLabel.m in Sources */,
 				B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */,
