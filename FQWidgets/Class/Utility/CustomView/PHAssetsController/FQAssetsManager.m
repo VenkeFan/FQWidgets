@@ -82,7 +82,10 @@
                                                                                                options:nil];
     [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.assetCollectionSubtype != PHAssetCollectionSubtypeSmartAlbumAllHidden && obj.assetCollectionSubtype!= 1000000201) {
-            [albums addObject:obj];
+            PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:obj options:nil];
+            if (assets.count > 0) {
+                [albums addObject:obj];
+            }
         }
     }];
     
@@ -91,7 +94,10 @@
                                                                                               subtype:PHAssetCollectionSubtypeAlbumRegular
                                                                                               options:nil];
     [userAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [albums addObject:obj];
+        PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:obj options:nil];
+        if (assets.count > 0) {
+            [albums addObject:obj];
+        }
     }];
     
     _allAlbums = albums;

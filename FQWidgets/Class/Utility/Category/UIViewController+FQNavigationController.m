@@ -13,7 +13,7 @@
 //+ (void)load {
 //    Method originalMethod = class_getInstanceMethod([self class], @selector(viewDidLoad));
 //    Method swizzleMethod = class_getInstanceMethod([self class], @selector(fq_viewDidLoad));
-//    
+//
 //    method_exchangeImplementations(originalMethod, swizzleMethod);
 //}
 //

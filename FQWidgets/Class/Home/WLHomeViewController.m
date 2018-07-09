@@ -101,6 +101,7 @@ static NSString * const reuseCellID = @"WLFeedCell";
         
         MJRefreshBackNormalFooter *footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self
                                                                                  refreshingAction:@selector(loadMoreData)];
+        
         [footer setTitle:@"上拉加载更多" forState:MJRefreshStateIdle];
         [footer setTitle:@"上拉加载更多" forState:MJRefreshStatePulling];
         [footer setTitle:@"正在加载" forState:MJRefreshStateRefreshing];

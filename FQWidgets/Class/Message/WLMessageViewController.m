@@ -13,6 +13,7 @@
 #import "FQImageButton.h"
 #import "FQThumbnailView.h"
 #import "FQReaderPlayerView.h"
+#import "FQDynamicLoadingView.h"
 
 @interface WLMessageViewController () <FQAssetsViewControllerDelegate, FQImagePickerControllerDelegate>
 
@@ -85,6 +86,16 @@
 //        FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithFrame:CGRectMake(20, kNavBarHeight + 70, kScreenWidth - 40, 350)];
 //        [self.view addSubview:playerView];
 //        self.playerView = playerView;
+    }
+    
+    {
+        FQDynamicLoadingView *loading = [[FQDynamicLoadingView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        loading.tintColor = kUIColorFromRGB(0xFF9300);
+        loading.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+        loading.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:loading];
+        
+        [loading startAnimating];
     }
 }
 
