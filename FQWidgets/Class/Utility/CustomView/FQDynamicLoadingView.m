@@ -115,9 +115,10 @@
         _progressLayer.frame = self.bounds;
         _progressLayer.strokeColor = self.tintColor.CGColor;
         _progressLayer.fillColor = nil;
-        _progressLayer.lineWidth = 2.0;
+        _progressLayer.lineWidth = 3.0;
         _progressLayer.strokeStart = 0.0;
         _progressLayer.strokeEnd = 0.0;
+        _progressLayer.lineCap = kCALineCapRound;
         
         CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
         CGFloat radius = MIN(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5) - _progressLayer.lineWidth * 0.5;

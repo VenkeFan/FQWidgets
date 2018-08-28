@@ -7,6 +7,7 @@
 //
 
 #import "FQPlayerView.h"
+#import <CoreImage/CoreImage.h>
 
 NSString * const FQPlayerViewStatusMapping[] = {
     [FQPlayerViewStatus_Unknown]         = @"未知的播放状态",
@@ -294,6 +295,24 @@ NSString * const FQPlayerViewStatusMapping[] = {
     }
     
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    
+    {
+        // filter
+        if (@available(iOS 9.0, *)) {
+            CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
+            playerItem.videoComposition = [AVVideoComposition videoCompositionWithAsset:asset
+                                                        applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
+                                                               CIImage *image = request.sourceImage.imageByClampingToExtent;
+                                                               [filter setValue:image forKey:kCIInputImageKey];
+                                                               [filter setValue:@(0.8) forKey:kCIInputIntensityKey];
+                                                               
+                                                               CIImage *output = [filter.outputImage imageByCroppingToRect:request.sourceImage.extent];
+                                                               
+                                                               [request finishWithImage:output context:nil];
+                                                           }];
+        }
+    }
+    
     [self p_playWithPlayerItem:playerItem];
 }
 
