@@ -74,12 +74,12 @@
         make.size.mas_equalTo(btn);
     }];
     
- 
+    
     {
-        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
-        thumView.frame = CGRectMake(20, kNavBarHeight + 70, 0, 0);
-        [self.view addSubview:thumView];
-        self.thumbView = thumView;
+//        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];
+//        thumView.frame = CGRectMake(20, kNavBarHeight + 70, 0, 0);
+//        [self.view addSubview:thumView];
+//        self.thumbView = thumView;
     }
     
     {
@@ -89,13 +89,13 @@
     }
     
     {
-        FQDynamicLoadingView *loading = [[FQDynamicLoadingView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        loading.tintColor = kUIColorFromRGB(0xFF9300);
-        loading.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-        loading.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:loading];
-        
-        [loading startAnimating];
+//        FQDynamicLoadingView *loading = [[FQDynamicLoadingView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+//        loading.tintColor = kUIColorFromRGB(0xFF9300);
+//        loading.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+//        loading.translatesAutoresizingMaskIntoConstraints = NO;
+//        [self.view addSubview:loading];
+//
+//        [loading startAnimating];
     }
 }
 

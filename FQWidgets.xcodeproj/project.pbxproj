@@ -56,6 +56,9 @@
 		B902D825207F85700080D294 /* FQSystemHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D824207F85700080D294 /* FQSystemHelper.m */; };
 		B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */; };
 		B902D82F2080A6CB0080D294 /* FQNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B902D82D2080A6CB0080D294 /* FQNavigationController.m */; };
+		B904328021367F9A0072E0AE /* FQVideoComposition.m in Sources */ = {isa = PBXBuildFile; fileRef = B904327F21367F9A0072E0AE /* FQVideoComposition.m */; };
+		B908299A21392C8000FD3C7D /* awesomeface.png in Resources */ = {isa = PBXBuildFile; fileRef = B908299921392C7F00FD3C7D /* awesomeface.png */; };
+		B908299C213960DD00FD3C7D /* banana.gif in Resources */ = {isa = PBXBuildFile; fileRef = B908299B213960DC00FD3C7D /* banana.gif */; };
 		B90CA438208A154500BC14F4 /* CALayer+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */; };
 		B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B90CA43A208DB5E600BC14F4 /* UIImageView+FQExtension.m */; };
 		B91A7D6120F04A3C00E4515D /* FQDynamicLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */; };
@@ -195,6 +198,10 @@
 		B902D827208086EC0080D294 /* UINavigationController+FQNavigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FQNavigation.m"; sourceTree = "<group>"; };
 		B902D82D2080A6CB0080D294 /* FQNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FQNavigationController.m; sourceTree = "<group>"; };
 		B902D82E2080A6CB0080D294 /* FQNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FQNavigationController.h; sourceTree = "<group>"; };
+		B904327E21367F9A0072E0AE /* FQVideoComposition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQVideoComposition.h; sourceTree = "<group>"; };
+		B904327F21367F9A0072E0AE /* FQVideoComposition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQVideoComposition.m; sourceTree = "<group>"; };
+		B908299921392C7F00FD3C7D /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		B908299B213960DC00FD3C7D /* banana.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = banana.gif; sourceTree = "<group>"; };
 		B90CA436208A154500BC14F4 /* CALayer+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+FQExtension.h"; sourceTree = "<group>"; };
 		B90CA437208A154500BC14F4 /* CALayer+FQExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+FQExtension.m"; sourceTree = "<group>"; };
 		B90CA439208DB5E600BC14F4 /* UIImageView+FQExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+FQExtension.h"; sourceTree = "<group>"; };
@@ -352,6 +359,8 @@
 		B902D792207E1A3F0080D294 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B908299921392C7F00FD3C7D /* awesomeface.png */,
+				B908299B213960DC00FD3C7D /* banana.gif */,
 				B902D793207E1A3F0080D294 /* WL_4.jpg */,
 				B902D794207E1A3F0080D294 /* WL_5.jpg */,
 				B902D795207E1A3F0080D294 /* WL_7.jpg */,
@@ -588,6 +597,8 @@
 				B902D7E8207E1A3F0080D294 /* FQProgressHUDHelper.m */,
 				B902D823207F85700080D294 /* FQSystemHelper.h */,
 				B902D824207F85700080D294 /* FQSystemHelper.m */,
+				B904327E21367F9A0072E0AE /* FQVideoComposition.h */,
+				B904327F21367F9A0072E0AE /* FQVideoComposition.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -772,8 +783,10 @@
 				B9F30DCC209033A400E9ACB1 /* weibo_1.json in Resources */,
 				B902D7E9207E1A3F0080D294 /* WL_4.jpg in Resources */,
 				B902D7EF207E1A3F0080D294 /* WL_1.jpg in Resources */,
+				B908299A21392C8000FD3C7D /* awesomeface.png in Resources */,
 				B902D7EE207E1A3F0080D294 /* WL_3.jpg in Resources */,
 				B902D7EB207E1A3F0080D294 /* WL_7.jpg in Resources */,
+				B908299C213960DD00FD3C7D /* banana.gif in Resources */,
 				B902D7F1207E1A3F0080D294 /* WL_8.jpg in Resources */,
 				B9F30DCB209033A400E9ACB1 /* weibo_6.json in Resources */,
 				B9F30DCD209033A400E9ACB1 /* weibo_0.json in Resources */,
@@ -887,6 +900,7 @@
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
 				B90CA438208A154500BC14F4 /* CALayer+FQExtension.m in Sources */,
+				B904328021367F9A0072E0AE /* FQVideoComposition.m in Sources */,
 				B9B92817209C000A00D4D317 /* WLTabBar.m in Sources */,
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
 				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
