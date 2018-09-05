@@ -16,6 +16,8 @@
 - (void)composeVideo:(AVAsset *)videoAsset audio:(AVAsset *)audioAsset;
 - (void)composeVideo:(AVAsset *)videoAsset image:(UIImage *)image;
 - (void)composeVideo:(AVAsset *)videoAsset gifPath:(NSString *)gifPath;
+- (void)composeVideo:(AVAsset *)videoAsset filterName:(NSString *)filterName;
+
 - (void)composeAudio:(AVAsset *)firstAudioAsset secondAudioAsset:(AVAsset *)secondAudioAsset;
 
 @end

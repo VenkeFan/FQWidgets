@@ -73,7 +73,8 @@ static NSString *reusCellID = @"reusCellID";
 //        [composition composeVideo:_asset1 secondVideoAsset:_asset2];
 //        [composition composeVideo:_asset1 audio:_asset2];
 //        [composition composeVideo:_asset1 image:[UIImage imageNamed:@"awesomeface"]];
-        [composition composeVideo:_asset1 gifPath:[[NSBundle mainBundle] pathForResource:@"banana" ofType:@"gif"]];
+//        [composition composeVideo:_asset1 gifPath:[[NSBundle mainBundle] pathForResource:@"banana" ofType:@"gif"]];
+        [composition composeVideo:_asset1 filterName:@"CISepiaTone"];
     }];
     [self.view addSubview:composeBtn];
     [composeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +110,7 @@ static NSString *reusCellID = @"reusCellID";
                                                   resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
                                                       _asset1 = asset;
                                                   }];
-        
+
     } else if (!_asset2) {
         [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
                                                         options:nil
@@ -118,7 +119,9 @@ static NSString *reusCellID = @"reusCellID";
                                                   }];
     }
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - Getter

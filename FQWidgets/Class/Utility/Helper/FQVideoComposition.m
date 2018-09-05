@@ -14,6 +14,13 @@
 @implementation FQVideoComposition
 
 - (void)composeVideo:(AVAsset *)firstVideoAsset secondVideoAsset:(AVAsset *)secondVideoAsset {
+    if (!firstVideoAsset) {
+        return;
+    }
+    if (!secondVideoAsset) {
+        return;
+    }
+    
     // ----------- Creating the Composition
     AVMutableComposition *mutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -56,7 +63,7 @@
         [incompatibleVideoOrientationAlert show];
         return;
     }
-
+    
     // ----------- Applying the Video Composition Layer Instructions
     AVMutableVideoCompositionInstruction *firstVideoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     // Set the time range of the first instruction to span the duration of the first video track.
@@ -107,13 +114,20 @@
     mutableVideoComposition.renderSize = CGSizeMake(renderWidth, renderHeight);
     // Set the frame duration to an appropriate value (i.e. 30 frames per second for video).
     mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
-
+    
     // ----------- Exporting the Composition and Saving it to the Camera Roll
     [self exportComposition:mutableComposition
            videoComposition:mutableVideoComposition];
 }
 
 - (void)composeVideo:(AVAsset *)videoAsset audio:(AVAsset *)audioAsset {
+    if (!videoAsset) {
+        return;
+    }
+    if (!audioAsset) {
+        return;
+    }
+    
     AVMutableComposition *mutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableCompositionTrack *audioCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -133,7 +147,7 @@
     AVMutableVideoCompositionInstruction *videoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     videoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, videoTrack.timeRange.duration);
     
-    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
     [videoLayerInstruction setTransform:videoTrack.preferredTransform atTime:kCMTimeZero];
     [videoLayerInstruction setOpacityRampFromStartOpacity:1.0 toEndOpacity:0.0 timeRange:CMTimeRangeMake(kCMTimeZero, videoTrack.timeRange.duration)];
     
@@ -149,6 +163,13 @@
 }
 
 - (void)composeVideo:(AVAsset *)videoAsset image:(UIImage *)image {
+    if (!videoAsset) {
+        return;
+    }
+    if (!image) {
+        return;
+    }
+    
     AVMutableComposition *mutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableCompositionTrack *audioCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -168,7 +189,7 @@
     AVMutableVideoCompositionInstruction *videoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     videoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, videoTrack.timeRange.duration);
     
-    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
     [videoLayerInstruction setTransform:videoTrack.preferredTransform atTime:kCMTimeZero];
     
     videoCompositionInstruction.layerInstructions = @[videoLayerInstruction];
@@ -183,6 +204,19 @@
         CALayer *waterLayer = [CALayer layer];
         waterLayer.frame = CGRectMake(0, 0, 50, 50);
         waterLayer.contents = (__bridge id)image.CGImage;
+        
+        {
+            CABasicAnimation *animation = [CABasicAnimation animation];
+            animation.keyPath = @"opacity";
+            animation.duration = 0.7;
+            animation.fromValue = @(0.0);
+            animation.toValue = @(1.0);
+            animation.autoreverses = YES;
+            animation.repeatCount = HUGE_VALF;
+            animation.removedOnCompletion = NO;
+            animation.beginTime = AVCoreAnimationBeginTimeAtZero;
+            [waterLayer addAnimation:animation forKey:nil];
+        }
         
         CALayer *parentLayer = [CALayer layer];
         CALayer *videoLayer = [CALayer layer];
@@ -202,6 +236,13 @@
 }
 
 - (void)composeVideo:(AVAsset *)videoAsset gifPath:(NSString *)gifPath {
+    if (!videoAsset) {
+        return;
+    }
+    if (gifPath.length == 0) {
+        return;
+    }
+    
     AVMutableComposition *mutableComposition = [AVMutableComposition composition];
     AVMutableCompositionTrack *videoCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     AVMutableCompositionTrack *audioCompositionTrack = [mutableComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
@@ -221,7 +262,7 @@
     AVMutableVideoCompositionInstruction *videoCompositionInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
     videoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, videoTrack.timeRange.duration);
     
-    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    AVMutableVideoCompositionLayerInstruction *videoLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoCompositionTrack];
     [videoLayerInstruction setTransform:videoTrack.preferredTransform atTime:kCMTimeZero];
     
     videoCompositionInstruction.layerInstructions = @[videoLayerInstruction];
@@ -237,6 +278,31 @@
                                     size:mutableVideoComposition.renderSize];
     
     [self exportComposition:mutableComposition
+           videoComposition:mutableVideoComposition];
+}
+
+- (void)composeVideo:(AVAsset *)videoAsset filterName:(NSString *)filterName {
+    if (!videoAsset) {
+        return;
+    }
+    CIFilter *filter = [CIFilter filterWithName:filterName];
+    if (!filter) {
+        return;
+    }
+    
+    // 这种加滤镜的方法cpu高，而且视频过长时（1分钟左右）就会导出失败
+    AVMutableVideoComposition *mutableVideoComposition =
+    [AVMutableVideoComposition videoCompositionWithAsset:videoAsset applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
+        CIImage *image = request.sourceImage.imageByClampingToExtent;
+        [filter setValue:image forKey:kCIInputImageKey];
+        [filter setValue:@(0.8) forKey:kCIInputIntensityKey];
+        
+        CIImage *output = [filter.outputImage imageByCroppingToRect:request.sourceImage.extent];
+        
+        [request finishWithImage:output context:nil];
+    }];
+    
+    [self exportComposition:videoAsset
            videoComposition:mutableVideoComposition];
 }
 
@@ -343,8 +409,15 @@
     return animation;
 }
 
-- (void)exportComposition:(AVMutableComposition *)mutableComposition
+- (void)exportComposition:(AVAsset *)mutableComposition
          videoComposition:(AVMutableVideoComposition *)videoComposition {
+    if (!mutableComposition) {
+        return;
+    }
+    if (!videoComposition) {
+        return;
+    }
+    
     // Create a static date formatter so we only have to initialize it once.
     static NSDateFormatter *kDateFormatter;
     if (!kDateFormatter) {
@@ -369,7 +442,7 @@
                     [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:exporter.outputURL
                                                       completionBlock:^(NSURL *assetURL, NSError *error) {
                                                           if (error) {
-                                                              UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                                                              UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[NSString stringWithFormat:@"%@", exporter.error] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
                                                               [incompatibleVideoOrientationAlert show];
                                                           } else {
                                                               UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
@@ -377,6 +450,9 @@
                                                           }
                                                       }];
                 }
+            } else if (exporter.status == AVAssetExportSessionStatusFailed) {
+                UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[NSString stringWithFormat:@"%@ \n %@ \n %@", exporter.error, exporter.outputURL, mutableComposition] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+                [incompatibleVideoOrientationAlert show];
             }
         });
     }];
