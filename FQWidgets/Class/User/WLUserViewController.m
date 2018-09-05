@@ -72,9 +72,9 @@ static NSString *reusCellID = @"reusCellID";
         FQVideoComposition *composition = [FQVideoComposition new];
 //        [composition composeVideo:_asset1 secondVideoAsset:_asset2];
 //        [composition composeVideo:_asset1 audio:_asset2];
-//        [composition composeVideo:_asset1 image:[UIImage imageNamed:@"awesomeface"]];
+        [composition composeVideo:_asset1 image:[UIImage imageNamed:@"awesomeface"]];
 //        [composition composeVideo:_asset1 gifPath:[[NSBundle mainBundle] pathForResource:@"banana" ofType:@"gif"]];
-        [composition composeVideo:_asset1 filterName:@"CISepiaTone"];
+//        [composition composeVideo:_asset1 filterName:@"CISepiaTone"];
     }];
     [self.view addSubview:composeBtn];
     [composeBtn mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -291,6 +291,7 @@
     }
     
     // 这种加滤镜的方法cpu高，而且视频过长时（1分钟左右）就会导出失败
+    TODO("-----------考虑下其他的方式?");
     AVMutableVideoComposition *mutableVideoComposition =
     [AVMutableVideoComposition videoCompositionWithAsset:videoAsset applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
         CIImage *image = request.sourceImage.imageByClampingToExtent;
