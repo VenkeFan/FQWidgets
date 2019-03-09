@@ -38,11 +38,34 @@
 #define kLightFontSize          kSizeScale(12)
 
 // font
+
+#define kRegularFont(size)   \
+({  \
+UIFont *font;   \
+if (@available(iOS 8.2, *)) {   \
+font = [UIFont systemFontOfSize:size weight:UIFontWeightRegular];  \
+} else {    \
+font = [UIFont systemFontOfSize:size];    \
+}   \
+font;   \
+})
+
 #define kMediumFont(size)   \
 ({  \
 UIFont *font;   \
 if (@available(iOS 8.2, *)) {   \
 font = [UIFont systemFontOfSize:size weight:UIFontWeightMedium];  \
+} else {    \
+font = [UIFont systemFontOfSize:size];    \
+}   \
+font;   \
+})
+
+#define kBoldFont(size)   \
+({  \
+UIFont *font;   \
+if (@available(iOS 8.2, *)) {   \
+font = [UIFont systemFontOfSize:size weight:UIFontWeightBold];  \
 } else {    \
 font = [UIFont systemFontOfSize:size];    \
 }   \

@@ -1,0 +1,15 @@
+　　CoreText的布局同UIKit布局不太相同，CoreText中布局大体思路是确定文本绘制区域，接着得到文本实际大小(frame)。其具体步骤如下：
+
+　　1.首先要确定布局时绘制的区域，其对应的类为CG(Mutable)PathRef
+
+　  2.设置文本内容，其对应的类为NS(Mutable)AttributedString
+
+　  3.根据文本内容配置其CTFramesetterRef
+
+　  4.利用CTFramesetterRef得到CTFrame
+
+Laying out text in multiple columns is another common typesetting operation. Strictly speaking, Core Text itself only lays out one column at a time and does not calculate the column sizes or locations. You do those operations before calling Core Text to lay out the text within the path area you’ve calculated. In this sample, Core Text, in addition to laying out the text in each column, also provides the subrange within the text string for each column.
+
+The createColumnsWithColumnCount: method in Listing 2-3 accepts as a parameter the number of columns to be drawn and returns an array of paths, one path for each column.
+
+Listing 2-4 includes an implementation of the drawRect: method, which calls the local createColumnsWithColumnCount method, defined first in this listing. This code resides in a UIView subclass (an NSView subclass in OS X). The subclass includes an attributedString property, which is not shown here but whose accessor is called in this listing to return the attributed string to be laid out.

@@ -78,6 +78,16 @@
 		B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A5220889B9D0068CE32 /* FQReaderPlayerView.m */; };
 		B9C16A562089D2D40068CE32 /* YYFPSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A552089D2D40068CE32 /* YYFPSLabel.m */; };
 		B9C16A592089E5BB0068CE32 /* WLLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C16A582089E5BB0068CE32 /* WLLabel.m */; };
+		B9C228B9222E662E003E25EF /* FQHtmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228B8222E662E003E25EF /* FQHtmlParser.m */; };
+		B9C228BB222E6DCD003E25EF /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228BA222E6DCD003E25EF /* index.html */; };
+		B9C228C1222E7D1A003E25EF /* FQHtmlLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */; };
+		B9C228C4222F7052003E25EF /* FQHtmlLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228C3222F7051003E25EF /* FQHtmlLabel.m */; };
+		B9C228C6222F91A1003E25EF /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C5222F91A1003E25EF /* index2.html */; };
+		B9C228C8222FDDD7003E25EF /* timg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C7222FDDD6003E25EF /* timg.jpeg */; };
+		B9C228CA223121D0003E25EF /* index3.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C9223121D0003E25EF /* index3.html */; };
+		B9C228CE22312552003E25EF /* FQHtmlTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228CD22312552003E25EF /* FQHtmlTextAttachment.m */; };
+		B9C228D122312B9E003E25EF /* FQHtmlRunDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */; };
+		B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */; };
 		B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBE209033A400E9ACB1 /* weibo_3.json */; };
 		B9F30DC7209033A400E9ACB1 /* weibo_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBF209033A400E9ACB1 /* weibo_2.json */; };
 		B9F30DC8209033A400E9ACB1 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC0209033A400E9ACB1 /* weibo_5.json */; };
@@ -240,6 +250,22 @@
 		B9C16A552089D2D40068CE32 /* YYFPSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFPSLabel.m; sourceTree = "<group>"; };
 		B9C16A572089E5BB0068CE32 /* WLLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLLabel.h; sourceTree = "<group>"; };
 		B9C16A582089E5BB0068CE32 /* WLLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLLabel.m; sourceTree = "<group>"; };
+		B9C228B7222E662E003E25EF /* FQHtmlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlParser.h; sourceTree = "<group>"; };
+		B9C228B8222E662E003E25EF /* FQHtmlParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlParser.m; sourceTree = "<group>"; };
+		B9C228BA222E6DCD003E25EF /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		B9C228BF222E7D19003E25EF /* FQHtmlLabelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlLabelViewController.h; sourceTree = "<group>"; };
+		B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlLabelViewController.m; sourceTree = "<group>"; };
+		B9C228C2222F7051003E25EF /* FQHtmlLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlLabel.h; sourceTree = "<group>"; };
+		B9C228C3222F7051003E25EF /* FQHtmlLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlLabel.m; sourceTree = "<group>"; };
+		B9C228C5222F91A1003E25EF /* index2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index2.html; sourceTree = "<group>"; };
+		B9C228C7222FDDD6003E25EF /* timg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpeg; sourceTree = "<group>"; };
+		B9C228C9223121D0003E25EF /* index3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index3.html; sourceTree = "<group>"; };
+		B9C228CC22312552003E25EF /* FQHtmlTextAttachment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlTextAttachment.h; sourceTree = "<group>"; };
+		B9C228CD22312552003E25EF /* FQHtmlTextAttachment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlTextAttachment.m; sourceTree = "<group>"; };
+		B9C228CF22312B9E003E25EF /* FQHtmlRunDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlRunDelegate.h; sourceTree = "<group>"; };
+		B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlRunDelegate.m; sourceTree = "<group>"; };
+		B9C228D2223376A5003E25EF /* FQHtmlHighlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlHighlight.h; sourceTree = "<group>"; };
+		B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlHighlight.m; sourceTree = "<group>"; };
 		B9F30DBE209033A400E9ACB1 /* weibo_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_3.json; sourceTree = "<group>"; };
 		B9F30DBF209033A400E9ACB1 /* weibo_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_2.json; sourceTree = "<group>"; };
 		B9F30DC0209033A400E9ACB1 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
@@ -359,6 +385,10 @@
 		B902D792207E1A3F0080D294 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B9C228C7222FDDD6003E25EF /* timg.jpeg */,
+				B9C228BA222E6DCD003E25EF /* index.html */,
+				B9C228C5222F91A1003E25EF /* index2.html */,
+				B9C228C9223121D0003E25EF /* index3.html */,
 				B908299921392C7F00FD3C7D /* awesomeface.png */,
 				B908299B213960DC00FD3C7D /* banana.gif */,
 				B902D793207E1A3F0080D294 /* WL_4.jpg */,
@@ -486,6 +516,7 @@
 		B902D7B7207E1A3F0080D294 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				B9C228CB223124FA003E25EF /* FQLabel */,
 				B9C16A542089D2D30068CE32 /* YYFPSLabel.h */,
 				B9C16A552089D2D40068CE32 /* YYFPSLabel.m */,
 				B9C16A3E208741580068CE32 /* Timeline */,
@@ -511,6 +542,8 @@
 				B9A20B2D20B1CD5600A93F73 /* FQCarouselCollectionCell.m */,
 				B91A7D5F20F04A3C00E4515D /* FQDynamicLoadingView.h */,
 				B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */,
+				B9C228BF222E7D19003E25EF /* FQHtmlLabelViewController.h */,
+				B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -648,6 +681,23 @@
 			path = Timeline;
 			sourceTree = "<group>";
 		};
+		B9C228CB223124FA003E25EF /* FQLabel */ = {
+			isa = PBXGroup;
+			children = (
+				B9C228C2222F7051003E25EF /* FQHtmlLabel.h */,
+				B9C228C3222F7051003E25EF /* FQHtmlLabel.m */,
+				B9C228B7222E662E003E25EF /* FQHtmlParser.h */,
+				B9C228B8222E662E003E25EF /* FQHtmlParser.m */,
+				B9C228CC22312552003E25EF /* FQHtmlTextAttachment.h */,
+				B9C228CD22312552003E25EF /* FQHtmlTextAttachment.m */,
+				B9C228CF22312B9E003E25EF /* FQHtmlRunDelegate.h */,
+				B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */,
+				B9C228D2223376A5003E25EF /* FQHtmlHighlight.h */,
+				B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */,
+			);
+			path = FQLabel;
+			sourceTree = "<group>";
+		};
 		B9F30DBD209033A400E9ACB1 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,9 +823,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C228CA223121D0003E25EF /* index3.html in Resources */,
 				B9F30DCA209033A400E9ACB1 /* weibo_7.json in Resources */,
 				B9F30DC7209033A400E9ACB1 /* weibo_2.json in Resources */,
+				B9C228C6222F91A1003E25EF /* index2.html in Resources */,
 				B902D819207E29D80080D294 /* Localizable.strings in Resources */,
+				B9C228BB222E6DCD003E25EF /* index.html in Resources */,
 				B9F30DC8209033A400E9ACB1 /* weibo_5.json in Resources */,
 				B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */,
 				B9F30DC9209033A400E9ACB1 /* weibo_4.json in Resources */,
@@ -793,6 +846,7 @@
 				B902D7ED207E1A3F0080D294 /* WL_2.jpg in Resources */,
 				B902D7F0207E1A3F0080D294 /* WL_0.jpg in Resources */,
 				B902D7EC207E1A3F0080D294 /* WL_6.jpg in Resources */,
+				B9C228C8222FDDD7003E25EF /* timg.jpeg in Resources */,
 				B902D7F3207E1A3F0080D294 /* WL_Wide_1.jpg in Resources */,
 				B902D7EA207E1A3F0080D294 /* WL_5.jpg in Resources */,
 				B902D769207E18450080D294 /* Assets.xcassets in Resources */,
@@ -836,6 +890,7 @@
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -850,6 +905,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -896,6 +952,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9C228C1222E7D1A003E25EF /* FQHtmlLabelViewController.m in Sources */,
 				B902D80C207E1A3F0080D294 /* FQPlayerView.m in Sources */,
 				B902D7F4207E1A3F0080D294 /* WLHomeViewController.m in Sources */,
 				B902D805207E1A3F0080D294 /* FQBadgeView.m in Sources */,
@@ -919,8 +976,10 @@
 				B90CA43B208DB5E600BC14F4 /* UIImageView+FQExtension.m in Sources */,
 				B902D800207E1A3F0080D294 /* FQThumbnailView.m in Sources */,
 				B902D7F7207E1A3F0080D294 /* WLUserViewController.m in Sources */,
+				B9C228D122312B9E003E25EF /* FQHtmlRunDelegate.m in Sources */,
 				B902D7FC207E1A3F0080D294 /* FQCameraOperateView.m in Sources */,
 				B9A20B2820B1C47900A93F73 /* FQCarouselView.m in Sources */,
+				B9C228B9222E662E003E25EF /* FQHtmlParser.m in Sources */,
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
 				B901D4932091D98F0070410A /* UIScrollView+FQEmptyData.m in Sources */,
@@ -932,6 +991,7 @@
 				B9C16A44208748D70068CE32 /* WLFeedModel.m in Sources */,
 				B902D7F8207E1A3F0080D294 /* WLPublishViewController.m in Sources */,
 				B9C16A5020887D870068CE32 /* FQAssetReader.m in Sources */,
+				B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */,
 				B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */,
 				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,
@@ -945,9 +1005,11 @@
 				B902D7FD207E1A3F0080D294 /* FQCameraViewController.m in Sources */,
 				B91A7D6120F04A3C00E4515D /* FQDynamicLoadingView.m in Sources */,
 				B902D76F207E18450080D294 /* main.m in Sources */,
+				B9C228C4222F7052003E25EF /* FQHtmlLabel.m in Sources */,
 				B9C16A592089E5BB0068CE32 /* WLLabel.m in Sources */,
 				B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */,
 				B902D761207E18450080D294 /* AppDelegate.m in Sources */,
+				B9C228CE22312552003E25EF /* FQHtmlTextAttachment.m in Sources */,
 				B902D7FB207E1A3F0080D294 /* FQRadioButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

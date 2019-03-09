@@ -9,6 +9,7 @@
 #import "WLMessageViewController.h"
 #import "FQAssetsViewController.h"
 #import "FQImagePickerController.h"
+#import "FQHtmlLabelViewController.h"
 
 #import "FQImageButton.h"
 #import "FQThumbnailView.h"
@@ -74,6 +75,16 @@
         make.size.mas_equalTo(btn);
     }];
     
+    UIButton *htmlBtn = [self buttonWithTitle:@"Html解析" block:^(id sender) {
+        FQHtmlLabelViewController *ctr = [FQHtmlLabelViewController new];
+        [weakSelf.navigationController pushViewController:ctr animated:YES];
+    }];
+    [self.view addSubview:htmlBtn];
+    [htmlBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(cutBtn.mas_bottom).offset(20);
+        make.left.mas_equalTo(btn);
+        make.size.mas_equalTo(btn);
+    }];
     
     {
 //        FQThumbnailView *thumView = [[FQThumbnailView alloc] init];

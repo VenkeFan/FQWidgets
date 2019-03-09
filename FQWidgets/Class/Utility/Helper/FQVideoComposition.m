@@ -233,6 +233,9 @@
     
     [self exportComposition:mutableComposition
            videoComposition:mutableVideoComposition];
+    
+//    [self exportComposition:videoAsset
+//           videoComposition:nil];
 }
 
 - (void)composeVideo:(AVAsset *)videoAsset gifPath:(NSString *)gifPath {
@@ -413,9 +416,6 @@
 - (void)exportComposition:(AVAsset *)mutableComposition
          videoComposition:(AVMutableVideoComposition *)videoComposition {
     if (!mutableComposition) {
-        return;
-    }
-    if (!videoComposition) {
         return;
     }
     
