@@ -11,7 +11,7 @@
 #define kPadding            12.0
 
 NSString * const FQHtmlTextAttachmentToken = @"\uFFFC";
-NSString * const FQHtmlTextAttachmentPlaceholder = @"timg.jpeg";
+static NSString * const FQHtmlTextAttachmentPlaceholder = @"html_bg.png";
 
 @interface FQHtmlTextAttachment ()
 
@@ -19,6 +19,16 @@ NSString * const FQHtmlTextAttachmentPlaceholder = @"timg.jpeg";
 
 @implementation FQHtmlTextAttachment
 
++ (UIImage *)placeholder {
+    return [UIImage imageNamed:FQHtmlTextAttachmentPlaceholder];
+}
+
+- (void)dealloc {
+    NSLog(@"FQHtmlTextAttachment dealloc <<<<<<<<<<<<<");
+}
+
+/*
+ 
 - (CGRect)attachmentBoundsForTextContainer:(NSTextContainer *)textContainer proposedLineFragment:(CGRect)lineFrag glyphPosition:(CGPoint)position characterIndex:(NSUInteger)charIndex {
     CGFloat attachmentWidth = CGRectGetWidth(lineFrag) - textContainer.lineFragmentPadding * 2;
     
@@ -66,5 +76,6 @@ NSString * const FQHtmlTextAttachmentPlaceholder = @"timg.jpeg";
     
     return newImage;
 }
+*/
 
 @end

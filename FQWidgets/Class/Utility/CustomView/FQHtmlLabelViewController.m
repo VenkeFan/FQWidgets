@@ -23,8 +23,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _htmlLabel = [[FQHtmlLabel alloc] init];
-    _htmlLabel.delegate = self;
-    _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, 300);
+    _htmlLabel.htmlDelegate = self;
+    _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, kScreenHeight - 12 - kSafeAreaBottomY - kNavBarHeight - 200);
     _htmlLabel.layer.borderWidth = 1.0;
     _htmlLabel.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_htmlLabel];

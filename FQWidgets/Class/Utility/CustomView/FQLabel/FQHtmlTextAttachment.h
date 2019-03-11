@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 UIKIT_EXTERN NSString * const FQHtmlTextAttachmentToken;
-UIKIT_EXTERN NSString * const FQHtmlTextAttachmentPlaceholder;
 
-@interface FQHtmlTextAttachment : NSTextAttachment
+@interface FQHtmlTextAttachment : NSObject
 
++ (UIImage *)placeholder;
+
+@property (nonatomic, strong) id content;
 @property (nonatomic, copy) NSString *imgUrl;
 
 @end

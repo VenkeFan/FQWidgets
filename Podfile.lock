@@ -17,6 +17,7 @@ PODS:
   - Bugly (2.5.0)
   - DZNEmptyDataSet (1.8.1)
   - FBRetainCycleDetector (0.1.4)
+  - FLAnimatedImage (1.0.12)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -53,6 +54,9 @@ PODS:
   - SDWebImage (4.4.6):
     - SDWebImage/Core (= 4.4.6)
   - SDWebImage/Core (4.4.6)
+  - SDWebImage/GIF (4.4.6):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
   - SDWebImage/WebP (4.4.6):
     - libwebp (>= 0.5)
     - SDWebImage/Core
@@ -71,6 +75,7 @@ DEPENDENCIES:
   - MJRefresh
   - MLeaksFinder
   - SDWebImage (~> 4.0)
+  - SDWebImage/GIF
   - SDWebImage/WebP
   - YYKit
 
@@ -79,6 +84,7 @@ SPEC CHECKSUMS:
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   libwebp: b068a3bd7c45f7460f6715be7bed1a18fd5d6b48
@@ -89,6 +95,6 @@ SPEC CHECKSUMS:
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 5cfe35699029be208781a1ab1ef9263bb5037329
+PODFILE CHECKSUM: 0f3722afeb027c71d9ccfa9148000170467483b8
 
 COCOAPODS: 1.4.0

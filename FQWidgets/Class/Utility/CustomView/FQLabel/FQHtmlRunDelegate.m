@@ -38,6 +38,10 @@ static void DeallocCallBack(void *ref) {
     return self;
 }
 
+- (void)dealloc {
+    NSLog(@"FQHtmlRunDelegate dealloc <<<<<<<<<<<<<");
+}
+
 - (CTRunDelegateRef)delegateRef {
     CTRunDelegateCallbacks callbacks;
     callbacks.version = kCTRunDelegateCurrentVersion;

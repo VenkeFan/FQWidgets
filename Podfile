@@ -17,6 +17,7 @@ pod 'DZNEmptyDataSet'
 pod 'MBProgressHUD'
 pod 'SDWebImage', '~> 4.0'
 pod 'SDWebImage/WebP'
+pod 'SDWebImage/GIF'
 
 pod 'Bugly'
 pod 'MLeaksFinder', :configurations => ['Debug']

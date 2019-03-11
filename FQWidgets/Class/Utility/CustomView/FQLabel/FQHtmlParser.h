@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-UIKIT_EXTERN NSString * const FQCustomImageAttributeName;
-UIKIT_EXTERN NSString * const FQCustomURLAttributeName;
-UIKIT_EXTERN NSString * const MyCustomEmojiAttributeName;
+UIKIT_EXTERN NSString * const FQHtmlDelegateAttributeName;
+UIKIT_EXTERN NSString * const FQHtmlImageAttributeName;
+UIKIT_EXTERN NSString * const FQHtmlUrlAttributeName;
+UIKIT_EXTERN NSString * const MyHtmlEmojiAttributeName;
 
 @class FQHtmlParser;
 
@@ -24,7 +25,7 @@ UIKIT_EXTERN NSString * const MyCustomEmojiAttributeName;
 
 @property (nonatomic, copy) NSDictionary<NSAttributedStringKey,id> *typingAttributes;
 @property (nonatomic, copy) NSDictionary<NSAttributedStringKey,id> *linkTextAttributes;
-@property (nonatomic, strong, readonly) NSString *html;
+@property (nonatomic, copy, readonly) NSString *html;
 @property (nonatomic, strong, readonly) NSAttributedString *attributedText;
 @property (nonatomic, assign) CGFloat contentWidth;
 @property (nonatomic, strong, readonly) NSArray *highlightArray;

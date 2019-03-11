@@ -83,11 +83,12 @@
 		B9C228C1222E7D1A003E25EF /* FQHtmlLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */; };
 		B9C228C4222F7052003E25EF /* FQHtmlLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228C3222F7051003E25EF /* FQHtmlLabel.m */; };
 		B9C228C6222F91A1003E25EF /* index2.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C5222F91A1003E25EF /* index2.html */; };
-		B9C228C8222FDDD7003E25EF /* timg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C7222FDDD6003E25EF /* timg.jpeg */; };
 		B9C228CA223121D0003E25EF /* index3.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228C9223121D0003E25EF /* index3.html */; };
 		B9C228CE22312552003E25EF /* FQHtmlTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228CD22312552003E25EF /* FQHtmlTextAttachment.m */; };
 		B9C228D122312B9E003E25EF /* FQHtmlRunDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */; };
 		B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */; };
+		B9C228D722362828003E25EF /* FQHtmlAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */; };
+		B9C228DB22364A07003E25EF /* html_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C228D922364A06003E25EF /* html_bg.png */; };
 		B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBE209033A400E9ACB1 /* weibo_3.json */; };
 		B9F30DC7209033A400E9ACB1 /* weibo_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBF209033A400E9ACB1 /* weibo_2.json */; };
 		B9F30DC8209033A400E9ACB1 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC0209033A400E9ACB1 /* weibo_5.json */; };
@@ -258,7 +259,6 @@
 		B9C228C2222F7051003E25EF /* FQHtmlLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlLabel.h; sourceTree = "<group>"; };
 		B9C228C3222F7051003E25EF /* FQHtmlLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlLabel.m; sourceTree = "<group>"; };
 		B9C228C5222F91A1003E25EF /* index2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index2.html; sourceTree = "<group>"; };
-		B9C228C7222FDDD6003E25EF /* timg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpeg; sourceTree = "<group>"; };
 		B9C228C9223121D0003E25EF /* index3.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index3.html; sourceTree = "<group>"; };
 		B9C228CC22312552003E25EF /* FQHtmlTextAttachment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlTextAttachment.h; sourceTree = "<group>"; };
 		B9C228CD22312552003E25EF /* FQHtmlTextAttachment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlTextAttachment.m; sourceTree = "<group>"; };
@@ -266,6 +266,9 @@
 		B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlRunDelegate.m; sourceTree = "<group>"; };
 		B9C228D2223376A5003E25EF /* FQHtmlHighlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlHighlight.h; sourceTree = "<group>"; };
 		B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlHighlight.m; sourceTree = "<group>"; };
+		B9C228D522362827003E25EF /* FQHtmlAnimatedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlAnimatedView.h; sourceTree = "<group>"; };
+		B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlAnimatedView.m; sourceTree = "<group>"; };
+		B9C228D922364A06003E25EF /* html_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = html_bg.png; sourceTree = "<group>"; };
 		B9F30DBE209033A400E9ACB1 /* weibo_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_3.json; sourceTree = "<group>"; };
 		B9F30DBF209033A400E9ACB1 /* weibo_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_2.json; sourceTree = "<group>"; };
 		B9F30DC0209033A400E9ACB1 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
@@ -385,7 +388,7 @@
 		B902D792207E1A3F0080D294 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B9C228C7222FDDD6003E25EF /* timg.jpeg */,
+				B9C228D922364A06003E25EF /* html_bg.png */,
 				B9C228BA222E6DCD003E25EF /* index.html */,
 				B9C228C5222F91A1003E25EF /* index2.html */,
 				B9C228C9223121D0003E25EF /* index3.html */,
@@ -694,6 +697,8 @@
 				B9C228D022312B9E003E25EF /* FQHtmlRunDelegate.m */,
 				B9C228D2223376A5003E25EF /* FQHtmlHighlight.h */,
 				B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */,
+				B9C228D522362827003E25EF /* FQHtmlAnimatedView.h */,
+				B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */,
 			);
 			path = FQLabel;
 			sourceTree = "<group>";
@@ -846,10 +851,10 @@
 				B902D7ED207E1A3F0080D294 /* WL_2.jpg in Resources */,
 				B902D7F0207E1A3F0080D294 /* WL_0.jpg in Resources */,
 				B902D7EC207E1A3F0080D294 /* WL_6.jpg in Resources */,
-				B9C228C8222FDDD7003E25EF /* timg.jpeg in Resources */,
 				B902D7F3207E1A3F0080D294 /* WL_Wide_1.jpg in Resources */,
 				B902D7EA207E1A3F0080D294 /* WL_5.jpg in Resources */,
 				B902D769207E18450080D294 /* Assets.xcassets in Resources */,
+				B9C228DB22364A07003E25EF /* html_bg.png in Resources */,
 				B902D767207E18450080D294 /* Main.storyboard in Resources */,
 				B902D7F2207E1A3F0080D294 /* WL_Wide_0.jpg in Resources */,
 			);
@@ -882,6 +887,7 @@
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -897,6 +903,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -993,6 +1000,7 @@
 				B9C16A5020887D870068CE32 /* FQAssetReader.m in Sources */,
 				B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */,
 				B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */,
+				B9C228D722362828003E25EF /* FQHtmlAnimatedView.m in Sources */,
 				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,
 				B940760B2080CC940052AA40 /* FQAnimatedTransitioning.m in Sources */,

@@ -10,7 +10,6 @@
 #import "WLTimelineViewModel.h"
 #import "WLFeedCell.h"
 #import "FQRefreshHeader.h"
-#import "YYFPSLabel.h"
 
 static NSString *reuseCellID = @"WLDiscoveryFeedCell";
 
@@ -31,12 +30,6 @@ static NSString *reuseCellID = @"WLDiscoveryFeedCell";
     self.view.backgroundColor = kUIColorFromRGB(0xF6F6F6);
     
     [self.tableView.mj_header beginRefreshing];
-    
-    {
-        YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] initWithFrame:CGRectMake(10, kStatusBarHeight, 0, 0)];
-        [fpsLabel sizeToFit];
-        [[UIApplication sharedApplication].keyWindow addSubview:fpsLabel];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

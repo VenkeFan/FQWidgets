@@ -9,8 +9,8 @@
 #import "FQHtmlLabel.h"
 #import <CoreText/CoreText.h>
 #import "FQHtmlParser.h"
-#import "FQHtmlRunDelegate.h"
 #import "FQHtmlTextAttachment.h"
+#import "FLAnimatedImage.h"
 
 @interface FQHtmlLabel () <FQHtmlParserDelegate>
 
@@ -22,6 +22,8 @@
 @implementation FQHtmlLabel {
     CTFrameRef _ctFrame;
 }
+
+#pragma mark - LifeCycle
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -38,6 +40,14 @@
     _htmlParser.contentWidth = CGRectGetWidth(self.frame);
 }
 
+- (void)dealloc {
+    CFRelease(_ctFrame);
+    
+    NSLog(@"FQHtmlLabel dealloc !!!!!!!!!!!!!!");
+}
+
+#pragma mark -
+
 - (void)setText:(NSString *)text {
     _text = [text copy];
     
@@ -51,45 +61,46 @@
     
     _attributedText = attributedText;
     
-//    CGRect bounds = [attributedText boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil];
-//    CGSize contentSize = CGSizeMake(self.bounds.size.width, bounds.size.height);
-    
     CTFramesetterRef framesetter= CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
     
     CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX), nil);
     CGSize contentSize = CGSizeMake(self.bounds.size.width, bounds.height);
     
+    
     CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, bounds.width, bounds.height), NULL);
     CTFrameRef frameRef = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, NULL);
     _ctFrame = frameRef;
-    NSArray *lines = (__bridge NSArray *)CTFrameGetLines(frameRef);
     
-    CGPoint *lineOrigins = malloc(lines.count * sizeof(CGPoint));
+    CFArrayRef lines = CTFrameGetLines(frameRef);
+    CFIndex lineCount = CFArrayGetCount(lines);
+    
+    CGPoint *lineOrigins = malloc(lineCount * sizeof(CGPoint));
     CTFrameGetLineOrigins(frameRef, CFRangeMake(0, 0), lineOrigins);
     
     {
         // draw run
-        UIGraphicsBeginImageContext(contentSize);
+        UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextTranslateCTM(context, 0, contentSize.height);
         CGContextScaleCTM(context, 1.0, -1.0);
         
-        for (CFIndex index = 0; index < lines.count; index++) {
-            CTLineRef line = (__bridge CTLineRef)[lines objectAtIndex:index];
+        for (CFIndex index = 0; index < lineCount; index++) {
+            CTLineRef line = CFArrayGetValueAtIndex(lines, index);
             CGPoint ctLineOrigin = lineOrigins[index];
             CGFloat positionY = ctLineOrigin.y;
             
-            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
-            CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent) + leading);
+//            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+//            CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+//            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent));
             
             CFArrayRef runs = CTLineGetGlyphRuns(line);
             for (CFIndex i = 0; i < CFArrayGetCount(runs); i++) {
                 CTRunRef runRef = CFArrayGetValueAtIndex(runs, i);
                 NSDictionary *attrs = (id)CTRunGetAttributes(runRef);
                 
-                FQHtmlRunDelegate *delegate = attrs[FQCustomImageAttributeName];
-                if (!delegate) {
+                FQHtmlTextAttachment *attachment = attrs[FQHtmlImageAttributeName];
+                CTRunDelegateRef ctDelegate = (__bridge CTRunDelegateRef)[attrs valueForKey:(id)kCTRunDelegateAttributeName];
+                if (!attachment || !ctDelegate) {
                     // draw run
                     CGContextSetTextMatrix(context , CGAffineTransformIdentity);
                     CGContextSetTextPosition(context, ctLineOrigin.x, positionY);
@@ -99,10 +110,6 @@
                 }
                 
                 // draw attachment
-                CTRunDelegateRef ctDelegate = (__bridge CTRunDelegateRef)[attrs valueForKey:(id)kCTRunDelegateAttributeName];
-                if (!ctDelegate) {
-                    continue;
-                }
                 
                 CGRect runBounds;
                 CGFloat ascent;
@@ -119,19 +126,23 @@
 //                CGRect colRect = CGPathGetBoundingBox(pathRef);
 //                CGRect imageRect = CGRectOffset(runBounds, colRect.origin.x, colRect.origin.y);
                 
-                if ([delegate.content isKindOfClass:[FQHtmlTextAttachment class]]) {
-                    FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)delegate.content;
-                    UIImage *img = attachment.image;
-                    
+                if ([attachment.content isKindOfClass:[UIImage class]]) {
+                    UIImage *img = (UIImage *)attachment.content;
                     CGContextSaveGState(context);
                     CGContextSetAlpha(context, 0.2);
                     CGContextDrawImage(context, runBounds, img.CGImage);
                     CGContextRestoreGState(context);
+                } else if ([attachment.content isKindOfClass:[UIView class]]) {
+                    CGAffineTransform transform = CGAffineTransformMakeTranslation(0.0, contentSize.height);
+                    transform = CGAffineTransformScale(transform, 1.0, -1.0);
+                    runBounds = CGRectApplyAffineTransform(runBounds, transform);
+
+                    UIView *view = (UIView *)attachment.content;
+                    view.frame = runBounds;
+                    if (!view.superview) {
+                        [self.contentView addSubview:view];
+                    }
                 }
-                
-//                CGContextSetTextMatrix(context , CGAffineTransformIdentity);
-//                CGContextSetTextPosition(context, ctLineOrigin.x, positionY);
-//                CTRunDraw(runRef, context, CFRangeMake(0, 0));
             }
         }
         
@@ -141,6 +152,7 @@
         
         CGPathRelease(path);
         CFRelease(framesetter);
+        CFRelease(lineOrigins);
 //        CFRelease(frameRef);
     }
     
@@ -165,15 +177,17 @@
 //        CFRelease(frameRef);
     }
     
-    CGRect contentFrame = self.contentView.frame;
-    contentFrame.size.width = contentSize.width;
-    contentFrame.size.height = contentSize.height;
-    self.contentView.frame = contentFrame;
-    
-    if (self.contentView.frame.size.height > self.frame.size.height) {
-        self.contentSize = CGSizeMake(self.frame.size.width, self.contentView.frame.size.height);
-    } else {
-        self.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height + 1);
+    {
+        CGRect contentFrame = self.contentView.frame;
+        contentFrame.size.width = contentSize.width;
+        contentFrame.size.height = contentSize.height;
+        self.contentView.frame = contentFrame;
+        
+        if (self.contentView.frame.size.height > self.frame.size.height) {
+            self.contentSize = CGSizeMake(self.frame.size.width, self.contentView.frame.size.height);
+        } else {
+            self.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height + 1);
+        }
     }
 }
 
@@ -186,11 +200,7 @@
 #pragma mark - Private
 
 - (UIImage *)p_drawContent:(CGSize)size frameRef:(CTFrameRef)frameRef {
-//    CGFloat scale = [[UIScreen mainScreen] scale];
-    
-//    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    
-    UIGraphicsBeginImageContext(size);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetTextMatrix(context , CGAffineTransformIdentity);
     CGContextTranslateCTM(context, 0, size.height);
@@ -235,8 +245,8 @@
             for (int j = 0; j < self.htmlParser.highlightArray.count; j++) {
                 FQHtmlHighlight *highlight = self.htmlParser.highlightArray[j];
                 if (NSLocationInRange(index, highlight.range)) {
-                    if ([self.delegate respondsToSelector:@selector(htmlLabel:didHighlight:)]) {
-                        [self.delegate htmlLabel:self didHighlight:highlight];
+                    if ([self.htmlDelegate respondsToSelector:@selector(htmlLabel:didHighlight:)]) {
+                        [self.htmlDelegate htmlLabel:self didHighlight:highlight];
                     }
                     return;
                 }

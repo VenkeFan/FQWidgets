@@ -19,7 +19,7 @@
 
 @interface FQHtmlLabel : UIScrollView
 
-@property (nonatomic, weak) id<FQHtmlLabelDelegate> delegate;
+@property (nonatomic, weak) id<FQHtmlLabelDelegate> htmlDelegate;
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, strong) NSAttributedString *attributedText;
 //@property (nonatomic, assign) NSInteger numberOfLines;

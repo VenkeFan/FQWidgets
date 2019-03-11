@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FQHtmlRunDelegate : NSObject
 
-@property (nonatomic, strong) id content;
 @property (nonatomic, assign) CGFloat width;
 @property (nonatomic, assign) CGFloat height;
 @property (nonatomic, readonly) CTRunDelegateRef delegateRef;

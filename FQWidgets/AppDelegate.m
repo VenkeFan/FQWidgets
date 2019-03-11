@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "WLMainViewController.h"
+#import "YYFPSLabel.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,13 @@
 //    self.window.rootViewController = [WLMainViewController new];
     self.window.rootViewController = [[FQNavigationController alloc] initWithRootViewController:[WLMainViewController new]];
     [self.window makeKeyAndVisible];
+    
+    {
+        YYFPSLabel *fpsLabel = [[YYFPSLabel alloc] init];
+        [fpsLabel sizeToFit];
+        fpsLabel.center = CGPointMake(CGRectGetMidX(self.window.frame), kStatusBarHeight);
+        [self.window addSubview:fpsLabel];
+    }
     
     return YES;
 }

@@ -12,13 +12,16 @@
 #import "FQHtmlTextAttachment.h"
 #import "FQHtmlRunDelegate.h"
 #import "FQHtmlHighlight.h"
+#import "FQHtmlAnimatedView.h"
+#import "FLAnimatedImage.h"
 
 #define UrlFontColor        ([self.linkTextAttributes objectForKey:NSForegroundColorAttributeName] ?: kUIColorFromRGB(0x48779D))
 #define RichTextViewBold    UIFontWeightHeavy
 
-NSString * const FQCustomImageAttributeName  = @"FQCustomImageAttribute";
-NSString * const FQCustomURLAttributeName    = @"FQCustomURLAttribute";
-NSString * const MyCustomEmojiAttributeName  = @"FQCustomEmojiAttribute";
+NSString * const FQHtmlDelegateAttributeName    = @"FQHtmlDelegateAttribute";
+NSString * const FQHtmlImageAttributeName       = @"FQHtmlImageAttribute";
+NSString * const FQHtmlUrlAttributeName         = @"FQHtmlUrlAttribute";
+NSString * const MyHtmlEmojiAttributeName       = @"FQHtmlEmojiAttribute";
 
 static NSString * const UrlNameKey      = @"name";
 static NSString * const UrlLinkKey      = @"url";
@@ -26,7 +29,7 @@ static NSString * const EmojiNameKey    = @"emoji";
 
 @interface FQHtmlParser ()
 
-@property (nonatomic, strong, readwrite) NSString *html;
+@property (nonatomic, copy, readwrite) NSString *html;
 @property (nonatomic, strong, readwrite) NSAttributedString *attributedText;
 @property (nonatomic, strong) NSMutableArray *highlightArrayM;
 
@@ -39,6 +42,10 @@ static NSString * const EmojiNameKey    = @"emoji";
         
     }
     return self;
+}
+
+- (void)dealloc {
+    NSLog(@"FQHtmlParser dealloc <<<<<<<<<<<<<");
 }
 
 - (NSAttributedString *)attributedTextWithHtml:(NSString *)html {
@@ -124,7 +131,6 @@ static NSString * const EmojiNameKey    = @"emoji";
         
         NSString *urlText = [self p_filterHtml:urlHtmlText];
         if (urlText.length == 0) {
-            urlText = @"网页链接";
             continue;
         }
         NSRange urlTextRange = NSMakeRange(range.location, urlText.length);
@@ -186,9 +192,13 @@ static NSString * const EmojiNameKey    = @"emoji";
             customImg = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:imgSrc];
         }
         
+//        if (!customImg) {
+//            CGSize size = [self p_parseCustomImgSize:imgSrc];
+//            customImg = [self p_redrawPlaceholderImgWithSize:size];
+//        }
+        
         if (!customImg) {
-            CGSize size = [self p_parseCustomImgSize:imgSrc];
-            customImg = [self p_redrawPlaceholderImgWithSize:size];
+            [self p_downWebImage:imgSrc];
         }
         
         NSMutableAttributedString *imgAttr = [self p_parseCustomImage:customImg
@@ -196,10 +206,6 @@ static NSString * const EmojiNameKey    = @"emoji";
                                                            imageRange:range];
         [mutAttr replaceCharactersInRange:range withAttributedString:imgAttr];
         imgLength += range.length - imgAttr.length;
-        
-        if (!customImg) {
-            [self p_downWebImage:imgSrc];
-        }
     }
     
     return mutAttr;
@@ -223,15 +229,24 @@ static NSString * const EmojiNameKey    = @"emoji";
     hightlight.imgUrl = imageUrl;
     [self.highlightArrayM addObject:hightlight];
     
-    FQHtmlTextAttachment *attachment = [[FQHtmlTextAttachment alloc] init];
-    attachment.image = image ?: [UIImage imageNamed:FQHtmlTextAttachmentPlaceholder];
-    attachment.imgUrl = imageUrl;
-    
     FQHtmlRunDelegate *delegate = [FQHtmlRunDelegate new];
-    [self p_setDelegate:delegate attachment:attachment];
     
-    [imageText addAttributes:@{FQCustomImageAttributeName: delegate,
+    FQHtmlTextAttachment *attachment = [[FQHtmlTextAttachment alloc] init];
+    attachment.imgUrl = imageUrl;
+    if ([self p_isGif:imageUrl]) {
+        FQHtmlAnimatedView *animatedView = [FQHtmlAnimatedView new];
+        attachment.content = animatedView;
+        [self p_setDelegate:delegate size:animatedView.frame.size];
+    } else {
+        image = image ?: [FQHtmlTextAttachment placeholder];
+        attachment.content = image;
+        [self p_setDelegate:delegate size:image.size];
+    }
+    
+    [imageText addAttributes:@{FQHtmlImageAttributeName: attachment,
+                               FQHtmlDelegateAttributeName: delegate,
                                (id)kCTRunDelegateAttributeName: (id)delegate.delegateRef} range:range];
+    CFRelease(delegate.delegateRef);
     
     return imageText;
 }
@@ -268,23 +283,33 @@ static NSString * const EmojiNameKey    = @"emoji";
                                                         completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 if (error) {
-                                                                    NSLog(@"%@", error);
+                                                                    NSLog(@"!!!!! %@ !!!!!", error);
                                                                     return;
                                                                 }
                                                                 
-                                                                [self p_resetImage:image url:url];
+                                                                [self p_downloadedImage:image
+                                                                              imageData:data
+                                                                                    url:url];
                                                             });
                                                         }];
 }
 
-- (void)p_resetImage:(UIImage *)image url:(NSString *)url {
+- (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData url:(NSString *)url {
     [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQCustomImageAttributeName];
-        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)delegate.content;
+        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
+        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
         if ([attachment.imgUrl isEqualToString:url]) {
-            attachment.image = image;
             
-            [self p_setDelegate:delegate attachment:attachment];
+            if ([attachment.content isKindOfClass:[UIImage class]]) {
+                attachment.content = image;
+                [self p_setDelegate:delegate size:image.size];
+                
+            } else if ([attachment.content isKindOfClass:[UIView class]]) {
+                FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:imageData];
+                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)attachment.content;
+                animatedView.animatedImage = animatedImg;
+                [self p_setDelegate:delegate size:animatedView.size];
+            }
             
             if ([self.delegate respondsToSelector:@selector(htmlParserAttributedTextChanged:)]) {
                 [self.delegate htmlParserAttributedTextChanged:self];
@@ -293,15 +318,14 @@ static NSString * const EmojiNameKey    = @"emoji";
     }];
 }
 
-- (void)p_setDelegate:(FQHtmlRunDelegate *)delegate attachment:(FQHtmlTextAttachment *)attachment {
-    delegate.content = attachment;
-    
+- (void)p_setDelegate:(FQHtmlRunDelegate *)delegate size:(CGSize)size {
     CGFloat width = self.contentWidth;
     CGFloat height = kFQHtmlTextAttachmentDefaultHeight;
     
-    if (attachment.image) {
-        height = attachment.image.size.height / attachment.image.size.width * width;
+    if (size.width > 0 && size.height > 0) {
+        height = size.height / size.width * width;
     }
+    
     delegate.width = width;
     delegate.height = height;
 }
@@ -444,6 +468,11 @@ static NSString * const EmojiNameKey    = @"emoji";
              UrlLinkKey: url};
 }
 
+- (BOOL)p_isGif:(NSString *)imageUrl {
+    return [imageUrl hasSuffix:@".gif"] || [imageUrl hasSuffix:@".gif/"]
+    || [imageUrl hasSuffix:@".webp"] || [imageUrl hasSuffix:@".webp/"];
+}
+
 //- (void)parserEmoji:(NSMutableAttributedString *)text {
 //    NSArray<NSTextCheckingResult *> *emoticonResults = [[self regexEmoji] matchesInString:text.string
 //                                                                                  options:kNilOptions
@@ -480,7 +509,7 @@ static NSString * const EmojiNameKey    = @"emoji";
 //        NSAttributedString *emojiText = [NSAttributedString attributedStringWithAttachment:attachment];
 //        NSMutableAttributedString *mutEmojiText = [[NSMutableAttributedString alloc] initWithAttributedString:emojiText];
 //        [mutEmojiText addAttributes:self.typingAttributes range:NSMakeRange(0, mutEmojiText.length)];
-//        [mutEmojiText addAttributes:@{MyCustomEmojiAttributeName: @{EmojiNameKey: emoString}} range:NSMakeRange(0, mutEmojiText.length)];
+//        [mutEmojiText addAttributes:@{MyHtmlEmojiAttributeName: @{EmojiNameKey: emoString}} range:NSMakeRange(0, mutEmojiText.length)];
 //
 //        [text replaceCharactersInRange:range withAttributedString:mutEmojiText];
 //        emoClipLength += range.length - mutEmojiText.length;
