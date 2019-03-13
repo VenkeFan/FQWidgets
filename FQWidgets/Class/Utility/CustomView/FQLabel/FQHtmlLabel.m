@@ -12,6 +12,8 @@
 #import "FQHtmlTextAttachment.h"
 #import "FLAnimatedImage.h"
 
+static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq";
+
 @interface FQHtmlLabel () <FQHtmlParserDelegate>
 
 @property (nonatomic, strong) FQHtmlParser *htmlParser;
@@ -22,12 +24,15 @@
 @implementation FQHtmlLabel {
     CTFrameRef _ctFrame;
     UIColor *_backgroundColor;
+    dispatch_queue_t _renderQueue;
 }
 
 #pragma mark - LifeCycle
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        _renderQueue = dispatch_queue_create(kFQHtmlLabelRenderQueueKey, DISPATCH_QUEUE_CONCURRENT);
+        
         _contentView = [[UIView alloc] initWithFrame:frame];
         [self addSubview:_contentView];
     }
@@ -110,7 +115,7 @@
             
 //            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
 //            CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-//            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent));
+//            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent) + leading);
             
             CFArrayRef runs = CTLineGetGlyphRuns(line);
             for (CFIndex i = 0; i < CFArrayGetCount(runs); i++) {
@@ -225,6 +230,7 @@
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     
+    
     CFArrayRef lines = CTFrameGetLines(_ctFrame);
     CFIndex lineCount = CFArrayGetCount(lines);
     
@@ -241,25 +247,31 @@
         
         CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
         CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-        CGFloat height = ascent + ABS(descent);
+        CGFloat height = ascent + ABS(descent) + leading;
         
-        CGRect lineFrame = CGRectMake(ctLineOrigin.x, ctLineOrigin.y - descent, width, height);
+        CGRect lineFrame = CGRectMake(ctLineOrigin.x, ctLineOrigin.y - ABS(descent), width, height);
         lineFrame = CGRectApplyAffineTransform(lineFrame, transform);
-        
-//        NSLog(@"-->(%f, %f, %f, %f) / (%f, %f)", lineFrame.origin.x, lineFrame.origin.y, lineFrame.size.width, lineFrame.size.height, point.x, point.y);
-        
+
         if (CGRectContainsPoint(lineFrame, point)) {
             CFIndex index = CTLineGetStringIndexForPosition(line, point);
-            
+            if (index == kCFNotFound) {
+                return;
+            }
             for (int j = 0; j < self.htmlParser.highlightArray.count; j++) {
                 FQHtmlHighlight *highlight = self.htmlParser.highlightArray[j];
-                if (NSLocationInRange(index, highlight.range)) {
+                
+                // NSLocationInRange(index, highlight.range)
+                // 针对 CTLineGetStringIndexForPosition 获取的位置会向左偏移半个字符的问题暂时这样解决
+                // 后期改为遍历CTRun来彻底解决
+                if (index >= highlight.range.location && index <= highlight.range.location + highlight.range.length) {
+                    NSLog(@"--->%zd !!! %@ - %@ - %@ !!!", index, highlight.text, highlight.linkUrl, highlight.imgUrl);
                     if ([self.htmlDelegate respondsToSelector:@selector(htmlLabel:didHighlight:)]) {
                         [self.htmlDelegate htmlLabel:self didHighlight:highlight];
                     }
                     return;
                 }
             }
+            break;
         }
     }
 }

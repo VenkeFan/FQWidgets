@@ -23,6 +23,8 @@ NSString * const FQHtmlImageAttributeName       = @"FQHtmlImageAttribute";
 NSString * const FQHtmlUrlAttributeName         = @"FQHtmlUrlAttribute";
 NSString * const FQHtmlEmojiAttributeName       = @"FQHtmlEmojiAttribute";
 
+static char * const kFQHtmlParserQueueKey       = "com.widgets.htmlparser.fq";
+
 static NSString * const kRegExScriptPattern         = @"<script(.*?)>(.|\n)*?</script>";
 static NSString * const kRegExAnchorPattern         = @"<a[^<>]+>(.|\n)*?</a>";
 static NSString * const kRegExAnchorHeadPattern     = @"<a[^<>]+>";
@@ -30,7 +32,6 @@ static NSString * const kRegExAnchorTailPattern     = @"</a>";
 static NSString * const kRegExBoldPattern           = @"<b>[^<]*</b>";
 static NSString * const kRegExImgPattern            = @"<img(.*?)/>";
 static NSString * const kRegExBrakePattern          = @"<br([ |/]?)>";
-
 static NSString * const kRegExImgSrcPattern         = @"src=['|\"](.*?)['|\"]";
 static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)"
 "|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
@@ -46,11 +47,13 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 
 @end
 
-@implementation FQHtmlParser
+@implementation FQHtmlParser {
+    dispatch_queue_t _parseQueue;
+}
 
 - (instancetype)init {
     if (self = [super init]) {
-        
+        _parseQueue = dispatch_queue_create(kFQHtmlParserQueueKey, DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
 }
@@ -176,9 +179,9 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         if ([anchorHtmlTxt.string containsString:@"href"]) {
             urlStr = [self p_parseUrlLink:anchorHtmlTxt.string];
         }
-        if (urlStr.length == 0) {
-            continue;
-        }
+//        if (urlStr.length == 0) {
+//            continue;
+//        }
         urlStr = [self p_convertUrlStr:urlStr];
         
 //        NSString *anchorTxt = [self p_filterHtmlTags:anchorHtmlTxt.string];
@@ -215,6 +218,14 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             }
         }
         
+        for (int i = 0; i < self.highlightArrayM.count; i++) {
+            FQHtmlHighlight *tmp = self.highlightArrayM[i];
+            if (tmp.range.location >= range.location + range.length) {
+                CGFloat tmpLoc = tmp.range.location - (range.length - anchorTxt.length);
+                tmp.range = NSMakeRange(tmpLoc, tmp.range.length);
+            }
+        }
+        
         if (!isExist) {
             FQHtmlHighlight *highlight = [FQHtmlHighlight new];
             highlight.range = anchorTagRange;
@@ -223,6 +234,8 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             highlight.imgUrl = imgUrl;
             [self.highlightArrayM addObject:highlight];
         }
+        
+        
         
         NSAttributedString *anchorAttrStr = [[NSAttributedString alloc] initWithString:anchorTxt attributes:originalAttrs];
         [mutAttr replaceCharactersInRange:range withAttributedString:anchorAttrStr];
@@ -304,9 +317,9 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         NSString *imgHtmlText = [mutAttr.string substringWithRange:range];
         
         NSString *imgSrc = [self p_parseImgSrc:imgHtmlText];
-        if (imgSrc.length == 0) {
-            continue;
-        }
+//        if (imgSrc.length == 0) {
+//            continue;
+//        }
         
         UIImage *customImg = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:imgSrc];
         if (!customImg) {

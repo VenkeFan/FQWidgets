@@ -43,7 +43,7 @@
 #pragma mark - FQHtmlLabelDelegate
 
 - (void)htmlLabel:(FQHtmlLabel *)htmlLabel didHighlight:(FQHtmlHighlight *)highlight {
-    NSLog(@"!!! %@ - %@ - %@ !!!", highlight.text, highlight.linkUrl, highlight.imgUrl);
+    
 }
 
 @end
