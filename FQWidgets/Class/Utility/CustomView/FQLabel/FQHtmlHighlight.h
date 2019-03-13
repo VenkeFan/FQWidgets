@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, FQHtmlHighlightType) {
 
 @interface FQHtmlHighlight : NSObject
 
-@property (nonatomic, assign) FQHtmlHighlightType type;
+@property (nonatomic, assign, readonly) FQHtmlHighlightType type;
 @property (nonatomic, assign) NSRange range;
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, copy) NSString *linkUrl;

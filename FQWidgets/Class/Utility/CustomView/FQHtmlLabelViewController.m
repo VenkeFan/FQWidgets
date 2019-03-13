@@ -23,13 +23,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _htmlLabel = [[FQHtmlLabel alloc] init];
+    _htmlLabel.backgroundColor = [UIColor lightGrayColor];
     _htmlLabel.htmlDelegate = self;
     _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, kScreenHeight - 12 - kSafeAreaBottomY - kNavBarHeight - 200);
     _htmlLabel.layer.borderWidth = 1.0;
     _htmlLabel.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_htmlLabel];
     
-    NSURL *testFileUrl = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
+    NSURL *testFileUrl = [[NSBundle mainBundle] URLForResource:@"index2" withExtension:@"html"];
     NSData *data = [NSData dataWithContentsOfURL:testFileUrl];
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     

@@ -21,6 +21,7 @@
 
 @implementation FQHtmlLabel {
     CTFrameRef _ctFrame;
+    UIColor *_backgroundColor;
 }
 
 #pragma mark - LifeCycle
@@ -28,7 +29,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         _contentView = [[UIView alloc] initWithFrame:frame];
-        _contentView.backgroundColor = [UIColor lightGrayColor];
         [self addSubview:_contentView];
     }
     return self;
@@ -44,6 +44,18 @@
     CFRelease(_ctFrame);
     
     NSLog(@"FQHtmlLabel dealloc !!!!!!!!!!!!!!");
+}
+
+#pragma mark - Override
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    
+    self.contentView.backgroundColor = backgroundColor;
+}
+
+- (UIColor *)backgroundColor {
+    return _backgroundColor;
 }
 
 #pragma mark -
@@ -64,8 +76,11 @@
     CTFramesetterRef framesetter= CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
     
     CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX), nil);
-    CGSize contentSize = CGSizeMake(self.bounds.size.width, bounds.height);
+    if (bounds.width == 0 || bounds.height == 0) {
+        return;
+    }
     
+    CGSize contentSize = CGSizeMake(self.bounds.size.width, bounds.height);
     
     CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, bounds.width, bounds.height), NULL);
     CTFrameRef frameRef = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, NULL);
@@ -79,7 +94,11 @@
     
     {
         // draw run
+#if TARGET_OS_SIMULATOR
+        UIGraphicsBeginImageContext(contentSize);
+#else
         UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
+#endif
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextTranslateCTM(context, 0, contentSize.height);
         CGContextScaleCTM(context, 1.0, -1.0);
@@ -110,7 +129,6 @@
                 }
                 
                 // draw attachment
-                
                 CGRect runBounds;
                 CGFloat ascent;
                 CGFloat descent;
@@ -158,17 +176,6 @@
     
     {
         // draw frame
-//        CFIndex index = 0;
-//        for (id line in lines) {
-//            CGPoint ctLineOrigin = lineOrigins[index];
-//
-//            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
-//            CGFloat width = (CGFloat)CTLineGetTypographicBounds((__bridge CTLineRef)line, &ascent, &descent, &leading);
-//            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent) + leading);
-//
-//            index++;
-//        }
-//
 //        UIImage *img = [self p_drawContent:contentSize frameRef:frameRef];
 //        self.contentView.layer.contents = (__bridge id)img.CGImage;
 //
@@ -211,6 +218,8 @@
     
     return img;
 }
+
+#pragma mark - Handler
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];

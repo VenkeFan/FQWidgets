@@ -11,7 +11,7 @@
 UIKIT_EXTERN NSString * const FQHtmlDelegateAttributeName;
 UIKIT_EXTERN NSString * const FQHtmlImageAttributeName;
 UIKIT_EXTERN NSString * const FQHtmlUrlAttributeName;
-UIKIT_EXTERN NSString * const MyHtmlEmojiAttributeName;
+UIKIT_EXTERN NSString * const FQHtmlEmojiAttributeName;
 
 @class FQHtmlParser;
 

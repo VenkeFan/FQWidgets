@@ -21,14 +21,25 @@
 NSString * const FQHtmlDelegateAttributeName    = @"FQHtmlDelegateAttribute";
 NSString * const FQHtmlImageAttributeName       = @"FQHtmlImageAttribute";
 NSString * const FQHtmlUrlAttributeName         = @"FQHtmlUrlAttribute";
-NSString * const MyHtmlEmojiAttributeName       = @"FQHtmlEmojiAttribute";
+NSString * const FQHtmlEmojiAttributeName       = @"FQHtmlEmojiAttribute";
 
-static NSString * const UrlNameKey      = @"name";
-static NSString * const UrlLinkKey      = @"url";
-static NSString * const EmojiNameKey    = @"emoji";
+static NSString * const kRegExScriptPattern         = @"<script(.*?)>(.|\n)*?</script>";
+static NSString * const kRegExAnchorPattern         = @"<a[^<>]+>(.|\n)*?</a>";
+static NSString * const kRegExAnchorHeadPattern     = @"<a[^<>]+>";
+static NSString * const kRegExAnchorTailPattern     = @"</a>";
+static NSString * const kRegExBoldPattern           = @"<b>[^<]*</b>";
+static NSString * const kRegExImgPattern            = @"<img(.*?)/>";
+static NSString * const kRegExBrakePattern          = @"<br([ |/]?)>";
+
+static NSString * const kRegExImgSrcPattern         = @"src=['|\"](.*?)['|\"]";
+static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)"
+"|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
 
 @interface FQHtmlParser ()
 
+@property (nonatomic, strong) NSArray *validTags;
+@property (nonatomic, strong) NSArray *ambiguousTags;
+@property (nonatomic, strong) NSArray *invalidTags;
 @property (nonatomic, copy, readwrite) NSString *html;
 @property (nonatomic, strong, readwrite) NSAttributedString *attributedText;
 @property (nonatomic, strong) NSMutableArray *highlightArrayM;
@@ -49,140 +60,250 @@ static NSString * const EmojiNameKey    = @"emoji";
 }
 
 - (NSAttributedString *)attributedTextWithHtml:(NSString *)html {
+    html = [self p_filterScriptTagsAndContent:html];
+    html = [self p_filterValidHtmlTags:html];
     self.html = html;
+    
+    if (html.length == 0) {
+        return nil;
+    }
     
     self.attributedText = [[NSAttributedString alloc] initWithString:html attributes:@{NSFontAttributeName: kRegularFont(16), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)}];
     
     self.attributedText = [self p_parseBoldHtmlString:self.attributedText];
-    self.attributedText = [self p_parseUrlHtmlString:self.attributedText];
     self.attributedText = [self p_parseImgHtmlString:self.attributedText];
     //    [self parserEmoji:filterStr];
     self.attributedText = [self p_parseLineBreakHtmlString:self.attributedText];
+    self.attributedText = [self p_parseAnchorHtmlString:self.attributedText];
     
     return self.attributedText;
 }
 
 #pragma mark - Private
 
-- (BOOL)p_isBoldFont:(UIFont *)font {
-    UIFontDescriptor *fontDescriptor = font.fontDescriptor;
-    UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
-    BOOL isBold = (fontDescriptorSymbolicTraits & UIFontDescriptorTraitBold) != 0;
+- (NSString *)p_filterScriptTagsAndContent:(NSString *)htmlString {
+    if (htmlString.length == 0) {
+        return htmlString;
+    }
     
-    return isBold;
-}
-
-- (NSMutableAttributedString *)p_parseBoldHtmlString:(NSAttributedString *)attrStr {
-    NSMutableAttributedString *mutAttr = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExScriptPattern str:htmlString];
+    if (resultArray.count == 0) {
+        return htmlString;
+    }
     
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"<b>[^<]*</b>"
-                                                                             options:kNilOptions
-                                                                               error:nil];
-    NSArray<NSTextCheckingResult *> *resultArray = [regular matchesInString:attrStr.string
-                                                                    options:kNilOptions
-                                                                      range:NSMakeRange(0, attrStr.length)];
-    
-    NSInteger boldLength = 0;
+    NSMutableString *strM = [NSMutableString stringWithString:htmlString];
+    NSInteger scriptLength = 0;
     for (NSTextCheckingResult *result in resultArray) {
-        if (result.range.location == NSNotFound || result.range.length < 1) {
+        NSRange range = result.range;
+        range.location -= scriptLength;
+        
+        if ([self p_isOutOfRange:range str:strM]) {
             continue;
         }
-        NSRange range = result.range;
-        range.location -= boldLength;
-        NSString *boldHtmlText = [mutAttr.string substringWithRange:range];
-        NSString *boldText = [self p_filterHtml:boldHtmlText];
-        NSRange boldTextRange = NSMakeRange(range.location, boldText.length);
         
-        UIFont *font = [attrStr attribute:NSFontAttributeName atIndex:range.location effectiveRange:nil];
-        [mutAttr replaceCharactersInRange:range withString:boldText];
-        [mutAttr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:font.pointSize], NSForegroundColorAttributeName: [UIColor redColor]} range:boldTextRange];
-        boldLength += range.length - boldText.length;
+        [strM deleteCharactersInRange:range];
+        scriptLength += range.length;
+    }
+    return strM;
+}
+
+- (NSString *)p_filterValidHtmlTags:(NSString *)htmlString {
+    if (htmlString.length == 0) {
+        return htmlString;
+    }
+    
+    if ([htmlString containsString:@"&lt;"]) {
+        htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
+    }
+    if ([htmlString containsString:@"&gt;"]) {
+        htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
+    }
+    
+    NSScanner *scanner = [NSScanner scannerWithString:htmlString];
+    NSString *text = nil;
+    BOOL isValid = NO;
+    
+    while (!scanner.isAtEnd) {
+        [scanner scanUpToString:@"<" intoString:nil];
+        [scanner scanUpToString:@">" intoString:&text];
+        isValid = NO;
+        
+        for (int i = 0 ; i < self.validTags.count; i++) {
+            if ([text containsString:self.validTags[i]]) {
+                isValid = YES;
+                break;
+            }
+        }
+        if (isValid) {
+            continue;
+        }
+        
+        for (int i = 0; i < self.ambiguousTags.count; i++) {
+            if ([text isEqualToString:self.ambiguousTags[i]]) {
+                isValid = YES;
+                break;
+            }
+        }
+        if (isValid) {
+            continue;
+        }
+        
+        htmlString = [htmlString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
+    }
+    
+    return htmlString;
+}
+
+- (NSAttributedString *)p_parseAnchorHtmlString:(NSAttributedString *)attrStr {
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExAnchorPattern str:attrStr.string];
+    if (resultArray.count == 0) {
+        return attrStr;
+    }
+    
+    NSMutableAttributedString *mutAttr = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
+    NSInteger txtOffset = 0;
+    for (NSTextCheckingResult *result in resultArray) {
+        NSRange range = result.range;
+        range.location -= txtOffset;
+        
+        if ([self p_isOutOfRange:range str:mutAttr.string]) {
+            continue;
+        }
+        
+        NSAttributedString *anchorHtmlTxt = [mutAttr attributedSubstringFromRange:range];
+        
+        NSString *urlStr = @"";
+        if ([anchorHtmlTxt.string containsString:@"href"]) {
+            urlStr = [self p_parseUrlLink:anchorHtmlTxt.string];
+        }
+        if (urlStr.length == 0) {
+            continue;
+        }
+        urlStr = [self p_convertUrlStr:urlStr];
+        
+//        NSString *anchorTxt = [self p_filterHtmlTags:anchorHtmlTxt.string];
+        NSString *anchorTxt = [anchorHtmlTxt.string stringByReplacingOccurrencesOfString:kRegExAnchorHeadPattern withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, anchorHtmlTxt.length)];
+        anchorTxt = [anchorTxt stringByReplacingOccurrencesOfString:kRegExAnchorTailPattern withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, anchorTxt.length)];
+        anchorTxt = [anchorTxt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (anchorTxt.length == 0) {
+            continue;
+        }
+        NSRange anchorTxtRange = [anchorHtmlTxt.string rangeOfString:anchorTxt];
+        if ([self p_isOutOfRange:anchorTxtRange str:anchorHtmlTxt.string]) {
+            continue;
+        }
+        NSDictionary *originalAttrs = [anchorHtmlTxt attributesAtIndex:anchorTxtRange.location effectiveRange:nil];
+        
+        NSString *imgUrl = nil;
+        if ([originalAttrs objectForKey:FQHtmlImageAttributeName]) {
+            FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[originalAttrs objectForKey:FQHtmlImageAttributeName];
+            imgUrl = attachment.imgUrl;
+        }
+        
+        NSRange anchorTagRange = NSMakeRange(range.location, anchorTxt.length);
+        
+        BOOL isExist = NO;
+        if (imgUrl) {
+            for (int i = 0; i < self.highlightArrayM.count; i++) {
+                FQHtmlHighlight *tmp = self.highlightArrayM[i];
+                if ([tmp.imgUrl isEqualToString:imgUrl]) {
+                    tmp.range = anchorTagRange;
+                    tmp.linkUrl = urlStr;
+                    isExist = YES;
+                    break;
+                }
+            }
+        }
+        
+        if (!isExist) {
+            FQHtmlHighlight *highlight = [FQHtmlHighlight new];
+            highlight.range = anchorTagRange;
+            highlight.text = anchorTxt;
+            highlight.linkUrl = urlStr;
+            highlight.imgUrl = imgUrl;
+            [self.highlightArrayM addObject:highlight];
+        }
+        
+        NSAttributedString *anchorAttrStr = [[NSAttributedString alloc] initWithString:anchorTxt attributes:originalAttrs];
+        [mutAttr replaceCharactersInRange:range withAttributedString:anchorAttrStr];
+        
+        if ([self p_isOutOfRange:anchorTagRange str:mutAttr.string]) {
+            continue;
+        }
+        if (!imgUrl) {
+            [mutAttr addAttributes:@{NSUnderlineStyleAttributeName: @(YES),
+                                     NSForegroundColorAttributeName: UrlFontColor}
+                             range:anchorTagRange];
+        }
+        
+        txtOffset += range.length - anchorTxt.length;
     }
     
     return mutAttr;
 }
 
-- (NSMutableAttributedString *)p_parseUrlHtmlString:(NSAttributedString *)attrStr {
+- (NSAttributedString *)p_parseBoldHtmlString:(NSAttributedString *)attrStr {
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExBoldPattern str:attrStr.string];
+    if (resultArray.count == 0) {
+        return attrStr;
+    }
+    
     NSMutableAttributedString *mutAttr = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
-    
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"<a[^<>]+>.+?</a>"
-                                                                             options:kNilOptions
-                                                                               error:nil];
-    NSArray<NSTextCheckingResult *> *resultArray = [regular matchesInString:attrStr.string
-                                                                    options:kNilOptions
-                                                                      range:NSMakeRange(0, attrStr.length)];
-    
-    NSInteger urlLength = 0;
+    NSInteger txtOffset = 0;
     for (NSTextCheckingResult *result in resultArray) {
-        if (result.range.location == NSNotFound || result.range.length < 1) {
-            continue;
-        }
         NSRange range = result.range;
-        range.location -= urlLength;
-        NSString *urlHtmlText = [mutAttr.string substringWithRange:range];
+        range.location -= txtOffset;
         
-        NSString *url = @"";
-        if ([urlHtmlText containsString:@"href"]) {
-            url = [self p_parseUrlLink:urlHtmlText];
-        }
-        if (url.length == 0) {
+        if ([self p_isOutOfRange:range str:mutAttr.string]) {
             continue;
         }
         
-        NSString *urlText = [self p_filterHtml:urlHtmlText];
-        if (urlText.length == 0) {
+        NSAttributedString *boldHtmlText = [mutAttr attributedSubstringFromRange:range];
+        NSString *boldText = [self p_filterHtmlTags:boldHtmlText.string];
+        if (boldText.length == 0) {
             continue;
         }
-        NSRange urlTextRange = NSMakeRange(range.location, urlText.length);
+        NSRange boldTxtRange = [boldHtmlText.string rangeOfString:boldText];
+        if ([self p_isOutOfRange:boldTxtRange str:boldHtmlText.string]) {
+            continue;
+        }
+        NSDictionary *originalAttrs = [boldHtmlText attributesAtIndex:boldTxtRange.location effectiveRange:nil];
         
-//        NSDictionary *dic = [self p_getCustomURLDictionary:urlText url:url];
-//        if (!dic) {
-//            continue;
-//        }
-        
-        if (![url hasPrefix:@"http"] && ![url hasPrefix:@"https"]) {
-            url = [NSString stringWithFormat:@"http://%@", url];
+        NSRange boldTagRange = NSMakeRange(range.location, boldText.length);
+        if ([self p_isOutOfRange:boldTagRange str:mutAttr.string]) {
+            continue;
         }
         
-        FQHtmlHighlight *hightlight = [FQHtmlHighlight new];
-        hightlight.type = FQHtmlHighlightType_Link;
-        hightlight.range = urlTextRange;
-        hightlight.text = urlText;
-        hightlight.linkUrl = url;
-        [self.highlightArrayM addObject:hightlight];
+        NSAttributedString *boldAttrStr = [[NSAttributedString alloc] initWithString:boldText attributes:originalAttrs];
+        [mutAttr replaceCharactersInRange:range withAttributedString:boldAttrStr];
         
-        [mutAttr replaceCharactersInRange:range withString:hightlight.text];
-        [mutAttr addAttributes:@{NSUnderlineStyleAttributeName: @(YES),
-                                 NSForegroundColorAttributeName: UrlFontColor}
-                         range:urlTextRange];
-        
-        urlLength += range.length - urlText.length;
+        UIFont *font = [boldHtmlText attribute:NSFontAttributeName atIndex:0 effectiveRange:nil];
+        [mutAttr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:font.pointSize]} range:boldTagRange];
+        txtOffset += range.length - boldText.length;
     }
     
     return mutAttr;
 }
 
-- (NSMutableAttributedString *)p_parseImgHtmlString:(NSAttributedString *)attrStr {
+- (NSAttributedString *)p_parseImgHtmlString:(NSAttributedString *)attrStr {
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExImgPattern str:attrStr.string];
+    if (resultArray.count == 0) {
+        return attrStr;
+    }
+    
     NSMutableAttributedString *mutAttr = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
-    
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"<img(.*?)/>"
-                                                                             options:kNilOptions
-                                                                               error:nil];
-    NSArray<NSTextCheckingResult *> *resultArray = [regular matchesInString:attrStr.string
-                                                                    options:kNilOptions
-                                                                      range:NSMakeRange(0, attrStr.length)];
-    
-    __block NSInteger imgLength = 0;
+    NSInteger txtOffset = 0;
     for (NSTextCheckingResult *result in resultArray) {
-        if (result.range.location == NSNotFound || result.range.length < 1) {
+        NSRange range = result.range;
+        range.location -= txtOffset;
+        
+        if ([self p_isOutOfRange:range str:mutAttr.string]) {
             continue;
         }
-        NSRange range = result.range;
-        range.location -= imgLength;
+        
         NSString *imgHtmlText = [mutAttr.string substringWithRange:range];
         
-        NSString *imgSrc = [self p_parseCustomImgSrc:imgHtmlText];
-        
+        NSString *imgSrc = [self p_parseImgSrc:imgHtmlText];
         if (imgSrc.length == 0) {
             continue;
         }
@@ -192,44 +313,46 @@ static NSString * const EmojiNameKey    = @"emoji";
             customImg = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:imgSrc];
         }
         
-//        if (!customImg) {
-//            CGSize size = [self p_parseCustomImgSize:imgSrc];
-//            customImg = [self p_redrawPlaceholderImgWithSize:size];
-//        }
-        
         if (!customImg) {
-            [self p_downWebImage:imgSrc];
+            [self p_downloadWebImage:imgSrc];
         }
         
-        NSMutableAttributedString *imgAttr = [self p_parseCustomImage:customImg
-                                                             imageUrl:imgSrc
-                                                           imageRange:range];
+        NSMutableAttributedString *imgAttr = [self p_parseImage:customImg
+                                                       imageUrl:imgSrc
+                                                  imageLocation:range.location];
+        if (!imgAttr) {
+            continue;
+        }
         [mutAttr replaceCharactersInRange:range withAttributedString:imgAttr];
-        imgLength += range.length - imgAttr.length;
+        txtOffset += range.length - imgAttr.length;
     }
     
     return mutAttr;
 }
 
-- (NSMutableAttributedString *)p_parseCustomImage:(UIImage *)image
-                                         imageUrl:(NSString *)imageUrl
-                                       imageRange:(NSRange)imageRange {
+- (NSMutableAttributedString *)p_parseImage:(UIImage *)image
+                                   imageUrl:(NSString *)imageUrl
+                              imageLocation:(CGFloat)imageLocation {
     unichar objectReplacementChar = 0xFFFC;
     NSString *content = [NSString stringWithCharacters:&objectReplacementChar length:1];
     NSMutableAttributedString *imageText = [[NSMutableAttributedString alloc] initWithString:content];
     
     NSRange range = NSMakeRange(0, imageText.length);
+    
     if (self.typingAttributes) {
         [imageText addAttributes:self.typingAttributes range:range];
     }
     
-    FQHtmlHighlight *hightlight = [FQHtmlHighlight new];
-    hightlight.type = FQHtmlHighlightType_Image;
-    hightlight.range = NSMakeRange(imageRange.location, imageText.length);
-    hightlight.imgUrl = imageUrl;
-    [self.highlightArrayM addObject:hightlight];
+    FQHtmlHighlight *highlight = [FQHtmlHighlight new];
+    highlight.range = NSMakeRange(imageLocation, imageText.length);
+    highlight.text = content;
+    highlight.imgUrl = imageUrl;
+    [self.highlightArrayM addObject:highlight];
     
     FQHtmlRunDelegate *delegate = [FQHtmlRunDelegate new];
+    if (!delegate.delegateRef) {
+        return nil;
+    }
     
     FQHtmlTextAttachment *attachment = [[FQHtmlTextAttachment alloc] init];
     attachment.imgUrl = imageUrl;
@@ -242,7 +365,13 @@ static NSString * const EmojiNameKey    = @"emoji";
         attachment.content = image;
         [self p_setDelegate:delegate size:image.size];
     }
+    if (!attachment) {
+        return nil;
+    }
     
+    if ([self p_isOutOfRange:range str:imageText.string]) {
+        return nil;
+    }
     [imageText addAttributes:@{FQHtmlImageAttributeName: attachment,
                                FQHtmlDelegateAttributeName: delegate,
                                (id)kCTRunDelegateAttributeName: (id)delegate.delegateRef} range:range];
@@ -251,54 +380,69 @@ static NSString * const EmojiNameKey    = @"emoji";
     return imageText;
 }
 
-- (NSMutableAttributedString *)p_parseLineBreakHtmlString:(NSAttributedString *)attrStr {
+- (NSAttributedString *)p_parseLineBreakHtmlString:(NSAttributedString *)attrStr {
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExBrakePattern str:attrStr.string];
+    if (resultArray.count == 0) {
+        return attrStr;
+    }
+    
     NSMutableAttributedString *mutAttr = [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
-    
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"<br([ |/]?)>"
-                                                                             options:kNilOptions
-                                                                               error:nil];
-    NSArray<NSTextCheckingResult *> *resultArray = [regular matchesInString:attrStr.string
-                                                                    options:kNilOptions
-                                                                      range:NSMakeRange(0, attrStr.length)];
-    
-    NSInteger breakLength = 0;
+    NSInteger txtOffset = 0;
     for (NSTextCheckingResult *result in resultArray) {
-        if (result.range.location == NSNotFound || result.range.length < 1) {
+        NSRange range = result.range;
+        range.location -= txtOffset;
+        
+        if ([self p_isOutOfRange:range str:mutAttr.string]) {
             continue;
         }
-        NSRange range = result.range;
-        range.location -= breakLength;
+        
         NSString *breakText = @"\n";
         [mutAttr replaceCharactersInRange:range withString:breakText];
-        breakLength += range.length - breakText.length;
+        txtOffset += range.length - breakText.length;
     }
     
     return mutAttr;
 }
 
-- (void)p_downWebImage:(NSString *)url {
-    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:url]
+- (void)p_downloadWebImage:(NSString *)urlStr {
+    if (urlStr.length == 0) {
+        return;
+    }
+    
+    urlStr = [self p_convertUrlStr:urlStr];
+    
+    NSURL *url = nil;
+    if ([urlStr isKindOfClass:[NSString class]]) {
+        url = [NSURL URLWithString:urlStr];
+    } else if ([urlStr isKindOfClass:[NSURL class]]) {
+        url = (NSURL *)urlStr;
+    }
+    
+    if (!url) {
+        return;
+    }
+    
+    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url
                                                           options:kNilOptions
                                                          progress:nil
                                                         completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 if (error) {
-                                                                    NSLog(@"!!!!! %@ !!!!!", error);
                                                                     return;
                                                                 }
                                                                 
                                                                 [self p_downloadedImage:image
                                                                               imageData:data
-                                                                                    url:url];
+                                                                                 urlStr:urlStr];
                                                             });
                                                         }];
 }
 
-- (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData url:(NSString *)url {
+- (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData urlStr:(NSString *)urlStr {
     [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
         FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
         FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
-        if ([attachment.imgUrl isEqualToString:url]) {
+        if ([attachment.imgUrl isEqualToString:urlStr]) {
             
             if ([attachment.content isKindOfClass:[UIImage class]]) {
                 attachment.content = image;
@@ -330,112 +474,51 @@ static NSString * const EmojiNameKey    = @"emoji";
     delegate.height = height;
 }
 
-- (NSString *)p_parseCustomImgID:(NSString *)str {
-    NSString *imgID = @"";
+- (NSString *)p_parseImgSrc:(NSString *)imgHtmlText {
+    NSString *imgSrc = @"";
     
-    NSRange srcRange = [str rangeOfString:@"id=['|\"](.*?)['|\"]" options:NSRegularExpressionSearch];
-    if (srcRange.location != NSNotFound && srcRange.length > 0) {
-        NSString *srcStr = [str substringWithRange:srcRange];
-        NSRange r = [srcStr rangeOfString:@"id="];
-        imgID = [srcStr substringWithRange:NSMakeRange(r.length + 1, srcStr.length - (r.length + 1) - 1)];
+    if (imgHtmlText.length == 0) {
+        return imgSrc;
     }
     
-    return imgID;
-}
-
-- (NSString *)p_parseCustomImgSrc:(NSString *)str {
-    NSString *src = @"";
-    
-    NSRange srcRange = [str rangeOfString:@"src=['|\"](.*?)['|\"]" options:NSRegularExpressionSearch];
-    if (srcRange.location != NSNotFound && srcRange.length > 0) {
-        NSString *srcStr = [str substringWithRange:srcRange];
-        NSRange r = [srcStr rangeOfString:@"src="];
-        src = [srcStr substringWithRange:NSMakeRange(r.length + 1, srcStr.length - (r.length + 1) - 1)];
+    NSRange srcRange = [imgHtmlText rangeOfString:kRegExImgSrcPattern options:NSRegularExpressionSearch];
+    if ([self p_isOutOfRange:srcRange str:imgHtmlText]) {
+        return imgSrc;
     }
     
-    return src;
-}
-
-- (CGSize)p_parseCustomImgSize:(NSString *)src {
-    CGSize size = CGSizeZero;
-    
-    NSRange range = [src rangeOfString:@"original_dimensions=" options:NSBackwardsSearch];
-    if (range.location == NSNotFound || range.length < 1) {
-        return size;
+    NSString *srcStr = [imgHtmlText substringWithRange:srcRange];
+    NSRange range = [srcStr rangeOfString:@"src="];
+    range = NSMakeRange(range.length + 1, srcStr.length - (range.length + 1) - 1);
+    if ([self p_isOutOfRange:range str:srcStr]) {
+        return imgSrc;
     }
     
-    NSString *sizeStr = [src substringFromIndex:range.location + range.length];
-    NSArray *array = [sizeStr componentsSeparatedByString:@"x"];
-    if (!array || array.count < 2) {
-        return size;
-    }
+    imgSrc = [srcStr substringWithRange:range];
     
-    CGFloat width = [array[0] floatValue];
-    CGFloat height = [array[1] floatValue];
-    
-    if (width <= 0 || height <= 0) {
-        return size;
-    }
-    
-    if (width > kScreenWidth) {
-        height = (kScreenWidth / width) * height;
-        width = kScreenWidth;
-    }
-    
-    size = CGSizeMake(width, height);
-    
-    return size;
-}
-
-- (UIImage *)p_redrawPlaceholderImgWithSize:(CGSize)size {
-    UIImage *image = [UIImage imageNamed:@"rich_img_placeholder"];
-    UIImage *placeholderImg = nil;
-    
-    CGSize imgSize = image.size;
-    CGFloat x = (size.width - imgSize.width) * 0.5;
-    CGFloat y = (size.height - imgSize.height) * 0.5;
-    
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    [image drawInRect:CGRectMake(x, y, imgSize.width, imgSize.height)];
-    placeholderImg = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return placeholderImg;
-}
-
-- (UIImage *)p_redrawImage:(UIImage *)image containerWidth:(CGFloat)containerWidth {
-    CGSize newSize = CGSizeZero;
-    CGFloat y = 10;
-    
-    newSize.width = image.size.width < containerWidth ? containerWidth : image.size.width;
-    newSize.height = image.size.height + y * 2;
-    
-    CGFloat x = (newSize.width - image.size.width) * 0.5;
-    
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    
-    [image drawInRect:CGRectMake(x, y, image.size.width, image.size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return newImage;
+    return imgSrc;
 }
 
 - (NSString *)p_parseUrlLink:(NSString *)str {
-    NSString *url = @"";
+    NSString *urlStr = @"";
     
-    NSString *urlRegex = @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)"
-    "|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)";
-    
-    NSRange range = [str rangeOfString:urlRegex options:NSRegularExpressionSearch];
-    if (range.location != NSNotFound && range.length > 0) {
-        url = [str substringWithRange:range];
+    if (str.length == 0) {
+        return urlStr;
     }
     
-    return url;
+    NSRange range = [str rangeOfString:kRegExLinkUrlPattern options:NSRegularExpressionSearch];
+    if ([self p_isOutOfRange:range str:str]) {
+        return urlStr;
+    }
+    urlStr = [str substringWithRange:range];
+    
+    return urlStr;
 }
 
-- (NSString *)p_filterHtml:(NSString *)htmlString {
+- (NSString *)p_filterHtmlTags:(NSString *)htmlString {
+    if (htmlString.length == 0) {
+        return htmlString;
+    }
+    
     if ([htmlString containsString:@"&lt;"]) {
         htmlString = [htmlString stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     }
@@ -449,29 +532,192 @@ static NSString * const EmojiNameKey    = @"emoji";
     while (!scanner.isAtEnd) {
         [scanner scanUpToString:@"<" intoString:nil];
         [scanner scanUpToString:@">" intoString:&text];
-        htmlString = [htmlString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+        htmlString = [htmlString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
     }
     
     return htmlString;
 }
 
-- (NSDictionary *)p_getCustomURLDictionary:(NSString *)name url:(NSString *)url {
-    if (name.length == 0 || url.length == 0) {
-        return nil;
-    }
+- (BOOL)p_isBoldFont:(UIFont *)font {
+    UIFontDescriptor *fontDescriptor = font.fontDescriptor;
+    UIFontDescriptorSymbolicTraits fontDescriptorSymbolicTraits = fontDescriptor.symbolicTraits;
+    BOOL isBold = (fontDescriptorSymbolicTraits & UIFontDescriptorTraitBold) != 0;
     
-    if (![url hasPrefix:@"http"] && ![url hasPrefix:@"https"]) {
-        url = [NSString stringWithFormat:@"http://%@", url];
-    }
-    
-    return @{UrlNameKey: name,
-             UrlLinkKey: url};
+    return isBold;
 }
 
 - (BOOL)p_isGif:(NSString *)imageUrl {
+    if (imageUrl.length == 0) {
+        return NO;
+    }
+    
     return [imageUrl hasSuffix:@".gif"] || [imageUrl hasSuffix:@".gif/"]
     || [imageUrl hasSuffix:@".webp"] || [imageUrl hasSuffix:@".webp/"];
 }
+
+- (BOOL)p_isOutOfRange:(NSRange)range str:(NSString *)str {
+    if (range.location == NSNotFound || range.location < 0 || range.length <= 0) {
+        return YES;
+    }
+    
+    if (range.location > str.length || range.location + range.length > str.length) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (NSArray<NSTextCheckingResult *> *)p_regExWithPattern:(NSString *)pattern str:(NSString *)str {
+    if (pattern.length == 0 || str.length == 0) {
+        return nil;
+    }
+    
+    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                             options:kNilOptions
+                                                                               error:nil];
+    NSArray<NSTextCheckingResult *> *resultArray = [regular matchesInString:str
+                                                                    options:kNilOptions
+                                                                      range:NSMakeRange(0, str.length)];
+    return resultArray;
+}
+
+- (NSString *)p_convertUrlStr:(NSString *)urlStr {
+    if (urlStr.length == 0) {
+        return urlStr;
+    }
+    
+    if (![urlStr hasPrefix:@"http"] && ![urlStr hasPrefix:@"https"]) {
+        urlStr = [NSString stringWithFormat:@"https://%@", urlStr];
+    }
+    return urlStr;
+}
+
+#pragma mark - Getter
+
+- (NSArray *)validTags {
+    if (!_validTags) {
+        _validTags = @[@"<a ", @"</a",
+                       @"<img", @"</img",
+                       @"<br", @"</br", @"<br/", @"<br /"];
+    }
+    return _validTags;
+}
+
+- (NSArray *)ambiguousTags {
+    if (!_ambiguousTags) {
+        _ambiguousTags = @[@"<b", @"</b"];
+    }
+    return _ambiguousTags;
+}
+
+- (NSArray *)invalidTags {
+    if (!_invalidTags) {
+        _invalidTags = @[@"<script", @"</script"];
+    }
+    return _invalidTags;
+}
+
+- (NSMutableArray *)highlightArrayM {
+    if (!_highlightArrayM) {
+        _highlightArrayM = [NSMutableArray array];
+    }
+    return _highlightArrayM;
+}
+
+- (NSArray *)highlightArray {
+    return _highlightArrayM;
+}
+
+//- (NSString *)p_parseCustomImgID:(NSString *)str {
+//    NSString *imgID = @"";
+//
+//    NSRange srcRange = [str rangeOfString:@"id=['|\"](.*?)['|\"]" options:NSRegularExpressionSearch];
+//    if (srcRange.location != NSNotFound && srcRange.length > 0) {
+//        NSString *srcStr = [str substringWithRange:srcRange];
+//        NSRange r = [srcStr rangeOfString:@"id="];
+//        imgID = [srcStr substringWithRange:NSMakeRange(r.length + 1, srcStr.length - (r.length + 1) - 1)];
+//    }
+//
+//    return imgID;
+//}
+
+//- (CGSize)p_parseCustomImgSize:(NSString *)src {
+//    CGSize size = CGSizeZero;
+//
+//    NSRange range = [src rangeOfString:@"original_dimensions=" options:NSBackwardsSearch];
+//    if (range.location == NSNotFound || range.length < 1) {
+//        return size;
+//    }
+//
+//    NSString *sizeStr = [src substringFromIndex:range.location + range.length];
+//    NSArray *array = [sizeStr componentsSeparatedByString:@"x"];
+//    if (!array || array.count < 2) {
+//        return size;
+//    }
+//
+//    CGFloat width = [array[0] floatValue];
+//    CGFloat height = [array[1] floatValue];
+//
+//    if (width <= 0 || height <= 0) {
+//        return size;
+//    }
+//
+//    if (width > kScreenWidth) {
+//        height = (kScreenWidth / width) * height;
+//        width = kScreenWidth;
+//    }
+//
+//    size = CGSizeMake(width, height);
+//
+//    return size;
+//}
+//
+//- (UIImage *)p_redrawPlaceholderImgWithSize:(CGSize)size {
+//    UIImage *image = [UIImage imageNamed:@"rich_img_placeholder"];
+//    UIImage *placeholderImg = nil;
+//
+//    CGSize imgSize = image.size;
+//    CGFloat x = (size.width - imgSize.width) * 0.5;
+//    CGFloat y = (size.height - imgSize.height) * 0.5;
+//
+//    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+//    [image drawInRect:CGRectMake(x, y, imgSize.width, imgSize.height)];
+//    placeholderImg = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//
+//    return placeholderImg;
+//}
+//
+//- (UIImage *)p_redrawImage:(UIImage *)image containerWidth:(CGFloat)containerWidth {
+//    CGSize newSize = CGSizeZero;
+//    CGFloat y = 10;
+//
+//    newSize.width = image.size.width < containerWidth ? containerWidth : image.size.width;
+//    newSize.height = image.size.height + y * 2;
+//
+//    CGFloat x = (newSize.width - image.size.width) * 0.5;
+//
+//    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+//
+//    [image drawInRect:CGRectMake(x, y, image.size.width, image.size.height)];
+//    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//
+//    return newImage;
+//}
+//
+//- (NSDictionary *)p_getCustomURLDictionary:(NSString *)name url:(NSString *)url {
+//    if (name.length == 0 || url.length == 0) {
+//        return nil;
+//    }
+//
+//    if (![url hasPrefix:@"http"] && ![url hasPrefix:@"https"]) {
+//        url = [NSString stringWithFormat:@"https://%@", url];
+//    }
+//
+//    return @{UrlNameKey: name,
+//             UrlLinkKey: url};
+//}
 
 //- (void)parserEmoji:(NSMutableAttributedString *)text {
 //    NSArray<NSTextCheckingResult *> *emoticonResults = [[self regexEmoji] matchesInString:text.string
@@ -509,7 +755,7 @@ static NSString * const EmojiNameKey    = @"emoji";
 //        NSAttributedString *emojiText = [NSAttributedString attributedStringWithAttachment:attachment];
 //        NSMutableAttributedString *mutEmojiText = [[NSMutableAttributedString alloc] initWithAttributedString:emojiText];
 //        [mutEmojiText addAttributes:self.typingAttributes range:NSMakeRange(0, mutEmojiText.length)];
-//        [mutEmojiText addAttributes:@{MyHtmlEmojiAttributeName: @{EmojiNameKey: emoString}} range:NSMakeRange(0, mutEmojiText.length)];
+//        [mutEmojiText addAttributes:@{FQHtmlEmojiAttributeName: @{EmojiNameKey: emoString}} range:NSMakeRange(0, mutEmojiText.length)];
 //
 //        [text replaceCharactersInRange:range withAttributedString:mutEmojiText];
 //        emoClipLength += range.length - mutEmojiText.length;
@@ -565,18 +811,5 @@ static NSString * const EmojiNameKey    = @"emoji";
 //        self.selectedRange = newSelectRange;
 //    }
 //}
-
-#pragma mark - Getter
-
-- (NSMutableArray *)highlightArrayM {
-    if (!_highlightArrayM) {
-        _highlightArrayM = [NSMutableArray array];
-    }
-    return _highlightArrayM;
-}
-
-- (NSArray *)highlightArray {
-    return _highlightArrayM;
-}
 
 @end

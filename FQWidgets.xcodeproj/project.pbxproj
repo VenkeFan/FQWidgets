@@ -89,6 +89,7 @@
 		B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D3223376A5003E25EF /* FQHtmlHighlight.m */; };
 		B9C228D722362828003E25EF /* FQHtmlAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */; };
 		B9C228DB22364A07003E25EF /* html_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C228D922364A06003E25EF /* html_bg.png */; };
+		B9C228DD22376774003E25EF /* index4.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228DC22376773003E25EF /* index4.html */; };
 		B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBE209033A400E9ACB1 /* weibo_3.json */; };
 		B9F30DC7209033A400E9ACB1 /* weibo_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBF209033A400E9ACB1 /* weibo_2.json */; };
 		B9F30DC8209033A400E9ACB1 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC0209033A400E9ACB1 /* weibo_5.json */; };
@@ -269,6 +270,7 @@
 		B9C228D522362827003E25EF /* FQHtmlAnimatedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQHtmlAnimatedView.h; sourceTree = "<group>"; };
 		B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlAnimatedView.m; sourceTree = "<group>"; };
 		B9C228D922364A06003E25EF /* html_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = html_bg.png; sourceTree = "<group>"; };
+		B9C228DC22376773003E25EF /* index4.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index4.html; sourceTree = "<group>"; };
 		B9F30DBE209033A400E9ACB1 /* weibo_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_3.json; sourceTree = "<group>"; };
 		B9F30DBF209033A400E9ACB1 /* weibo_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_2.json; sourceTree = "<group>"; };
 		B9F30DC0209033A400E9ACB1 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				B9C228BA222E6DCD003E25EF /* index.html */,
 				B9C228C5222F91A1003E25EF /* index2.html */,
 				B9C228C9223121D0003E25EF /* index3.html */,
+				B9C228DC22376773003E25EF /* index4.html */,
 				B908299921392C7F00FD3C7D /* awesomeface.png */,
 				B908299B213960DC00FD3C7D /* banana.gif */,
 				B902D793207E1A3F0080D294 /* WL_4.jpg */,
@@ -848,6 +851,7 @@
 				B902D7F1207E1A3F0080D294 /* WL_8.jpg in Resources */,
 				B9F30DCB209033A400E9ACB1 /* weibo_6.json in Resources */,
 				B9F30DCD209033A400E9ACB1 /* weibo_0.json in Resources */,
+				B9C228DD22376774003E25EF /* index4.html in Resources */,
 				B902D7ED207E1A3F0080D294 /* WL_2.jpg in Resources */,
 				B902D7F0207E1A3F0080D294 /* WL_0.jpg in Resources */,
 				B902D7EC207E1A3F0080D294 /* WL_6.jpg in Resources */,

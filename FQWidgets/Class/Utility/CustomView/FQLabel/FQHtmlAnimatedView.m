@@ -59,6 +59,8 @@
         CGFontRelease(cgFont);
         
         [_signLayer addSublayer:_txtLayer];
+        
+        NSLog(@"FQHtmlAnimatedView initialize *************");
     }
     return self;
 }
