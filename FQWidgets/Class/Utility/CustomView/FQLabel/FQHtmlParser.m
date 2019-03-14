@@ -160,16 +160,21 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (NSString *)p_filterWhitespaceAndNewline:(NSString *)htmlString {
+    if (htmlString.length == 0) {
+        return htmlString;
+    }
+    
     htmlString = [htmlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSArray *components = [htmlString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:components.count];
     for (int i = 0; i < components.count; i++) {
-        NSString *tmp = [components[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *tmp = [components[i] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         [arrayM addObject:tmp];
     }
     components = [arrayM filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self <> ''"]];
     htmlString = [components componentsJoinedByString:@"\n"];
+//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@" " withString:@"😄"]; // just for test
     
     return htmlString;
 }
@@ -466,7 +471,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData urlStr:(NSString *)urlStr {
-    [[SDImageCache sharedImageCache] storeImageDataToDisk:imageData forKey:urlStr];
+    [[SDImageCache sharedImageCache] storeImage:image forKey:urlStr toDisk:YES completion:nil];
     
 //    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 //        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
@@ -633,6 +638,17 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 - (NSString *)p_convertUrlStr:(NSString *)urlStr {
     if (urlStr.length == 0) {
         return urlStr;
+    }
+    
+    {
+        // 适配taobao的imgUrl
+        if (urlStr.length >= 2) {
+            NSString *str = [urlStr substringWithRange:NSMakeRange(0, 2)];
+            if ([str isEqualToString:@"//"]) {
+                urlStr = [NSString stringWithFormat:@"https:%@", urlStr];
+                return urlStr;
+            }
+        }
     }
     
     if (![urlStr hasPrefix:@"http"] && ![urlStr hasPrefix:@"https"]) {
