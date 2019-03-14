@@ -8,7 +8,6 @@
 
 #import "FQHtmlParser.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <CoreText/CoreText.h>
 #import "FQHtmlTextAttachment.h"
 #import "FQHtmlRunDelegate.h"
 #import "FQHtmlHighlight.h"
@@ -26,6 +25,7 @@ NSString * const FQHtmlEmojiAttributeName       = @"FQHtmlEmojiAttribute";
 static char * const kFQHtmlParserQueueKey       = "com.widgets.htmlparser.fq";
 
 static NSString * const kRegExScriptPattern         = @"<script(.*?)>(.|\n)*?</script>";
+static NSString * const kRegExStylePattern          = @"<style(.*?)>(.|\n)*?</style>";
 static NSString * const kRegExAnchorPattern         = @"<a[^<>]+>(.|\n)*?</a>";
 static NSString * const kRegExAnchorHeadPattern     = @"<a[^<>]+>";
 static NSString * const kRegExAnchorTailPattern     = @"</a>";
@@ -59,11 +59,12 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (void)dealloc {
-    NSLog(@"FQHtmlParser dealloc <<<<<<<<<<<<<");
+    NSLog(@"FQHtmlParser dealloc !!!!!!!!!!!!!!");
 }
 
 - (NSAttributedString *)attributedTextWithHtml:(NSString *)html {
-    html = [self p_filterScriptTagsAndContent:html];
+    html = [self p_filterInvalidTagsAndContent:html pattern:kRegExScriptPattern];
+    html = [self p_filterInvalidTagsAndContent:html pattern:kRegExStylePattern];
     html = [self p_filterValidHtmlTags:html];
     self.html = html;
     
@@ -84,12 +85,12 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 
 #pragma mark - Private
 
-- (NSString *)p_filterScriptTagsAndContent:(NSString *)htmlString {
+- (NSString *)p_filterInvalidTagsAndContent:(NSString *)htmlString pattern:(NSString *)pattern {
     if (htmlString.length == 0) {
         return htmlString;
     }
     
-    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:kRegExScriptPattern str:htmlString];
+    NSArray<NSTextCheckingResult *> *resultArray = [self p_regExWithPattern:pattern str:htmlString];
     if (resultArray.count == 0) {
         return htmlString;
     }
@@ -175,27 +176,31 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         
         NSAttributedString *anchorHtmlTxt = [mutAttr attributedSubstringFromRange:range];
         
-        NSString *urlStr = @"";
+        NSString *urlStr = nil;
         if ([anchorHtmlTxt.string containsString:@"href"]) {
             urlStr = [self p_parseUrlLink:anchorHtmlTxt.string];
         }
-//        if (urlStr.length == 0) {
-//            continue;
-//        }
         urlStr = [self p_convertUrlStr:urlStr];
+        if (!urlStr) {
+            urlStr = @"";
+        }
         
 //        NSString *anchorTxt = [self p_filterHtmlTags:anchorHtmlTxt.string];
         NSString *anchorTxt = [anchorHtmlTxt.string stringByReplacingOccurrencesOfString:kRegExAnchorHeadPattern withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, anchorHtmlTxt.length)];
         anchorTxt = [anchorTxt stringByReplacingOccurrencesOfString:kRegExAnchorTailPattern withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, anchorTxt.length)];
         anchorTxt = [anchorTxt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (anchorTxt.length == 0) {
-            continue;
+            anchorTxt = urlStr;
         }
+        if (!anchorTxt) {
+            anchorTxt = @"";
+        }
+        
         NSRange anchorTxtRange = [anchorHtmlTxt.string rangeOfString:anchorTxt];
-        if ([self p_isOutOfRange:anchorTxtRange str:anchorHtmlTxt.string]) {
-            continue;
+        NSDictionary *originalAttrs = nil;
+        if (![self p_isOutOfRange:anchorTxtRange str:anchorHtmlTxt.string]) {
+            originalAttrs = [anchorHtmlTxt attributesAtIndex:anchorTxtRange.location effectiveRange:nil];
         }
-        NSDictionary *originalAttrs = [anchorHtmlTxt attributesAtIndex:anchorTxtRange.location effectiveRange:nil];
         
         NSString *imgUrl = nil;
         if ([originalAttrs objectForKey:FQHtmlImageAttributeName]) {
@@ -226,7 +231,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             }
         }
         
-        if (!isExist) {
+        if (!isExist && anchorTxt.length > 0) {
             FQHtmlHighlight *highlight = [FQHtmlHighlight new];
             highlight.range = anchorTagRange;
             highlight.text = anchorTxt;
@@ -235,18 +240,15 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             [self.highlightArrayM addObject:highlight];
         }
         
-        
-        
         NSAttributedString *anchorAttrStr = [[NSAttributedString alloc] initWithString:anchorTxt attributes:originalAttrs];
         [mutAttr replaceCharactersInRange:range withAttributedString:anchorAttrStr];
         
-        if ([self p_isOutOfRange:anchorTagRange str:mutAttr.string]) {
-            continue;
-        }
         if (!imgUrl) {
-            [mutAttr addAttributes:@{NSUnderlineStyleAttributeName: @(YES),
-                                     NSForegroundColorAttributeName: UrlFontColor}
-                             range:anchorTagRange];
+            if (![self p_isOutOfRange:anchorTagRange str:mutAttr.string]) {
+                [mutAttr addAttributes:@{NSUnderlineStyleAttributeName: @(YES),
+                                         NSForegroundColorAttributeName: UrlFontColor}
+                                 range:anchorTagRange];
+            }
         }
         
         txtOffset += range.length - anchorTxt.length;
@@ -273,25 +275,26 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         
         NSAttributedString *boldHtmlText = [mutAttr attributedSubstringFromRange:range];
         NSString *boldText = [self p_filterHtmlTags:boldHtmlText.string];
-        if (boldText.length == 0) {
-            continue;
+        if (!boldText) {
+            boldText = @"";
         }
+        
         NSRange boldTxtRange = [boldHtmlText.string rangeOfString:boldText];
-        if ([self p_isOutOfRange:boldTxtRange str:boldHtmlText.string]) {
-            continue;
+        NSDictionary *originalAttrs = nil;
+        if (![self p_isOutOfRange:boldTxtRange str:boldHtmlText.string]) {
+            originalAttrs = [boldHtmlText attributesAtIndex:boldTxtRange.location effectiveRange:nil];
         }
-        NSDictionary *originalAttrs = [boldHtmlText attributesAtIndex:boldTxtRange.location effectiveRange:nil];
         
         NSRange boldTagRange = NSMakeRange(range.location, boldText.length);
-        if ([self p_isOutOfRange:boldTagRange str:mutAttr.string]) {
-            continue;
-        }
         
         NSAttributedString *boldAttrStr = [[NSAttributedString alloc] initWithString:boldText attributes:originalAttrs];
         [mutAttr replaceCharactersInRange:range withAttributedString:boldAttrStr];
         
-        UIFont *font = [boldHtmlText attribute:NSFontAttributeName atIndex:0 effectiveRange:nil];
-        [mutAttr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:font.pointSize]} range:boldTagRange];
+        if (![self p_isOutOfRange:boldTagRange str:mutAttr.string]) {
+            UIFont *font = [boldHtmlText attribute:NSFontAttributeName atIndex:0 effectiveRange:nil];
+            [mutAttr addAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:font.pointSize]} range:boldTagRange];
+        }
+        
         txtOffset += range.length - boldText.length;
     }
     
@@ -317,9 +320,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         NSString *imgHtmlText = [mutAttr.string substringWithRange:range];
         
         NSString *imgSrc = [self p_parseImgSrc:imgHtmlText];
-//        if (imgSrc.length == 0) {
-//            continue;
-//        }
+        imgSrc = [self p_convertUrlStr:imgSrc];
         
         UIImage *customImg = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:imgSrc];
         if (!customImg) {
@@ -333,10 +334,10 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         NSMutableAttributedString *imgAttr = [self p_parseImage:customImg
                                                        imageUrl:imgSrc
                                                   imageLocation:range.location];
-        if (!imgAttr) {
-            continue;
+        if (imgAttr) {
+            [mutAttr replaceCharactersInRange:range withAttributedString:imgAttr];
         }
-        [mutAttr replaceCharactersInRange:range withAttributedString:imgAttr];
+        
         txtOffset += range.length - imgAttr.length;
     }
     
@@ -356,16 +357,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         [imageText addAttributes:self.typingAttributes range:range];
     }
     
-    FQHtmlHighlight *highlight = [FQHtmlHighlight new];
-    highlight.range = NSMakeRange(imageLocation, imageText.length);
-    highlight.text = content;
-    highlight.imgUrl = imageUrl;
-    [self.highlightArrayM addObject:highlight];
-    
     FQHtmlRunDelegate *delegate = [FQHtmlRunDelegate new];
-    if (!delegate.delegateRef) {
-        return nil;
-    }
     
     FQHtmlTextAttachment *attachment = [[FQHtmlTextAttachment alloc] init];
     attachment.imgUrl = imageUrl;
@@ -381,6 +373,14 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
     if (!attachment) {
         return nil;
     }
+    
+    FQHtmlHighlight *highlight = [FQHtmlHighlight new];
+    highlight.range = NSMakeRange(imageLocation, imageText.length);
+    highlight.text = content;
+    highlight.imgUrl = imageUrl;
+    highlight.attachment = attachment;
+    highlight.runDelegate = delegate;
+    [self.highlightArrayM addObject:highlight];
     
     if ([self p_isOutOfRange:range str:imageText.string]) {
         return nil;
@@ -439,40 +439,58 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
                                                           options:kNilOptions
                                                          progress:nil
                                                         completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
-                                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                                                if (error) {
-                                                                    return;
-                                                                }
-                                                                
-                                                                [self p_downloadedImage:image
-                                                                              imageData:data
-                                                                                 urlStr:urlStr];
-                                                            });
+                                                            if (error) {
+                                                                return;
+                                                            }
+                                                            
+                                                            [self p_downloadedImage:image
+                                                                          imageData:data
+                                                                             urlStr:urlStr];
                                                         }];
 }
 
 - (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData urlStr:(NSString *)urlStr {
-    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
-        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
-        if ([attachment.imgUrl isEqualToString:urlStr]) {
-            
-            if ([attachment.content isKindOfClass:[UIImage class]]) {
-                attachment.content = image;
-                [self p_setDelegate:delegate size:image.size];
+//    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+//        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
+//        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
+//        if ([attachment.imgUrl isEqualToString:urlStr]) {
+//
+//            if ([attachment.content isKindOfClass:[UIImage class]]) {
+//                attachment.content = image;
+//                [self p_setDelegate:delegate size:image.size];
+//
+//            } else if ([attachment.content isKindOfClass:[UIView class]]) {
+//                FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:imageData];
+//                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)attachment.content;
+//                animatedView.animatedImage = animatedImg;
+//                [self p_setDelegate:delegate size:animatedView.size];
+//            }
+//
+//            if ([self.delegate respondsToSelector:@selector(htmlParserAttributedTextChanged:)]) {
+//                [self.delegate htmlParserAttributedTextChanged:self];
+//            }
+//        }
+//    }];
+    
+    for (int i = 0; i < self.highlightArrayM.count; i++) {
+        FQHtmlHighlight *highlight = self.highlightArrayM[i];
+        if ([highlight.imgUrl isEqualToString:urlStr]) {
+            if ([highlight.attachment.content isKindOfClass:[UIImage class]]) {
+                highlight.attachment.content = image;
+                [self p_setDelegate:highlight.runDelegate size:image.size];
                 
-            } else if ([attachment.content isKindOfClass:[UIView class]]) {
+            } else if ([highlight.attachment.content isKindOfClass:[UIView class]]) {
                 FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:imageData];
-                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)attachment.content;
+                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)highlight.attachment.content;
                 animatedView.animatedImage = animatedImg;
-                [self p_setDelegate:delegate size:animatedView.size];
+                [self p_setDelegate:highlight.runDelegate size:animatedView.size];
             }
             
             if ([self.delegate respondsToSelector:@selector(htmlParserAttributedTextChanged:)]) {
                 [self.delegate htmlParserAttributedTextChanged:self];
             }
         }
-    }];
+    }
 }
 
 - (void)p_setDelegate:(FQHtmlRunDelegate *)delegate size:(CGSize)size {
