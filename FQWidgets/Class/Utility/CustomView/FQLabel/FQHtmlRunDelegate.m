@@ -29,28 +29,33 @@ static void DeallocCallBack(void *ref) {
     delegate = nil;
 }
 
-@implementation FQHtmlRunDelegate
+@implementation FQHtmlRunDelegate {
+    CTRunDelegateRef _delegateRef;
+}
 
 - (instancetype)init {
     if (self = [super init]) {
-        
+        NSLog(@"FQHtmlRunDelegate initialize $$$$$$$$$$$$");
     }
     return self;
 }
 
 - (void)dealloc {
-    NSLog(@"FQHtmlRunDelegate dealloc <<<<<<<<<<<<<");
+    NSLog(@"FQHtmlRunDelegate dealloc $$$$$$$$$$$$");
 }
 
 - (CTRunDelegateRef)delegateRef {
-    CTRunDelegateCallbacks callbacks;
-    callbacks.version = kCTRunDelegateCurrentVersion;
-    callbacks.getAscent = HeightCallBack;
-    callbacks.getDescent = DescentCallBack;
-    callbacks.getWidth = WidthCallBack;
-    callbacks.dealloc = DeallocCallBack;
-    
-    return CTRunDelegateCreate(&callbacks, (__bridge_retained void *)self);
+    if (!_delegateRef) {
+        CTRunDelegateCallbacks callbacks;
+        callbacks.version = kCTRunDelegateCurrentVersion;
+        callbacks.getAscent = HeightCallBack;
+        callbacks.getDescent = DescentCallBack;
+        callbacks.getWidth = WidthCallBack;
+        callbacks.dealloc = DeallocCallBack;
+        
+        _delegateRef = CTRunDelegateCreate(&callbacks, (__bridge void *)self);
+    }
+    return _delegateRef;
 }
 
 @end

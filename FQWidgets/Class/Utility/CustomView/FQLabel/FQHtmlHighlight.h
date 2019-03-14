@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class FQHtmlTextAttachment, FQHtmlRunDelegate;
+
 typedef NS_ENUM(NSInteger, FQHtmlHighlightType) {
     FQHtmlHighlightType_Link,
     FQHtmlHighlightType_Image
@@ -20,5 +22,7 @@ typedef NS_ENUM(NSInteger, FQHtmlHighlightType) {
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, copy) NSString *linkUrl;
 @property (nonatomic, copy) NSString *imgUrl;
+@property (nonatomic, strong) FQHtmlTextAttachment *attachment;
+@property (nonatomic, strong) FQHtmlRunDelegate *runDelegate;
 
 @end

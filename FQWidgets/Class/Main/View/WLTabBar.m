@@ -33,7 +33,9 @@
     self.layer.shadowColor = kUIColorFromRGB(0x000000).CGColor;
     self.layer.shadowOffset = CGSizeMake(0, -3);
     self.layer.shadowOpacity = 0.2;
-    self.layer.shadowPath = CGPathCreateWithRect(self.bounds, NULL);
+    CGPathRef path = CGPathCreateWithRect(self.bounds, NULL);
+    self.layer.shadowPath = path;
+    CGPathRelease(path);
     
     CGFloat centerViewHeight = 60;
     UIView *publishView = ({
@@ -43,7 +45,9 @@
         view.layer.shadowColor = self.layer.shadowColor;
         view.layer.shadowOffset = self.layer.shadowOffset;
         view.layer.shadowOpacity = self.layer.shadowOpacity;
-        view.layer.shadowPath = CGPathCreateWithRoundedRect(view.bounds, centerViewHeight * 0.5, centerViewHeight * 0.5, NULL);
+        CGPathRef path = CGPathCreateWithRoundedRect(view.bounds, centerViewHeight * 0.5, centerViewHeight * 0.5, NULL);
+        view.layer.shadowPath = path;
+        CGPathRelease(path);
 
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(barItemTapped:)];
         [view addGestureRecognizer:tap];

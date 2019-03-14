@@ -22,15 +22,22 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 @end
 
 @implementation FQHtmlLabel {
-    CTFrameRef _ctFrame;
-    UIColor *_backgroundColor;
+    BOOL _needRedraw;
     dispatch_queue_t _renderQueue;
+    
+    CTFramesetterRef _ctFramesetter;
+    CTFrameRef _ctFrame;
+    
+    CGContextRef _context;
+    
+    UIColor *_backgroundColor;
 }
 
 #pragma mark - LifeCycle
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        _needRedraw = NO;
         _renderQueue = dispatch_queue_create(kFQHtmlLabelRenderQueueKey, DISPATCH_QUEUE_CONCURRENT);
         
         _contentView = [[UIView alloc] initWithFrame:frame];
@@ -46,7 +53,9 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 }
 
 - (void)dealloc {
-    CFRelease(_ctFrame);
+    _htmlParser = nil;
+    
+    if (_ctFrame) CFRelease(_ctFrame);
     
     NSLog(@"FQHtmlLabel dealloc !!!!!!!!!!!!!!");
 }
@@ -78,24 +87,34 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
     
     _attributedText = attributedText;
     
-    CTFramesetterRef framesetter= CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
+//    if (_needRedraw) {
+//        if (_context) {
+//            UIGraphicsEndImageContext();
+//        }
+//
+//        if (_ctFramesetter) CFRelease(_ctFramesetter);
+//        if (_ctFrame) CFRelease(_ctFrame);
+//    }
     
-    CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX), nil);
+    _ctFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
+    
+    CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(_ctFramesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX), nil);
     if (bounds.width == 0 || bounds.height == 0) {
+        if (_ctFramesetter) CFRelease(_ctFramesetter);
         return;
     }
     
     CGSize contentSize = CGSizeMake(self.bounds.size.width, bounds.height);
     
     CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, bounds.width, bounds.height), NULL);
-    CTFrameRef frameRef = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, NULL);
-    _ctFrame = frameRef;
+    _ctFrame = CTFramesetterCreateFrame(_ctFramesetter, CFRangeMake(0, 0), path, NULL);
     
-    CFArrayRef lines = CTFrameGetLines(frameRef);
+    CFArrayRef lines = CTFrameGetLines(_ctFrame);
     CFIndex lineCount = CFArrayGetCount(lines);
     
-    CGPoint *lineOrigins = malloc(lineCount * sizeof(CGPoint));
-    CTFrameGetLineOrigins(frameRef, CFRangeMake(0, 0), lineOrigins);
+    //    CGPoint *lineOrigins = malloc(lineCount * sizeof(CGPoint));
+    CGPoint lineOrigins[lineCount];
+    CTFrameGetLineOrigins(_ctFrame, CFRangeMake(0, 0), lineOrigins);
     
     {
         // draw run
@@ -104,18 +123,18 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 #else
         UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
 #endif
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextTranslateCTM(context, 0, contentSize.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
+        _context = UIGraphicsGetCurrentContext();
+        CGContextTranslateCTM(_context, 0, contentSize.height);
+        CGContextScaleCTM(_context, 1.0, -1.0);
         
         for (CFIndex index = 0; index < lineCount; index++) {
             CTLineRef line = CFArrayGetValueAtIndex(lines, index);
             CGPoint ctLineOrigin = lineOrigins[index];
             CGFloat positionY = ctLineOrigin.y;
             
-//            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
-//            CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
-//            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent) + leading);
+            //            CGFloat ascent = 0.0f, descent = 0.0f, leading = 0.0f;
+            //            CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+            //            CGRect lineBounds = CGRectMake(0.0f, 0.0f, width, ascent + ABS(descent) + leading);
             
             CFArrayRef runs = CTLineGetGlyphRuns(line);
             for (CFIndex i = 0; i < CFArrayGetCount(runs); i++) {
@@ -126,9 +145,9 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
                 CTRunDelegateRef ctDelegate = (__bridge CTRunDelegateRef)[attrs valueForKey:(id)kCTRunDelegateAttributeName];
                 if (!attachment || !ctDelegate) {
                     // draw run
-                    CGContextSetTextMatrix(context , CGAffineTransformIdentity);
-                    CGContextSetTextPosition(context, ctLineOrigin.x, positionY);
-                    CTRunDraw(runRef, context, CFRangeMake(0, 0));
+                    CGContextSetTextMatrix(_context , CGAffineTransformIdentity);
+                    CGContextSetTextPosition(_context, ctLineOrigin.x, positionY);
+                    CTRunDraw(runRef, _context, CFRangeMake(0, 0));
                     
                     continue;
                 }
@@ -145,21 +164,21 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
                 runBounds.origin.x = ctLineOrigin.x + offsetX;
                 runBounds.origin.y = ctLineOrigin.y - descent;
                 
-//                CGPathRef pathRef = CTFrameGetPath(frameRef);
-//                CGRect colRect = CGPathGetBoundingBox(pathRef);
-//                CGRect imageRect = CGRectOffset(runBounds, colRect.origin.x, colRect.origin.y);
+                //                CGPathRef pathRef = CTFrameGetPath(frameRef);
+                //                CGRect colRect = CGPathGetBoundingBox(pathRef);
+                //                CGRect imageRect = CGRectOffset(runBounds, colRect.origin.x, colRect.origin.y);
                 
                 if ([attachment.content isKindOfClass:[UIImage class]]) {
                     UIImage *img = (UIImage *)attachment.content;
-                    CGContextSaveGState(context);
-                    CGContextSetAlpha(context, 0.2);
-                    CGContextDrawImage(context, runBounds, img.CGImage);
-                    CGContextRestoreGState(context);
+                    CGContextSaveGState(_context);
+//                    CGContextSetAlpha(_context, 0.2);
+                    CGContextDrawImage(_context, runBounds, img.CGImage);
+                    CGContextRestoreGState(_context);
                 } else if ([attachment.content isKindOfClass:[UIView class]]) {
                     CGAffineTransform transform = CGAffineTransformMakeTranslation(0.0, contentSize.height);
                     transform = CGAffineTransformScale(transform, 1.0, -1.0);
                     runBounds = CGRectApplyAffineTransform(runBounds, transform);
-
+                    
                     UIView *view = (UIView *)attachment.content;
                     view.frame = runBounds;
                     if (!view.superview) {
@@ -173,23 +192,20 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         UIGraphicsEndImageContext();
         self.contentView.layer.contents = (__bridge id)img.CGImage;
         
-        CGPathRelease(path);
-        CFRelease(framesetter);
-        CFRelease(lineOrigins);
-//        CFRelease(frameRef);
+        if (path) CGPathRelease(path);
+        if (_ctFramesetter) {
+            CFRelease(_ctFramesetter);
+            _ctFramesetter = nil;
+        }
     }
     
     {
         // draw frame
-//        UIImage *img = [self p_drawContent:contentSize frameRef:frameRef];
-//        self.contentView.layer.contents = (__bridge id)img.CGImage;
-//
-//        CGPathRelease(path);
-//        CFRelease(framesetter);
-//        CFRelease(frameRef);
+        //        UIImage *img = [self p_drawContent:contentSize frameRef:frameRef];
+        //        self.contentView.layer.contents = (__bridge id)img.CGImage;
     }
     
-    {
+    dispatch_async(dispatch_get_main_queue(), ^{
         CGRect contentFrame = self.contentView.frame;
         contentFrame.size.width = contentSize.width;
         contentFrame.size.height = contentSize.height;
@@ -200,12 +216,15 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         } else {
             self.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height + 1);
         }
-    }
+    });
 }
 
 #pragma mark - FQHtmlParserDelegate
 
 - (void)htmlParserAttributedTextChanged:(FQHtmlParser *)parser {
+    NSLog(@"******** htmlParserAttributedTextChanged *********");
+    _needRedraw = YES;
+    
     [self setAttributedText:parser.attributedText];
 }
 

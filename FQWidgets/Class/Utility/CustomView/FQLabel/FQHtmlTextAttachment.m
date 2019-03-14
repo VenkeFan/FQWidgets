@@ -19,12 +19,19 @@ static NSString * const FQHtmlTextAttachmentPlaceholder = @"html_bg.png";
 
 @implementation FQHtmlTextAttachment
 
-+ (UIImage *)placeholder {
-    return [UIImage imageNamed:FQHtmlTextAttachmentPlaceholder];
+- (instancetype)init {
+    if (self = [super init]) {
+        NSLog(@"FQHtmlTextAttachment initialize <<<<<<<<<<<<<");
+    }
+    return self;
 }
 
 - (void)dealloc {
     NSLog(@"FQHtmlTextAttachment dealloc <<<<<<<<<<<<<");
+}
+
++ (UIImage *)placeholder {
+    return [UIImage imageNamed:FQHtmlTextAttachmentPlaceholder];
 }
 
 /*
