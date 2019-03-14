@@ -66,6 +66,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
     html = [self p_filterInvalidTagsAndContent:html pattern:kRegExScriptPattern];
     html = [self p_filterInvalidTagsAndContent:html pattern:kRegExStylePattern];
     html = [self p_filterValidHtmlTags:html];
+    html = [self p_filterWhitespaceAndNewline:html];
     self.html = html;
     
     if (html.length == 0) {
@@ -154,6 +155,21 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         
         htmlString = [htmlString stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>", text] withString:@""];
     }
+    
+    return htmlString;
+}
+
+- (NSString *)p_filterWhitespaceAndNewline:(NSString *)htmlString {
+    htmlString = [htmlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSArray *components = [htmlString componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:components.count];
+    for (int i = 0; i < components.count; i++) {
+        NSString *tmp = [components[i] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        [arrayM addObject:tmp];
+    }
+    components = [arrayM filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self <> ''"]];
+    htmlString = [components componentsJoinedByString:@"\n"];
     
     return htmlString;
 }
@@ -450,6 +466,8 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (void)p_downloadedImage:(UIImage *)image imageData:(NSData *)imageData urlStr:(NSString *)urlStr {
+    [[SDImageCache sharedImageCache] storeImageDataToDisk:imageData forKey:urlStr];
+    
 //    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
 //        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
 //        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
