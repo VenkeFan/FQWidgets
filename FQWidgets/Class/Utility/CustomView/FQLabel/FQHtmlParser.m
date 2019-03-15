@@ -14,7 +14,7 @@
 #import "FQHtmlAnimatedView.h"
 #import "FLAnimatedImage.h"
 
-#define UrlFontColor        ([self.linkTextAttributes objectForKey:NSForegroundColorAttributeName] ?: kUIColorFromRGB(0x48779D))
+#define kAnchorFontColor        ([self.linkTextAttributes objectForKey:NSForegroundColorAttributeName] ?: kUIColorFromRGB(0x48779D))
 #define RichTextViewBold    UIFontWeightHeavy
 
 NSString * const FQHtmlDelegateAttributeName    = @"FQHtmlDelegateAttribute";
@@ -60,7 +60,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (void)dealloc {
-//    NSLog(@"FQHtmlParser dealloc !!!!!!!!!!!!!!");
+    
 }
 
 - (void)parseHtmlStr:(NSString *)htmlStr finished:(void(^)(NSAttributedString *attributedTxt))finished {
@@ -78,7 +78,11 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             return;
         }
         
-        self.attributedText = [[NSAttributedString alloc] initWithString:html attributes:@{NSFontAttributeName: kRegularFont(16), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)}];
+        self.typingAttributes = self.typingAttributes ?: @{NSFontAttributeName: kRegularFont(16), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)};
+        self.linkTextAttributes = self.linkTextAttributes ?: @{NSUnderlineStyleAttributeName: @(YES),
+                                                               NSForegroundColorAttributeName: kAnchorFontColor};
+        
+        self.attributedText = [[NSAttributedString alloc] initWithString:html attributes:self.typingAttributes];
         
         self.attributedText = [self p_parseBoldHtmlString:self.attributedText];
         self.attributedText = [self p_parseImgHtmlString:self.attributedText];
@@ -274,8 +278,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         
         if (!imgUrl) {
             if (![self p_isOutOfRange:anchorTagRange str:mutAttr.string]) {
-                [mutAttr addAttributes:@{NSUnderlineStyleAttributeName: @(YES),
-                                         NSForegroundColorAttributeName: UrlFontColor}
+                [mutAttr addAttributes:self.linkTextAttributes
                                  range:anchorTagRange];
             }
         }
@@ -484,28 +487,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         [[SDImageCache sharedImageCache] storeImage:image forKey:urlStr toDisk:YES completion:nil];
     }
     
-//    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-//        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
-//        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
-//        if ([attachment.imgUrl isEqualToString:urlStr]) {
-//
-//            if ([attachment.content isKindOfClass:[UIImage class]]) {
-//                attachment.content = image;
-//                [self p_setDelegate:delegate size:image.size];
-//
-//            } else if ([attachment.content isKindOfClass:[UIView class]]) {
-//                FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:imageData];
-//                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)attachment.content;
-//                animatedView.animatedImage = animatedImg;
-//                [self p_setDelegate:delegate size:animatedView.size];
-//            }
-//
-//            if ([self.delegate respondsToSelector:@selector(htmlParserAttributedTextChanged:)]) {
-//                [self.delegate htmlParserAttributedTextChanged:self];
-//            }
-//        }
-//    }];
-    
     for (int i = 0; i < self.highlightArrayM.count; i++) {
         FQHtmlHighlight *highlight = self.highlightArrayM[i];
         if ([highlight.imgUrl isEqualToString:urlStr]) {
@@ -526,6 +507,28 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             }
         }
     }
+    
+    //    [self.attributedText enumerateAttributesInRange:NSMakeRange(0, self.attributedText.string.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSAttributedStringKey,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
+    //        FQHtmlRunDelegate *delegate = (FQHtmlRunDelegate *)[attrs objectForKey:FQHtmlDelegateAttributeName];
+    //        FQHtmlTextAttachment *attachment = (FQHtmlTextAttachment *)[attrs objectForKey:FQHtmlImageAttributeName];
+    //        if ([attachment.imgUrl isEqualToString:urlStr]) {
+    //
+    //            if ([attachment.content isKindOfClass:[UIImage class]]) {
+    //                attachment.content = image;
+    //                [self p_setDelegate:delegate size:image.size];
+    //
+    //            } else if ([attachment.content isKindOfClass:[UIView class]]) {
+    //                FLAnimatedImage *animatedImg = [FLAnimatedImage animatedImageWithGIFData:imageData];
+    //                FQHtmlAnimatedView *animatedView = (FQHtmlAnimatedView *)attachment.content;
+    //                animatedView.animatedImage = animatedImg;
+    //                [self p_setDelegate:delegate size:animatedView.size];
+    //            }
+    //
+    //            if ([self.delegate respondsToSelector:@selector(htmlParserAttributedTextChanged:)]) {
+    //                [self.delegate htmlParserAttributedTextChanged:self];
+    //            }
+    //        }
+    //    }];
 }
 
 - (void)p_setDelegate:(FQHtmlRunDelegate *)delegate size:(CGSize)size {

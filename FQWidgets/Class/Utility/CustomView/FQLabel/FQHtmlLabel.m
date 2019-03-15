@@ -54,8 +54,6 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
     _htmlParser = nil;
     
     if (_ctFrame) CFRelease(_ctFrame);
-    
-//    NSLog(@"FQHtmlLabel dealloc !!!!!!!!!!!!!!");
 }
 
 #pragma mark - Override
@@ -301,6 +299,8 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         _htmlParser = [FQHtmlParser new];
         _htmlParser.delegate = self;
         _htmlParser.contentWidth = CGRectGetWidth(self.frame);
+        _htmlParser.typingAttributes = self.typingAttributes;
+        _htmlParser.linkTextAttributes = self.linkTextAttributes;
     }
     return _htmlParser;
 }
