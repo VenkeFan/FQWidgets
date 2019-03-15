@@ -21,7 +21,7 @@ static NSString * const FQHtmlTextAttachmentPlaceholder = @"html_bg.png";
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSLog(@"FQHtmlTextAttachment initialize <<<<<<<<<<<<<");
+        
     }
     return self;
 }

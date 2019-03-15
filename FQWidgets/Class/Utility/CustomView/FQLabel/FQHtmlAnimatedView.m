@@ -25,16 +25,8 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor cyanColor];
         
-        UIImage *placeholder = [FQHtmlTextAttachment placeholder];
-        
-        _animatedImgView = [[FLAnimatedImageView alloc] init];
-        if (frame.size.width > 0 && frame.size.height > 0) {
-            _animatedImgView.frame = frame;
-        } else {
-            _animatedImgView.frame = CGRectMake(0, 0, placeholder.size.width, placeholder.size.height);
-            self.frame = _animatedImgView.frame;
-        }
-        _animatedImgView.image = placeholder;
+        _animatedImgView = [[FLAnimatedImageView alloc] initWithFrame:frame];
+        _animatedImgView.image = [FQHtmlTextAttachment placeholder];;
         [self addSubview:_animatedImgView];
         
         _signLayer = [CALayer layer];
@@ -59,8 +51,6 @@
         CGFontRelease(cgFont);
         
         [_signLayer addSublayer:_txtLayer];
-        
-        NSLog(@"FQHtmlAnimatedView initialize *************");
     }
     return self;
 }
@@ -69,8 +59,12 @@
     [super layoutSubviews];
     
     _animatedImgView.frame = self.bounds;
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     _signLayer.position = CGPointMake(CGRectGetWidth(self.frame) - CGRectGetWidth(_signLayer.frame) * 0.5 - 12, CGRectGetHeight(self.frame) - CGRectGetHeight(_signLayer.frame) * 0.5 - 12);
     _txtLayer.position = CGPointMake(CGRectGetWidth(_signLayer.bounds) * 0.5, CGRectGetHeight(_signLayer.bounds) * 0.5);
+    [CATransaction commit];
 }
 
 - (void)dealloc {
@@ -83,20 +77,23 @@
     if (animatedImage) {
         self.animatedImgView.image = nil;
         self.animatedImgView.animatedImage = animatedImage;
-        
-        CGRect frame = self.frame;
-        frame.size = animatedImage.size;
-        self.frame = frame;
     } else {
-        UIImage *placeholder = [FQHtmlTextAttachment placeholder];
-        
-        self.animatedImgView.image = placeholder;
+        self.animatedImgView.image = [FQHtmlTextAttachment placeholder];
         self.animatedImgView.animatedImage = nil;
-        
-        CGRect frame = self.frame;
-        frame.size = placeholder.size;
-        self.frame = frame;
     }
+}
+
+@end
+
+@implementation FQHtmlAnimatedViewManager
+
+- (FQHtmlAnimatedView *)animatedView {
+    if (!_animatedView) {
+        _animatedView = [FQHtmlAnimatedView new];
+        _animatedView.frame = self.frame;
+        _animatedView.animatedImage = self.animatedImage;
+    }
+    return _animatedView;
 }
 
 @end

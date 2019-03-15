@@ -28,10 +28,12 @@ UIKIT_EXTERN NSString * const FQHtmlEmojiAttributeName;
 @property (nonatomic, copy, readonly) NSString *html;
 @property (nonatomic, strong, readonly) NSAttributedString *attributedText;
 @property (nonatomic, strong, readonly) NSArray *highlightArray;
+@property (nonatomic, strong, readonly) NSArray *renderViewArray;
 @property (nonatomic, assign) CGFloat contentWidth;
 
 @property (nonatomic, weak) id<FQHtmlParserDelegate> delegate;
 
 - (NSAttributedString *)attributedTextWithHtml:(NSString *)html;
+- (void)parseHtmlStr:(NSString *)htmlStr finished:(void(^)(NSAttributedString *attributedTxt))finished;
 
 @end

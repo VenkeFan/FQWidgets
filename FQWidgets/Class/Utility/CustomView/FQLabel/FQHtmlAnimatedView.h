@@ -10,12 +10,16 @@
 
 @class FLAnimatedImage;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface FQHtmlAnimatedView : UIView
 
 @property (nonatomic, strong) FLAnimatedImage *animatedImage;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface FQHtmlAnimatedViewManager : NSObject
+
+@property (nonatomic, strong) FQHtmlAnimatedView *animatedView;
+@property (nonatomic, strong) FLAnimatedImage *animatedImage;
+@property (nonatomic, assign) CGRect frame;
+
+@end

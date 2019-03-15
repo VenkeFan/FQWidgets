@@ -35,7 +35,7 @@ static void DeallocCallBack(void *ref) {
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSLog(@"FQHtmlRunDelegate initialize $$$$$$$$$$$$");
+        
     }
     return self;
 }
