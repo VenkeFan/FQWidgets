@@ -22,7 +22,6 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 @end
 
 @implementation FQHtmlLabel {
-    BOOL _needRedraw;
     dispatch_queue_t _renderQueue;
     
     CTFramesetterRef _ctFramesetter;
@@ -37,8 +36,7 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        _needRedraw = NO;
-        _renderQueue = dispatch_queue_create(kFQHtmlLabelRenderQueueKey, DISPATCH_QUEUE_CONCURRENT);
+        _renderQueue = dispatch_queue_create(kFQHtmlLabelRenderQueueKey, DISPATCH_QUEUE_SERIAL);
         
         _contentView = [[UIView alloc] initWithFrame:frame];
         [self addSubview:_contentView];
@@ -75,9 +73,11 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 #pragma mark -
 
 - (void)setText:(NSString *)text {
-    _text = [text copy];
+    if (text.length == 0) {
+        return;
+    }
     
-//    [self setAttributedText:[self.htmlParser attributedTextWithHtml:text]];
+    _text = [text copy];
     
     [self.htmlParser parseHtmlStr:text
                          finished:^(NSAttributedString *attributedTxt) {
@@ -111,8 +111,6 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
     CGFloat width = self.htmlParser.contentWidth;
     
     dispatch_async(_renderQueue, ^{
-        NSLog(@">>>>>>3 start rendering: %@", [NSThread currentThread]);
-        
         _ctFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
         
         CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(_ctFramesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(width, CGFLOAT_MAX), nil);
@@ -135,11 +133,7 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         
         {
             // draw run
-#if TARGET_OS_SIMULATOR
-            UIGraphicsBeginImageContext(contentSize);
-#else
             UIGraphicsBeginImageContextWithOptions(contentSize, NO, 0.0);
-#endif
             _context = UIGraphicsGetCurrentContext();
             CGContextTranslateCTM(_context, 0, contentSize.height);
             CGContextScaleCTM(_context, 1.0, -1.0);
@@ -209,7 +203,6 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@">>>>>>4 end rendering: %@", [NSThread currentThread]);
             self.contentView.layer.contents = (__bridge id)image.CGImage;
             
             CGRect contentFrame = self.contentView.frame;

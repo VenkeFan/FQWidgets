@@ -65,8 +65,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 
 - (void)parseHtmlStr:(NSString *)htmlStr finished:(void(^)(NSAttributedString *attributedTxt))finished {
     dispatch_async(_parseQueue, ^{
-        NSLog(@">>>>>>1 start parsing: %@", [NSThread currentThread]);
-        
         NSString *html = [self p_filterInvalidTagsAndContent:htmlStr pattern:kRegExScriptPattern];
         html = [self p_filterInvalidTagsAndContent:html pattern:kRegExStylePattern];
         html = [self p_filterValidHtmlTags:html];
@@ -74,7 +72,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         self.html = html;
         
         if (html.length == 0) {
-            NSLog(@">>>>>>1.1 parsing error: %@", [NSThread currentThread]);
             if (finished) {
                 finished(nil);
             }
@@ -90,32 +87,9 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         self.attributedText = [self p_parseAnchorHtmlString:self.attributedText];
         
         if (finished) {
-            NSLog(@">>>>>>2 end parsing: %@", [NSThread currentThread]);
             finished(self.attributedText);
         }
     });
-}
-
-- (NSAttributedString *)attributedTextWithHtml:(NSString *)html {
-    html = [self p_filterInvalidTagsAndContent:html pattern:kRegExScriptPattern];
-    html = [self p_filterInvalidTagsAndContent:html pattern:kRegExStylePattern];
-    html = [self p_filterValidHtmlTags:html];
-    html = [self p_filterWhitespaceAndNewline:html];
-    self.html = html;
-    
-    if (html.length == 0) {
-        return nil;
-    }
-    
-    self.attributedText = [[NSAttributedString alloc] initWithString:html attributes:@{NSFontAttributeName: kRegularFont(16), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)}];
-    
-    self.attributedText = [self p_parseBoldHtmlString:self.attributedText];
-    self.attributedText = [self p_parseImgHtmlString:self.attributedText];
-    //    [self parserEmoji:filterStr];
-    self.attributedText = [self p_parseLineBreakHtmlString:self.attributedText];
-    self.attributedText = [self p_parseAnchorHtmlString:self.attributedText];
-    
-    return self.attributedText;
 }
 
 #pragma mark - Private

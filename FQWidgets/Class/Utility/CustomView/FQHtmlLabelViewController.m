@@ -30,7 +30,7 @@
     _htmlLabel.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_htmlLabel];
     
-    NSURL *testFileUrl = [[NSBundle mainBundle] URLForResource:@"index2" withExtension:@"html"];
+    NSURL *testFileUrl = [[NSBundle mainBundle] URLForResource:@"index" withExtension:@"html"];
     NSData *data = [NSData dataWithContentsOfURL:testFileUrl];
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     

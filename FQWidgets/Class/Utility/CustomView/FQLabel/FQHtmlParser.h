@@ -33,7 +33,6 @@ UIKIT_EXTERN NSString * const FQHtmlEmojiAttributeName;
 
 @property (nonatomic, weak) id<FQHtmlParserDelegate> delegate;
 
-- (NSAttributedString *)attributedTextWithHtml:(NSString *)html;
 - (void)parseHtmlStr:(NSString *)htmlStr finished:(void(^)(NSAttributedString *attributedTxt))finished;
 
 @end
