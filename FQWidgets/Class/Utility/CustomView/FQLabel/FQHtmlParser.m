@@ -14,8 +14,7 @@
 #import "FQHtmlAnimatedView.h"
 #import "FLAnimatedImage.h"
 
-#define kAnchorFontColor        ([self.linkTextAttributes objectForKey:NSForegroundColorAttributeName] ?: kUIColorFromRGB(0x48779D))
-#define RichTextViewBold    UIFontWeightHeavy
+#define kAnchorFontColor        kUIColorFromRGB(0x48779D)
 
 NSString * const FQHtmlDelegateAttributeName    = @"FQHtmlDelegateAttribute";
 NSString * const FQHtmlImageAttributeName       = @"FQHtmlImageAttribute";
@@ -42,7 +41,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 @property (nonatomic, strong) NSArray *ambiguousTags;
 @property (nonatomic, strong) NSArray *invalidTags;
 @property (nonatomic, copy, readwrite) NSString *html;
-@property (nonatomic, strong, readwrite) NSAttributedString *attributedText;
+@property (nonatomic, copy, readwrite) NSAttributedString *attributedText;
 @property (nonatomic, strong) NSMutableArray *highlightArrayM;
 @property (nonatomic, strong) NSMutableArray *renderViewArrayM;
 
@@ -77,10 +76,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
             }
             return;
         }
-        
-        self.typingAttributes = self.typingAttributes ?: @{NSFontAttributeName: kRegularFont(16), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)};
-        self.linkTextAttributes = self.linkTextAttributes ?: @{NSUnderlineStyleAttributeName: @(YES),
-                                                               NSForegroundColorAttributeName: kAnchorFontColor};
         
         self.attributedText = [[NSAttributedString alloc] initWithString:html attributes:self.typingAttributes];
         
@@ -384,10 +379,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
     NSMutableAttributedString *imageText = [[NSMutableAttributedString alloc] initWithString:content];
     
     NSRange range = NSMakeRange(0, imageText.length);
-    
-    if (self.typingAttributes) {
-        [imageText addAttributes:self.typingAttributes range:range];
-    }
     
     FQHtmlRunDelegate *delegate = [FQHtmlRunDelegate new];
     
@@ -717,6 +708,21 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 
 - (NSArray *)renderViewArray {
     return _renderViewArrayM;
+}
+
+- (NSDictionary<NSAttributedStringKey,id> *)typingAttributes {
+    if (!_typingAttributes) {
+        _typingAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)};
+    }
+    return _typingAttributes;
+}
+
+- (NSDictionary<NSAttributedStringKey,id> *)linkTextAttributes {
+    if (!_linkTextAttributes) {
+        _linkTextAttributes = @{NSUnderlineStyleAttributeName: @(YES),
+                                NSForegroundColorAttributeName: kAnchorFontColor};
+    }
+    return _linkTextAttributes;
 }
 
 //- (NSString *)p_parseCustomImgID:(NSString *)str {

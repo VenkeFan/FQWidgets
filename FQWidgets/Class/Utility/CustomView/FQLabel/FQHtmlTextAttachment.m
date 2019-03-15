@@ -27,7 +27,7 @@ static NSString * const FQHtmlTextAttachmentPlaceholder = @"html_bg.png";
 }
 
 - (void)dealloc {
-    NSLog(@"FQHtmlTextAttachment dealloc <<<<<<<<<<<<<");
+    
 }
 
 + (UIImage *)placeholder {

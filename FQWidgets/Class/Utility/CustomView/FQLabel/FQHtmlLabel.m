@@ -109,6 +109,7 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
     CGFloat width = self.htmlParser.contentWidth;
     
     dispatch_async(_renderQueue, ^{
+        if (_ctFramesetter) CFRelease(_ctFramesetter);
         _ctFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)attributedText);
         
         CGSize bounds = CTFramesetterSuggestFrameSizeWithConstraints(_ctFramesetter, CFRangeMake(0, attributedText.length), nil, CGSizeMake(width, CGFLOAT_MAX), nil);
@@ -120,6 +121,7 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
         contentSize = CGSizeMake(width, bounds.height);
         
         CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, bounds.width, bounds.height), NULL);
+        if (_ctFrame) CFRelease(_ctFrame);
         _ctFrame = CTFramesetterCreateFrame(_ctFramesetter, CFRangeMake(0, 0), path, NULL);
         
         CFArrayRef lines = CTFrameGetLines(_ctFrame);

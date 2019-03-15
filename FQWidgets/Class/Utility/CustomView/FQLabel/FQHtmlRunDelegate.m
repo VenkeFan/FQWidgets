@@ -41,7 +41,7 @@ static void DeallocCallBack(void *ref) {
 }
 
 - (void)dealloc {
-    NSLog(@"FQHtmlRunDelegate dealloc $$$$$$$$$$$$");
+    
 }
 
 - (CTRunDelegateRef)delegateRef {
