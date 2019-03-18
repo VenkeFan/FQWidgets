@@ -177,11 +177,16 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
     NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:components.count];
     for (int i = 0; i < components.count; i++) {
         NSString *tmp = [components[i] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        [arrayM addObject:tmp];
+        if ([tmp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
+            [arrayM addObject:tmp];
+        }
+        
     }
     components = [arrayM filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self <> ''"]];
     htmlString = [components componentsJoinedByString:@"\n"];
-//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@" " withString:@"😄"]; // just for test
+    
+     // just for test
+//    htmlString = [htmlString stringByReplacingOccurrencesOfString:@" " withString:@"😄"];
     
     return htmlString;
 }

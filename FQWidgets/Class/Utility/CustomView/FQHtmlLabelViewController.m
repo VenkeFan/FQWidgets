@@ -24,9 +24,9 @@
     
     _htmlLabel = [[FQHtmlLabel alloc] init];
     _htmlLabel.htmlDelegate = self;
-    _htmlLabel.typingAttributes = @{NSFontAttributeName: kRegularFont(26), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)};
-    _htmlLabel.linkTextAttributes = @{NSUnderlineStyleAttributeName: @(YES),
-                                      NSForegroundColorAttributeName: [UIColor redColor]};
+//    _htmlLabel.typingAttributes = @{NSFontAttributeName: kRegularFont(26), NSForegroundColorAttributeName: kUIColorFromRGB(0x616161)};
+//    _htmlLabel.linkTextAttributes = @{NSUnderlineStyleAttributeName: @(YES),
+//                                      NSForegroundColorAttributeName: [UIColor redColor]};
     _htmlLabel.backgroundColor = [UIColor lightGrayColor];
     _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, kScreenHeight - 12 - kSafeAreaBottomY - kNavBarHeight - 200);
     _htmlLabel.layer.borderWidth = 1.0;
