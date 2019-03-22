@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>new_topic</key>
+	<string>New topic</string>
+	<key>post_on_this_topic</key>
+	<string>Post on this topic</string>
+	<key>topic_choice_empty_text</key>
+	<string>Add a topic with text numbers and spaces. At least 2 characters per topic.</string>
+	<key>topic_empty_text</key>
+	<string>Be the first to post on this topic</string>
+	<key>topic_offline_error_text</key>
+	<string>Oops.. Looks like you got lost</string>
+	<key>topic_user_publish_day</key>
+	<string>posted in %@</string>
+	<key>topic_user_publish_hours</key>
+	<string>posted within 24 hours</string>
+	<key>topic_user_publish_just_now</key>
+	<string>post on this topic just now</string>
+	<key>topic_user_publish_minutes</key>
+	<string>posted a few minutes ago</string>
+	<key>topic_user_title</key>
+	<string>Related people</string>
+	<key>user_has_post_on_this_topic</key>
+	<string>%zd people posted on this topic</string>
+	<key>with_text_numbers_and_spaces</key>
+	<string>with text numbers and spaces</string>
+</dict>
+</plist>

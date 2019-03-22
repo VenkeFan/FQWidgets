@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Poll_time</key>
+	<string>पोल टाइम</string>
+	<key>add_link_error</key>
+	<string>अवैध यूआरएल है</string>
+	<key>campaign_title</key>
+	<string>इवेंट्स</string>
+	<key>change_status_btn</key>
+	<string>मिश्रण टेक्स्ट</string>
+	<key>clear_draft_title</key>
+	<string>क्या आप ड्राफ्ट बॉक्स को साफ़ करना चाहते हैं ?</string>
+	<key>contacts_search_contacts_search_online</key>
+	<string>ऑनलाइन खोज करें</string>
+	<key>contacts_search_hint</key>
+	<string>खोज करें</string>
+	<key>content_null</key>
+	<string>कंटेंट खाली नहीं हो सकता</string>
+	<key>draft_empty_text</key>
+	<string>अभी ड्राफ्ट बॉक्स खाली है, विफ़ल भेजी वाली पोस्ट ड्राफ्ट बॉक्स में सहेज जाएगा</string>
+	<key>edit_pic_title</key>
+	<string>कट गया</string>
+	<key>editor_also_commit</key>
+	<string>टिप्पणी भी करें</string>
+	<key>editor_also_repost</key>
+	<string>रेपोस्ट भी करें</string>
+	<key>editor_comment_send</key>
+	<string>पोस्ट</string>
+	<key>editor_comment_title</key>
+	<string>टिप्पणी</string>
+	<key>editor_discard_cancel</key>
+	<string>रद्द करें</string>
+	<key>editor_discard_confrim</key>
+	<string>डिस्कार्ड</string>
+	<key>editor_discard_discard</key>
+	<string>डिस्कार्ड</string>
+	<key>editor_discard_query</key>
+	<string>यदि आप अभी वापस लौटते हैं, तो पोस्ट को त्याग दिया जाएगा</string>
+	<key>editor_discard_save</key>
+	<string>ड्राफ्ट बॉक्स में सहेज करें</string>
+	<key>editor_edit_text_hint</key>
+	<string>क्या विचार है आपका? इसे शेयर करें</string>
+	<key>editor_link_hint</key>
+	<string>कृपया सही लिंक यूआरएल टाइप करें</string>
+	<key>editor_link_note</key>
+	<string>यहाँ यूआरएल टाइप करें</string>
+	<key>editor_link_submit</key>
+	<string>सबमिट</string>
+	<key>editor_location_null</key>
+	<string>लोकेशन</string>
+	<key>editor_post_location</key>
+	<string>स्थान</string>
+	<key>editor_post_send</key>
+	<string>पोस्ट</string>
+	<key>editor_post_title</key>
+	<string>पोस्ट</string>
+	<key>editor_reply_send</key>
+	<string>पोस्ट</string>
+	<key>editor_repost_send</key>
+	<string>पोस्ट</string>
+	<key>editor_repost_title</key>
+	<string>रेपोस्ट</string>
+	<key>editor_resend_btn</key>
+	<string>पुनः भेजें</string>
+	<key>editor_send_successed</key>
+	<string>सफ़ल से भेज दिया</string>
+	<key>image_status</key>
+	<string>स्टैटस</string>
+	<key>new_topic_title</key>
+	<string>नया टॉपिक जोड़ें</string>
+	<key>no_time_limit</key>
+	<string>समय की कोई सीमा नहीं है</string>
+	<key>one_day</key>
+	<string>1 दिन</string>
+	<key>one_month</key>
+	<string>1 महीना</string>
+	<key>option_num</key>
+	<string>ऑप्शन%d</string>
+	<key>post_all_contact</key>
+	<string>कॉन्टेक्ट</string>
+	<key>post_eula_accept</key>
+	<string>ठीक है</string>
+	<key>post_eula_cancel</key>
+	<string>बाद में</string>
+	<key>post_eula_content</key>
+	<string>Welike, एक ओपन सोशल नेटवर्क प्लेटफार्म के रूप में, हर यूजर के अधिकारों की सुरक्षा करते हुए उन्हें कोई भी जानकारी या विचार स्वतंत्र रूप से साझा करने में उनका साथ देता है. इसके साथ ही, Welike किसी भी यूजर को ऐसी कोई सामग्री साझा करने की अनुमति नहीं देता, जो किसी समुदाय विशेष के अधिकारों का उल्लंघन करे या फिर जो दूसरे यूजर के लिए अनुचित या हानिकारक हो। Welike, यूजर के व्यवहार और जानकारी की समीक्षा करने और उनसे निपटने की शक्ति रखता है, जो सिर्फ जानकारी, राय और व्यवहार तक सीमित नहीं है। ज़्यादा जानकारी के लिए कृपया "Welike नियम और उपयोग की शर्तें" देखें. अधिक जानें</string>
+	<key>post_eula_link</key>
+	<string>अधिक जानें</string>
+	<key>post_eula_title</key>
+	<string>आप शुरू करने से पहले</string>
+	<key>post_recent_contacts</key>
+	<string>रीसेंट कॉन्टेक्ट्स</string>
+	<key>publish_draft_title</key>
+	<string>ड्राफ्ट</string>
+	<key>publish_mention_online_list_empty</key>
+	<string>कोई परिणाम नहीं है</string>
+	<key>publish_mention_online_list_title</key>
+	<string>ऑनलाइन खोज</string>
+	<key>publish_reply_post_empty_content</key>
+	<string>रेपोस्ट</string>
+	<key>publish_share_picture_empty_content</key>
+	<string>फ़ोटो साझा करें</string>
+	<key>publish_share_video_empty_content</key>
+	<string>विडियो साझा करें</string>
+	<key>recent_topic_title_text</key>
+	<string>टॉपिक दोबार भेजें</string>
+	<key>recommend_topic_title</key>
+	<string>सिफारिश</string>
+	<key>seven_day</key>
+	<string>1 सप्ताह</string>
+	<key>short_cut_alumb_name</key>
+	<string>एलबम</string>
+	<key>short_cut_poll_name</key>
+	<string>पोल</string>
+	<key>short_cut_snapshot_name</key>
+	<string>कैमरा</string>
+	<key>short_cut_video_name</key>
+	<string>विडीओ</string>
+	<key>three_day</key>
+	<string>3 दिन</string>
+	<key>topic_count_over_limit</key>
+	<string>ज्यादा से ज्यादा तीन टॉपिक आप चुन सकते हैं</string>
+	<key>topic_search_hint</key>
+	<string>टॉपिक जोड़ें या टॉपिक खोज करें</string>
+	<key>topic_search_tips</key>
+	<string>हर टॉपिक कम से कम 2 अक्षर</string>
+</dict>
+</plist>

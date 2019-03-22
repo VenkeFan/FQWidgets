@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>all</key>
+	<string>all</string>
+	<key>authorize_camera</key>
+	<string>Welike does not have access to your camera. Please grant access from Settings.</string>
+	<key>authorize_contact</key>
+	<string>Welike does not have access to your contacts. Please grant access from Settings.</string>
+	<key>authorize_location</key>
+	<string>Welike does not have access to your location. Please grant access from Settings.</string>
+	<key>authorize_microphone</key>
+	<string>Welike does not have access to your microphone. Please grant access from Settings.</string>
+	<key>authorize_photo</key>
+	<string>Welike does not have access to your photos. Please grant access from Settings.</string>
+	<key>back_to_top</key>
+	<string>Back to top</string>
+	<key>block</key>
+	<string>Block</string>
+	<key>camera_filter</key>
+	<string>Filter</string>
+	<key>camera_picture</key>
+	<string>Paster</string>
+	<key>click_back_again</key>
+	<string>Please click BACK again to exit</string>
+	<key>common_cancel</key>
+	<string>Cancel</string>
+	<key>common_confirm</key>
+	<string>Confirm</string>
+	<key>common_error_ssl_cert_invalid</key>
+	<string>This website may have security risks. Do you wish to continue?</string>
+	<key>common_error_text</key>
+	<string>Network connection error. Please refresh to try again</string>
+	<key>common_feed_detail_share_content</key>
+	<string>Interesting post from Welike, share to you</string>
+	<key>common_me_out_three_hundred_share_content_one</key>
+	<string>Want see my interesting post on Welike? Come to be my friend</string>
+	<key>common_me_out_three_hundred_share_content_two</key>
+	<string>and let's share interesting story together. My nickname is </string>
+	<key>common_me_share_content_four</key>
+	<string> people,want to check my interesting post? Find my nickname </string>
+	<key>common_me_share_content_one</key>
+	<string>I have got </string>
+	<key>common_me_share_content_three</key>
+	<string> on Welike,surpassed </string>
+	<key>common_me_share_content_two</key>
+	<string> followers and my overall ranking is No.</string>
+	<key>common_ok</key>
+	<string>OK</string>
+	<key>common_reload_text</key>
+	<string>Refresh</string>
+	<key>common_share_content_copyed</key>
+	<string>Copied to clipboard</string>
+	<key>confirm_selection</key>
+	<string>Confirm selection</string>
+	<key>copy_to_clipboard</key>
+	<string>Copied to the clipboard</string>
+	<key>follow_btn_text</key>
+	<string>Follow</string>
+	<key>following_btn_text</key>
+	<string>Following</string>
+	<key>friends_btn_text</key>
+	<string>Friends</string>
+	<key>go_back</key>
+	<string>Go back</string>
+	<key>hashtag</key>
+	<string>Hashtag</string>
+	<key>interest_foryou</key>
+	<string>For you</string>
+	<key>load_error</key>
+	<string>Loading error.Please try again</string>
+	<key>loading</key>
+	<string>loading</string>
+	<key>need_login</key>
+	<string>Continue by Login</string>
+	<key>no_more</key>
+	<string>No more</string>
+	<key>or</key>
+	<string>OR</string>
+	<key>post</key>
+	<string>Post</string>
+	<key>refresh_header_default_finish</key>
+	<string>Refreshed successfully</string>
+	<key>refresh_header_failed</key>
+	<string>Refresh failed</string>
+	<key>refresh_header_pulldown</key>
+	<string>Pull to refresh</string>
+	<key>refresh_header_refreshing</key>
+	<string>Refreshing</string>
+	<key>refresh_header_release</key>
+	<string>Release to refresh</string>
+	<key>refreshed</key>
+	<string>Refreshed</string>
+	<key>report_completed</key>
+	<string>Thanks for your feedback, Welike will handle it as soon as possible</string>
+	<key>shake</key>
+	<string>Shake</string>
+	<key>share_desc_app</key>
+	<string>Welike is an Indian social media platform. Create, discover and share your interests and life.</string>
+	<key>share_desc_post</key>
+	<string>Here's an interesting post on Welike! Check it out</string>
+	<key>share_desc_profile</key>
+	<string>Check out this awesome profile on Welike</string>
+	<key>share_desc_topic</key>
+	<string>%@ invited you to disscuss in Welike</string>
+	<key>share_not_install</key>
+	<string>%@ isn't installed</string>
+	<key>share_on</key>
+	<string>share on</string>
+	<key>share_title_app</key>
+	<string>Join Welike and discover the world around you</string>
+	<key>share_title_post</key>
+	<string>%@'s Welike post</string>
+	<key>share_title_post_whatsapp</key>
+	<string>See this Welike post by @%@</string>
+	<key>share_title_profile</key>
+	<string>%@'s Welike profile</string>
+	<key>share_title_profile_whatsapp</key>
+	<string>Check out this awesome profile on Welike.</string>
+	<key>share_title_topic</key>
+	<string>Come and join the discussion on %@# in Welike!</string>
+	<key>share_title_topic_whatsapp</key>
+	<string>A lot of people are disscusing  on %@#.Come and discuss about it.</string>
+	<key>sort_created_text</key>
+	<string>Latest</string>
+	<key>sort_hot_text</key>
+	<string>Hot</string>
+	<key>sort_rising_text</key>
+	<string>Rising</string>
+	<key>sort_trending_text</key>
+	<string>Trending</string>
+	<key>stranger</key>
+	<string>Message Request</string>
+	<key>topic</key>
+	<string>Topic</string>
+	<key>topic_trend_topic_views</key>
+	<string>%ld views</string>
+	<key>topic_trending_people</key>
+	<string>Trending People</string>
+	<key>topic_trending_search</key>
+	<string>Trending Searches</string>
+	<key>topic_trending_topic</key>
+	<string>Trending Topic</string>
+	<key>topic_welike_trends</key>
+	<string>Welike Trends</string>
+	<key>user_sex_boy</key>
+	<string>Male</string>
+	<key>user_sex_girl</key>
+	<string>Female</string>
+	<key>video_download</key>
+	<string>Download</string>
+	<key>video_downloading</key>
+	<string>downloading</string>
+	<key>video_guide</key>
+	<string>Scroll up to see the next video</string>
+</dict>
+</plist>

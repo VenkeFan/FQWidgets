@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>location_empty_view</key>
+	<string>Be the first person to post here</string>
+	<key>location_has_user</key>
+	<string>%@ person have been here</string>
+	<key>location_no_user</key>
+	<string>Nobody has been here yet</string>
+	<key>location_pass_by_here</key>
+	<string>was here</string>
+	<key>location_pass_by_hour</key>
+	<string>has been here within 24 hours</string>
+	<key>location_pass_by_minute</key>
+	<string>has been here a few minutes ago</string>
+	<key>location_pass_by_time</key>
+	<string>has been here in %s</string>
+	<key>location_passer_by</key>
+	<string>Passerby</string>
+	<key>location_search_edit_text_hint</key>
+	<string>Search nearby locations</string>
+	<key>location_select_title</key>
+	<string>Location</string>
+	<key>no_location_found</key>
+	<string>No location found</string>
+</dict>
+</plist>

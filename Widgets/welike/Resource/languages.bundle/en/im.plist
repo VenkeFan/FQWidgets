@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>chat_edit_text_hint</key>
+	<string>Send a message</string>
+	<key>chat_sent_a_message</key>
+	<string>sent you a message</string>
+	<key>follow_you</key>
+	<string>followed you</string>
+	<key>im_chat_loading_text</key>
+	<string>Loading</string>
+	<key>im_chat_no_more_text</key>
+	<string>No message</string>
+	<key>im_content_text_over_limit</key>
+	<string>Input character limit exceeded</string>
+	<key>im_feed_back_text</key>
+	<string>Feedback</string>
+	<key>im_session_pic_message</key>
+	<string>[Picture]</string>
+	<key>message_comment_commented_you_post_text</key>
+	<string> commented on your post</string>
+	<key>message_comment_dislike_text</key>
+	<string>Dislike</string>
+	<key>message_comment_forward_comment</key>
+	<string>reposted your comment</string>
+	<key>message_comment_forward_text</key>
+	<string>reposted your post</string>
+	<key>message_comment_forward_you_text</key>
+	<string> shared your post</string>
+	<key>message_comment_like_text</key>
+	<string>Like</string>
+	<key>message_comment_liked_your_comment_text</key>
+	<string> liked your comment</string>
+	<key>message_comment_liked_your_post_text</key>
+	<string> liked your post</string>
+	<key>message_comment_liked_your_reply_text</key>
+	<string> liked your reply</string>
+	<key>message_comment_mentioned_you</key>
+	<string> mentioned you</string>
+	<key>message_comment_reply_text</key>
+	<string>Comment</string>
+	<key>message_comment_reply_you_text</key>
+	<string> replied your comment</string>
+	<key>message_comment_reposted_you_comment_text</key>
+	<string> shared your comment</string>
+	<key>message_comment_reposted_you_post_text</key>
+	<string> shared your post</string>
+	<key>message_comment_text</key>
+	<string>Comment</string>
+	<key>message_like_text</key>
+	<string>Likes</string>
+	<key>message_mention_text</key>
+	<string>@</string>
+	<key>message_no_information_text</key>
+	<string>No information</string>
+</dict>
+</plist>

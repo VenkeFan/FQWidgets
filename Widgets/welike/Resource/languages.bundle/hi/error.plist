@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>error_api_force_update</key>
+	<string>अभी नया वर्शन मिल सकता है, कृपया नया वर्शन का अपग्रेड करें</string>
+	<key>error_api_version_not_exist</key>
+	<string>गलत वर्शन है, उसका प्रयोग नहीं कर सकता</string>
+	<key>error_authorization_invalid</key>
+	<string>प्राधिकरण फ़ैल है</string>
+	<key>error_can_not_follow_yourself</key>
+	<string>अपने आप को फॉलो करने में मना है</string>
+	<key>error_introduction_format</key>
+	<string>कृपया संशोधित करें और फ़िर सहेज करें</string>
+	<key>error_message_attachment_invalid</key>
+	<string>इनवैलिड अटैचमेंट</string>
+	<key>error_network_poor</key>
+	<string>नेटवर्क कोई त्रुटी है</string>
+	<key>error_nickname_already_exists</key>
+	<string>यह नाम का प्रयोग किया गया है</string>
+	<key>error_nickname_cannot_empty</key>
+	<string>नाम खाली नहीं हो सकता</string>
+	<key>error_nickname_cannot_used</key>
+	<string>यह नाम का प्रयोग नहीं किया जा सकता</string>
+	<key>error_nickname_invalid</key>
+	<string>उपनाम में विशेष अक्षर केवल ./,/_/ (spaces) का प्रयोग कर सकें</string>
+	<key>error_nickname_modify_count_out</key>
+	<string>आपका उपनाम अभी बदला जा नहीं सकता</string>
+	<key>error_nickname_too_long</key>
+	<string>अधिकतम 20 अक्षर</string>
+	<key>error_nickname_too_short</key>
+	<string>न्यूनतम 2 अक्षर</string>
+	<key>error_not_support_service</key>
+	<string>अज्ञात सर्विस त्रुटी</string>
+	<key>error_post_deleted</key>
+	<string>यह पोस्ट एक्सिस्ट नहीं है</string>
+	<key>error_regist_Login_failed</key>
+	<string>लॉगइन फ़ैल है</string>
+	<key>error_regist_verification_application_frequently</key>
+	<string>वेरिफ़िकेशन कोड को कई बार भेजा गया है</string>
+	<key>error_regist_verification_incorrect</key>
+	<string>अवैध वेरिफ़िकेशन कोड</string>
+	<key>error_sex_modify_count_out</key>
+	<string>आपका लिंग अभी बलता जा नहीं सकता</string>
+	<key>error_upLoad_failed</key>
+	<string>अपलोड फ़ैल है</string>
+	<key>error_user_block_me</key>
+	<string>प्राइवेसी सेटिंग्स के कारण, आप यह नहीं कर सकते.</string>
+	<key>error_user_block_user</key>
+	<string>आपने इस यूजर को ब्लॉक किया है, कृपया पहले अनब्लॉक करें.</string>
+	<key>user_blocked</key>
+	<string>्राइवेसी सेटिंग्स के कारण, आप यह नहीं कर सकते.</string>
+	<key>user_deactivate_message_info</key>
+	<string>यह यूजर अभी  Welike पर नहीं हैं. इनके लौटने की प्रतीक्षा करें</string>
+</dict>
+</plist>

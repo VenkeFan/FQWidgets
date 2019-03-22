@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>error_regist_input_phonenumber_incorrect</key>
+	<string>Incorrect digits</string>
+	<key>error_regist_input_phonenumber_not_empty</key>
+	<string>Mobile number can't be empty</string>
+	<key>error_regist_user_head_reupload_avatar</key>
+	<string>Upload failed</string>
+	<key>error_regist_user_head_too_large_reupload_avatar</key>
+	<string>Failed to upload the image. Size is too large</string>
+	<key>regist_choose_language_english</key>
+	<string>English</string>
+	<key>regist_choose_language_hindi</key>
+	<string>हिंदी</string>
+	<key>regist_choose_language_title</key>
+	<string>Language</string>
+	<key>regist_choose_language_welcome_title</key>
+	<string>Welcome</string>
+	<key>regist_enter_code_resend</key>
+	<string>Resend</string>
+	<key>regist_enter_code_title</key>
+	<string>Please enter verification code</string>
+	<key>regist_get_start</key>
+	<string>Get started</string>
+	<key>regist_input_mobile</key>
+	<string>Enter Phone Number</string>
+	<key>regist_input_phonenumber_district</key>
+	<string>India(91)</string>
+	<key>regist_jion_weLike</key>
+	<string>Done</string>
+	<key>regist_login_facebook</key>
+	<string>Continue with Facebook</string>
+	<key>regist_login_google</key>
+	<string>Login with Google</string>
+	<key>regist_next_btn</key>
+	<string>Next</string>
+	<key>regist_otp_resent</key>
+	<string>Resend OTP after %zds</string>
+	<key>regist_phone_num_title</key>
+	<string>Login</string>
+	<key>regist_recommond_follower</key>
+	<string>Followers</string>
+	<key>regist_select_language</key>
+	<string>Select your language</string>
+	<key>regist_sms_code_back</key>
+	<string>Change Number</string>
+	<key>regist_sms_code_hint</key>
+	<string>OTP code sent to %@
+Please enter it below</string>
+	<key>regist_sms_code_toast</key>
+	<string>Calm down and try again later!</string>
+	<key>regist_suggest_interests_sub_title</key>
+	<string>Pick 2 or more topics</string>
+	<key>regist_suggest_interests_title</key>
+	<string>Select your interest</string>
+	<key>regist_suggest_persons_title</key>
+	<string>Make your timeline yours</string>
+	<key>regist_suggest_persons_title_sub</key>
+	<string>Follow your interested person</string>
+	<key>regist_system_back_note</key>
+	<string>Click back once more to return to main page</string>
+	<key>regist_terms_service</key>
+	<string>Terms of Service</string>
+	<key>regist_terms_service_ex</key>
+	<string>I accept the %@</string>
+	<key>regist_terms_service_ex2</key>
+	<string>By continuing, I accept the </string>
+	<key>regist_user_head_choose_def_window_next_confirm</key>
+	<string>Confirm</string>
+	<key>regist_user_head_choose_def_window_next_skip</key>
+	<string>Skip</string>
+	<key>regist_user_head_choose_def_window_sum</key>
+	<string>Select from Gallery/Take Photo</string>
+	<key>regist_user_head_choose_def_window_title</key>
+	<string>Add profile photo</string>
+	<key>regist_user_info_error_message</key>
+	<string>Nickname is unique.You can change it later.</string>
+	<key>regist_user_info_input_nickname</key>
+	<string>Enter your name</string>
+	<key>regist_user_info_name</key>
+	<string>What should we call you?</string>
+	<key>regist_user_info_name_hint</key>
+	<string>Enter your nickname</string>
+	<key>regist_user_info_nickname</key>
+	<string>Name</string>
+	<key>regist_user_terms_services</key>
+	<string>User Terms &amp; Services</string>
+	<key>regist_welcome_text_four</key>
+	<string>Post your interesting story!</string>
+	<key>regist_welcome_text_one</key>
+	<string>Share it if you like it!</string>
+	<key>regist_welcome_text_three</key>
+	<string>Long press to give an SUPERLIKE if you
+like it very much.</string>
+	<key>regist_welcome_text_two</key>
+	<string>Leave your comments!</string>
+</dict>
+</plist>

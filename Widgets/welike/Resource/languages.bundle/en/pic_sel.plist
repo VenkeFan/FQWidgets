@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>gif_tag</key>
+	<string>GIF</string>
+	<key>picture_all_audio</key>
+	<string>All audio</string>
+	<key>picture_audio</key>
+	<string>Audio permission request</string>
+	<key>picture_audio_empty</key>
+	<string>You can record an audio</string>
+	<key>picture_camera</key>
+	<string>Camera permission request</string>
+	<key>picture_camera_audio_permission</key>
+	<string>Allow Welike to access to Camera / Microphone to make a post</string>
+	<key>picture_camera_permission</key>
+	<string>Allow Welike to access Camera to make a post</string>
+	<key>picture_camera_roll</key>
+	<string>Camera roll</string>
+	<key>picture_cancel</key>
+	<string>Cancel</string>
+	<key>picture_completed</key>
+	<string>Completed</string>
+	<key>picture_confirm</key>
+	<string>OK</string>
+	<key>picture_done_front_num</key>
+	<string> Confirm (%zd/%zd)</string>
+	<key>picture_edit</key>
+	<string>Edit Photo</string>
+	<key>picture_empty</key>
+	<string>You can take a photo or video</string>
+	<key>picture_empty_audio_title</key>
+	<string>No audio</string>
+	<key>picture_empty_title</key>
+	<string>No photos or video</string>
+	<key>picture_error</key>
+	<string>Image is corrupted</string>
+	<key>picture_jurisdiction</key>
+	<string>External Storage Permission Request</string>
+	<key>picture_long_chart</key>
+	<string>Long vertical photos </string>
+	<key>picture_message_max_num</key>
+	<string>Choose up to %zd photos</string>
+	<key>picture_message_video_max_num</key>
+	<string>One video clip maximum</string>
+	<key>picture_min_img_num</key>
+	<string>Select at least %zd photo</string>
+	<key>picture_min_video_num</key>
+	<string>Select at least %1$s video</string>
+	<key>picture_pause_audio</key>
+	<string>Pause</string>
+	<key>picture_photograph</key>
+	<string>Take Photo</string>
+	<key>picture_play_audio</key>
+	<string>Play</string>
+	<key>picture_please_select</key>
+	<string>Please choose</string>
+	<key>picture_preview</key>
+	<string>Preview</string>
+	<key>picture_prompt</key>
+	<string>Save</string>
+	<key>picture_prompt_content</key>
+	<string>Do you want to save the photo to your phone?</string>
+	<key>picture_quit_audio</key>
+	<string>Quit</string>
+	<key>picture_record_video</key>
+	<string>Record video</string>
+	<key>picture_rule</key>
+	<string>Photo and video can't be chosen at same time</string>
+	<key>picture_save_error</key>
+	<string>Failed to save image</string>
+	<key>picture_save_success</key>
+	<string>Saved successfully</string>
+	<key>picture_stop_audio</key>
+	<string>Stop</string>
+	<key>recorder_time</key>
+	<string>00:00</string>
+	<key>ucrop_label_edit_photo</key>
+	<string>Cut</string>
+	<key>ucrop_label_original</key>
+	<string>Original ratio</string>
+	<key>ucrop_menu_crop</key>
+	<string>Cut</string>
+	<key>video_too_large</key>
+	<string>File size exceeds the limit</string>
+</dict>
+</plist>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Quiet_Hours</key>
+	<string>Quiet Hours</string>
+	<key>Select_interest</key>
+	<string>Select your interest</string>
+	<key>badges_pop_award</key>
+	<string>Award time</string>
+	<key>badges_pop_confirm</key>
+	<string>Confirm</string>
+	<key>badges_pop_intro</key>
+	<string>Introduction</string>
+	<key>badges_pop_learn_more</key>
+	<string>Click to learn more</string>
+	<key>badges_pop_not_owned</key>
+	<string>Not available</string>
+	<key>badges_pop_type</key>
+	<string>Type</string>
+	<key>badges_wall_activate_badge</key>
+	<string>Activate the Badge</string>
+	<key>badges_wall_current_badges</key>
+	<string>Badges Received</string>
+	<key>badges_wall_segment_activity</key>
+	<string>Achievement</string>
+	<key>badges_wall_segment_social</key>
+	<string>Social media</string>
+	<key>badges_wall_segment_verified</key>
+	<string>Verification</string>
+	<key>badges_wall_title</key>
+	<string>Wall of Fame</string>
+	<key>badges_wear_available</key>
+	<string>Badges Available</string>
+	<key>badges_wear_change</key>
+	<string>Change</string>
+	<key>badges_wear_instr</key>
+	<string>Instructions</string>
+	<key>badges_wear_rule</key>
+	<string>[How to get badge]
+      
+For Verification badge, if you meet the requirements and your application is accepted, you will get it automatically, and it will show next to your profile picture.
+      
+For Social Media badge, only when you link your social media accounts with Welike, then it will automatically show the symbol of social media icon on the right hand side just below the bio.
+      
+For Achievement badge, once you select and put them on will be visible on your profile page. You can select up to 6 badges.
+      
+[Reason to recall badges]
+      
+Once the badge have given, it won&apos;t take back normally.
+However, the verification badge can be recalled in case any user hurts the community sentiments or in case it is a limited edition badge that is for a specific period of time.</string>
+	<key>badges_wear_select</key>
+	<string>Select</string>
+	<key>badges_wear_your</key>
+	<string>Your Badges</string>
+	<key>block_success</key>
+	<string>Blocked!</string>
+	<key>block_user_confirm_title</key>
+	<string>%@ will be unable to comment or send message to you. And you will not see his/her post again</string>
+	<key>block_user_list_title</key>
+	<string>Blocked user</string>
+	<key>choice_interest_title</key>
+	<string>At least choose 3 categories</string>
+	<key>create_chat_failed</key>
+	<string>Network error</string>
+	<key>empty_block_users</key>
+	<string>No blocked user</string>
+	<key>feed_top</key>
+	<string>Pin this post in my post feed</string>
+	<key>guide_1</key>
+	<string>Find interesting friend or check out what&apos;s happening</string>
+	<key>guide_2</key>
+	<string>Follow the user you like</string>
+	<key>guide_3</key>
+	<string>Long press to send a SUPERLIKE</string>
+	<key>guide_4</key>
+	<string>Start your first post</string>
+	<key>guide_5</key>
+	<string>Add some photos</string>
+	<key>mine_check_the_update</key>
+	<string>Check for Updates</string>
+	<key>mine_check_the_update_title</key>
+	<string>Version update</string>
+	<key>mine_check_the_update_update</key>
+	<string>Update</string>
+	<key>mine_check_the_update_version</key>
+	<string>V </string>
+	<key>mine_check_the_update_version_latest</key>
+	<string>No new version</string>
+	<key>mine_edit_profile</key>
+	<string>Edit Profile</string>
+	<key>mine_feed_back_text</key>
+	<string>Feedback</string>
+	<key>mine_follower_num_text</key>
+	<string>Followers</string>
+	<key>mine_following_num_text</key>
+	<string>Following</string>
+	<key>mine_invite_friends_text</key>
+	<string>My Likes</string>
+	<key>mine_liked_num_text</key>
+	<string>Likes</string>
+	<key>mine_post_num_text</key>
+	<string>Posts</string>
+	<key>mine_rate_us_text</key>
+	<string>Share App</string>
+	<key>mine_send_chat</key>
+	<string>Chat</string>
+	<key>mine_setting_clear_cache_pop_cancel</key>
+	<string>Cancel</string>
+	<key>mine_setting_clear_cache_pop_confirm</key>
+	<string>Confirm</string>
+	<key>mine_setting_clear_cache_pop_loading_text</key>
+	<string>Clearing</string>
+	<key>mine_setting_clear_cache_pop_title</key>
+	<string>Are you sure you want to clear the cache?</string>
+	<key>mine_setting_clear_cache_text</key>
+	<string>Clear cache</string>
+	<key>mine_setting_draft_text</key>
+	<string>Draft box</string>
+	<key>mine_setting_exit_app_pop_title</key>
+	<string>Are you sure you want to logout?</string>
+	<key>mine_setting_language_text</key>
+	<string>Language</string>
+	<key>mine_setting_log_out_text</key>
+	<string>Logout</string>
+	<key>mine_setting_message_text</key>
+	<string>Notification setting</string>
+	<key>mine_setting_text</key>
+	<string>Settings</string>
+	<key>mine_user_edit_sex_slogen</key>
+	<string>Gender can be changed only once</string>
+	<key>mine_user_host_bottom_message</key>
+	<string>Message</string>
+	<key>mine_user_host_brief_title</key>
+	<string>Introduction</string>
+	<key>mine_user_host_gender_title</key>
+	<string>Gender</string>
+	<key>mine_user_host_personal_edit_name_attention</key>
+	<string>Nickname should be between 2-20 characters</string>
+	<key>mine_user_host_personal_edit_name_canot_modify_slogen</key>
+	<string>Can be changed only after %@</string>
+	<key>mine_user_host_personal_edit_name_save</key>
+	<string>Save</string>
+	<key>mine_user_host_personal_edit_name_slogen</key>
+	<string>Can be modified once in every six months</string>
+	<key>mine_user_host_personal_info_page_title</key>
+	<string>Profile</string>
+	<key>mine_user_host_update_photo_title</key>
+	<string>Update profile photo</string>
+	<key>mine_verified_ex</key>
+	<string>Verified : </string>
+	<key>mut_scheduled</key>
+	<string>Scheduled</string>
+	<key>mute_at</key>
+	<string>@</string>
+	<key>mute_comment</key>
+	<string>Comment</string>
+	<key>mute_end</key>
+	<string>To</string>
+	<key>mute_im_message</key>
+	<string>Message from friend</string>
+	<key>mute_im_message_tips</key>
+	<string>From whom I&apos;ll receive messages</string>
+	<key>mute_like</key>
+	<string>Like</string>
+	<key>mute_new_post</key>
+	<string>New Post</string>
+	<key>mute_new_post_tips</key>
+	<string>Receive notification from people I&apos;m following</string>
+	<key>mute_scheduled_tips</key>
+	<string>Do not disturb</string>
+	<key>mute_start</key>
+	<string>From</string>
+	<key>notification_reminder</key>
+	<string>Notification Reminder</string>
+	<key>notification_setting</key>
+	<string>Notification</string>
+	<key>pin_max</key>
+	<string>Oops, you have reached the times of pinning post</string>
+	<key>setting_hide_mobile_model_text</key>
+	<string>Hide mobile model</string>
+	<key>un_block</key>
+	<string>Unblock</string>
+	<key>un_block_success</key>
+	<string>Unblocked!</string>
+	<key>un_block_user_confirm_title</key>
+	<string>Do you want to unblock this user?</string>
+	<key>un_feed_top</key>
+	<string>Un-pin this post</string>
+	<key>user_follow_dialog_title</key>
+	<string>Are you sure to unfollow this user?</string>
+	<key>user_follow_page_follow_btn</key>
+	<string>Follow</string>
+	<key>user_follow_page_friend_btn</key>
+	<string>Friends</string>
+	<key>user_follow_page_title</key>
+	<string>Follow</string>
+	<key>user_followed_btn_text</key>
+	<string>Following</string>
+	<key>user_follower_page_empty</key>
+	<string>You don&apos;t have any followers yet</string>
+	<key>user_follower_page_empty_btn</key>
+	<string>Go to post</string>
+	<key>user_following_page_empty</key>
+	<string>You have not followed anyone yet</string>
+	<key>user_following_page_empty_btn</key>
+	<string>Check hot post</string>
+	<key>user_host_follow_following_failed</key>
+	<string>Failed to follow</string>
+	<key>user_host_follow_following_success</key>
+	<string>Followed Successfully</string>
+	<key>user_host_liked_list_empty</key>
+	<string>You have not liked any post yet</string>
+	<key>user_host_page_albums_list_btn</key>
+	<string> My likes</string>
+	<key>user_host_page_posts_list_btn</key>
+	<string> Posts</string>
+	<key>user_host_post_list_empty</key>
+	<string>You have not posted anything yet</string>
+	<key>user_interest_info_title</key>
+	<string>At least choose 1 categories</string>
+	<key>user_main_verify</key>
+	<string>Verification</string>
+	<key>user_my_like_page_empty_text_next</key>
+	<string>View hot feeds</string>
+	<key>user_my_post_page_empty_text_next</key>
+	<string>Send post</string>
+	<key>view_my_profile</key>
+	<string>Profile</string>
+	<key>profile_growth_verification</key>
+	<string>Welike Influencer</string>
+</dict>
+</plist>

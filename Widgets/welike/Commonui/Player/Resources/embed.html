@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welike</title>
+    <link href="./player.css" rel="stylesheet">
+    <style>
+        html,body { margin: 0; padding: 0;}
+        .outer-wrap { height: 100vh; width: 100vw; background: #000;display: flex; flex-direction: column; justify-content: center; align-items: center}
+
+        #demo {
+            height: 100vh;
+            width: 100vw;
+        }
+        #demo.central {
+            width: 100vw;
+            height: calc(900vw/16)
+        }
+    </style>
+    <script src="./player.js"></script>
+
+</head>
+<body>
+    <div class="outer-wrap">
+        <div id="demo">
+
+        </div>
+    </div>
+    <script>
+        var queryStr = window.location.search.substr(1);
+        var query = {}
+        if (queryStr.length > 0) {
+            query = queryStr.split("&").reduce(function(ret, v) {
+                var kv = v.split('=')
+                ret[kv[0]] = decodeURIComponent(kv[1])
+                return ret
+            }, {})
+        }
+        var s = query['source']
+        var source = null
+        var rid = query['rid']
+        var mode = query['mode']
+        var poster = query['poster']
+        var supportType = 'html'
+
+        // rid, return id
+        // source: url/youtube , get video id from youtube link
+        if (s && s.indexOf('youtube.com') > -1 ) {
+            // reg match
+            supportType = 'youtube'
+            var r = s.match(/\/embed\/([\w]+)$/)
+            if (r) {
+                source = r[1]
+            }
+        } else {
+            supportType = 'html'
+            source = s
+        }
+
+        function report(info) {
+            var xhr = new XMLHttpRequest()
+            xhr.open('url', 'POST')
+            xhr.setRequestHeader('Content-type', 'application/json')
+            xhr.send(JSON.stringify(info))
+
+            // or throught jsbridge
+        }
+        var target = document.getElementById('demo');
+
+        if (mode === 'central') {
+            target.className = 'central'
+        }
+        // make a config for WelikePlayer UI and UE
+        var config = {
+            supportTarget: supportType,
+            source: source,
+            poster: poster,
+            ue: {
+                disappearInterval: 3000,
+                seeking: 0, // 0 'just move seeking dot', 1 'progress follow seeking and stop playing'
+                seeked: 0, // 0'keep', 'stop', 'play'
+                ended: 0, // 0'seekToStart and stop', 1'keepEnd', 2'loop'
+            },
+            ui: {
+                enableMute: true,
+                enableClose: true,
+                enableToggleScreen: true,
+                more: false, // ['download', 'sourceType'],
+                download: false,
+                sourceType: false, // ['240p', '360p'], only support when video supported change
+            }
+        };
+        var player = new WelikePlayer(target, config);
+
+        // event listen for upload data
+        // inited: 'inited',
+        // firstframe: 'firstframe',
+        // play: 'play',
+        // timeupdate: 'timeupdate',
+        // pause: 'pause',
+        // ended: 'ended',
+        // durationchange: 'durationchange',
+        // mute: 'mute',
+        // seek: 'seek'
+        target.addEventListener('init', function(e) {
+            // e.status
+        })
+
+        // for webview call
+        window.stopWplayer = function()  {
+            player.destroy()
+        }
+
+        // for jsbridge call
+        function closeWindow () {
+            if (window.WelikeJSBridge) {
+
+            }
+        }
+    </script>
+</body>
+</html>

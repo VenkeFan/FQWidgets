@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Quiet_Hours</key>
+	<string>चुप हुए समय</string>
+	<key>Select_interest</key>
+	<string>अपनी रुचि चुनें</string>
+	<key>badges_pop_award</key>
+	<string>पुरस्कार का समय</string>
+	<key>badges_pop_confirm</key>
+	<string>सहमत</string>
+	<key>badges_pop_intro</key>
+	<string>परिचय</string>
+	<key>badges_pop_learn_more</key>
+	<string>अधिक जानकारी के लिए क्लिक करें</string>
+	<key>badges_pop_not_owned</key>
+	<string>उपलब्ध नहीं है</string>
+	<key>badges_pop_type</key>
+	<string>प्रकार</string>
+	<key>badges_wall_activate_badge</key>
+	<string>बैज  प्रारम्भ</string>
+	<key>badges_wall_current_badges</key>
+	<string>बैज  प्राप्ति</string>
+	<key>badges_wall_segment_activity</key>
+	<string>सफलता</string>
+	<key>badges_wall_segment_social</key>
+	<string>सोशल मीडिया</string>
+	<key>badges_wall_segment_verified</key>
+	<string>जाँच </string>
+	<key>badges_wall_title</key>
+	<string>बैज  संचय</string>
+	<key>badges_wear_available</key>
+	<string>बैज उपलब्ध</string>
+	<key>badges_wear_change</key>
+	<string>बैज  बदले</string>
+	<key>badges_wear_instr</key>
+	<string>नियम</string>
+	<key>badges_wear_rule</key>
+	<string>[पद को कैसे परैत करे]
+       
+पद की जाँच के लिए, यदि आप आवश्यकताओं को पूरा करते हैं और आपका आवेदन स्वीकार किया जाता है, तो आप इसे अपने आप से प्राप्त करेंगे, और यह आपके प्रोफ़ाइल फोटो के बगल में दिखाई देगा।
+       
+सोशल मीडिया बैज के लिए, केवल जब आप अपने सोशल मीडिया अकाउंट्स को Welike  के साथ जोड़ते हैं, तो यह खुद से बायो के ठीक नीचे दाहिने हाथ की तरफ सोशल मीडिया आइकन का चिह्न दिखाएगा।
+       
+उपलब्धि बैज के लिए, एक बार जब आप चयन करते हैं और उन्हें डालते हैं तो आपके प्रोफ़ाइल पृष्ठ पर दिखाई देगा। आप 6 बैज तक चुन सकते हैं।
+       
+[बैज वापस लेने का कारण]
+       
+बैज दिए जाने के बाद, यह सामान्य रूप से वापस नहीं आएगा।
+परन्तु, बैज को कुछ परिस्थितियों  में वापस लिया जा सकता है जब कोई उपयोगकर्ता सामुदायिक भावनाओं को थी पंहुचा रहा हो या यदि यह एक सीमित समय तक का बैज हो बैज है ।</string>
+	<key>badges_wear_select</key>
+	<string>चुने</string>
+	<key>badges_wear_your</key>
+	<string>आपके बैजिस</string>
+	<key>block_success</key>
+	<string>ब्लॉक सफ़क गया!</string>
+	<key>block_user_confirm_title</key>
+	<string>%@ आपको टिप्पणी या संदेश भेज नहीं सकते और आप उनकी पोस्ट नहीं देखेंगे</string>
+	<key>block_user_list_title</key>
+	<string>ब्लॉक गए यूजर</string>
+	<key>choice_interest_title</key>
+	<string>कम से कम तीन केटेगरी चुनें</string>
+	<key>create_chat_failed</key>
+	<string>नेटवर्क कोई त्रुटी है</string>
+	<key>empty_block_users</key>
+	<string>कोई ब्लॉक्ड यूजर नहीं हैं</string>
+	<key>feed_top</key>
+	<string>इस पोस्ट को  अपने प्रोफाइल फीड पर पिन करें</string>
+	<key>guide_1</key>
+	<string>ददिलचस्प लोग खोजें या यहाँ देखें कि क्या हो रहा है</string>
+	<key>guide_2</key>
+	<string>जो उपयोगकर्ता आपको पसंद हैं, उन्हें फॉलो करें</string>
+	<key>guide_3</key>
+	<string>सुपरलाइक के लिए  बटन को देर तक दबाएं</string>
+	<key>guide_4</key>
+	<string>आपकी पहली  पोस्ट  शुरू करें</string>
+	<key>guide_5</key>
+	<string>कुछ  चित्रें जोड़ें</string>
+	<key>mine_check_the_update</key>
+	<string>चेक फॉर अपडेट</string>
+	<key>mine_check_the_update_title</key>
+	<string>वर्शन अपडेट</string>
+	<key>mine_check_the_update_update</key>
+	<string>अपडेट करें</string>
+	<key>mine_check_the_update_version</key>
+	<string>V </string>
+	<key>mine_check_the_update_version_latest</key>
+	<string>अभी सबसे नया वर्शन है</string>
+	<key>mine_edit_profile</key>
+	<string>प्रोफाइल एडिट करें</string>
+	<key>mine_feed_back_text</key>
+	<string>फ़ीडबैक</string>
+	<key>mine_follower_num_text</key>
+	<string>फॉलोअर्स</string>
+	<key>mine_following_num_text</key>
+	<string>फॉलो कर रहे हैं</string>
+	<key>mine_invite_friends_text</key>
+	<string>मेरे लाइक्स</string>
+	<key>mine_liked_num_text</key>
+	<string>प्राप्त हुए लाइक्स</string>
+	<key>mine_post_num_text</key>
+	<string>पोस्ट</string>
+	<key>mine_rate_us_text</key>
+	<string>एप्प साझा करें</string>
+	<key>mine_send_chat</key>
+	<string>बातचीत</string>
+	<key>mine_setting_clear_cache_pop_cancel</key>
+	<string>रद्द करें</string>
+	<key>mine_setting_clear_cache_pop_confirm</key>
+	<string>पुष्टि करें</string>
+	<key>mine_setting_clear_cache_pop_loading_text</key>
+	<string>साफ़ हो रहा है </string>
+	<key>mine_setting_clear_cache_pop_title</key>
+	<string>क्या आप कैश साफ़ करना चाहते हैं?</string>
+	<key>mine_setting_clear_cache_text</key>
+	<string>कैश को साफ़ करें</string>
+	<key>mine_setting_draft_text</key>
+	<string>ड्राफ्ट बॉक्स</string>
+	<key>mine_setting_exit_app_pop_title</key>
+	<string>क्या आप लॉगआउट चाहते हैं?</string>
+	<key>mine_setting_language_text</key>
+	<string>भाषा</string>
+	<key>mine_setting_log_out_text</key>
+	<string>लॉगआउट</string>
+	<key>mine_setting_message_text</key>
+	<string>नोटिफिकेशन सेटिंग</string>
+	<key>mine_setting_text</key>
+	<string>सेटिंग्स</string>
+	<key>mine_user_edit_sex_slogen</key>
+	<string>आपने लिंग को केवल एक बार में बदला सकते हैं</string>
+	<key>mine_user_host_bottom_message</key>
+	<string>संदेश</string>
+	<key>mine_user_host_brief_title</key>
+	<string>मेरा परिचय</string>
+	<key>mine_user_host_gender_title</key>
+	<string>लिंग</string>
+	<key>mine_user_host_personal_edit_name_attention</key>
+	<string>नाम के वर्ण 2 ~20 के बीच होना चाहिए</string>
+	<key>mine_user_host_personal_edit_name_canot_modify_slogen</key>
+	<string>केवल %@ के बाद ही बदला जा सकता है</string>
+	<key>mine_user_host_personal_edit_name_save</key>
+	<string>सेव करें</string>
+	<key>mine_user_host_personal_edit_name_slogen</key>
+	<string>हर छह महीने में एक बार संशोधित कर सकते हैं</string>
+	<key>mine_user_host_personal_info_page_title</key>
+	<string>प्रोफाइल</string>
+	<key>mine_user_host_update_photo_title</key>
+	<string>प्रोफाइल फ़ोटो अपडेट करें</string>
+	<key>mine_verified_ex</key>
+	<string>वेरिफ़िएड : </string>
+	<key>mut_scheduled</key>
+	<string>तैयार समय</string>
+	<key>mute_at</key>
+	<string>@</string>
+	<key>mute_comment</key>
+	<string>टिप्पणी</string>
+	<key>mute_end</key>
+	<string>अंत</string>
+	<key>mute_im_message</key>
+	<string>दोस्त के संदेश</string>
+	<key>mute_im_message_tips</key>
+	<string>जिनसे मैं संदेश प्राप्त करूंगा</string>
+	<key>mute_like</key>
+	<string>लाइक</string>
+	<key>mute_new_post</key>
+	<string>नयी पोस्ट</string>
+	<key>mute_new_post_tips</key>
+	<string>जिन लोग मैं फॉलो कर रहा/रही है,उनके संदेश प्राप्त करूंगा</string>
+	<key>mute_scheduled_tips</key>
+	<string>डिस्टर्ब न करें</string>
+	<key>mute_start</key>
+	<string>शुरू</string>
+	<key>notification_reminder</key>
+	<string>नोटिफिकेशन अनुस्मारक</string>
+	<key>notification_setting</key>
+	<string>नोटिफिकेशन</string>
+	<key>pin_max</key>
+	<string>ओह, आपने पिनिंग पोस्ट की सब संख्या की गई है</string>
+	<key>setting_hide_mobile_model_text</key>
+	<string>अपना मोबाइल मॉडल हाइड करें</string>
+	<key>un_block</key>
+	<string>अनब्लॉक</string>
+	<key>un_block_success</key>
+	<string>अनब्लॉक हो गया</string>
+	<key>un_block_user_confirm_title</key>
+	<string>क्या आप इस यूजर को अनब्लॉक करना चाहते हैं?</string>
+	<key>un_feed_top</key>
+	<string>इस पोस्ट को ऊपर से छोलें</string>
+	<key>user_follow_dialog_title</key>
+	<string>क्या इस उपयोगकर्ता को अनफॉलो करेंगे ?</string>
+	<key>user_follow_page_follow_btn</key>
+	<string>फॉलो</string>
+	<key>user_follow_page_friend_btn</key>
+	<string>दोस्त</string>
+	<key>user_follow_page_title</key>
+	<string>फॉलो</string>
+	<key>user_followed_btn_text</key>
+	<string>फॉलो कर रहें हैं</string>
+	<key>user_follower_page_empty</key>
+	<string>आपके अकाउंट अभी कोई फॉलोआर नहीं है</string>
+	<key>user_follower_page_empty_btn</key>
+	<string>पोस्ट करें</string>
+	<key>user_following_page_empty</key>
+	<string>आपने किसी को फॉलो नहीं किया</string>
+	<key>user_following_page_empty_btn</key>
+	<string>हॉट पोस्ट देखें</string>
+	<key>user_host_follow_following_failed</key>
+	<string>फॉलो विसफ़ल</string>
+	<key>user_host_follow_following_success</key>
+	<string>फॉलो सफ़ल</string>
+	<key>user_host_liked_list_empty</key>
+	<string>अभी तक आपने किसी पोस्ट को पसंद नहीं किया है</string>
+	<key>user_host_page_albums_list_btn</key>
+	<string> मेरे लाइक्स</string>
+	<key>user_host_page_posts_list_btn</key>
+	<string> पोस्ट</string>
+	<key>user_host_post_list_empty</key>
+	<string>अभी तक आपने कुछ नहीं पोस्ट किया है</string>
+	<key>user_interest_info_title</key>
+	<string>कम से कम 1 कैतेगोरी चुनें</string>
+	<key>user_main_verify</key>
+	<string>वेरिफिकेशन</string>
+	<key>user_my_like_page_empty_text_next</key>
+	<string>हॉट पोस्ट देखें</string>
+	<key>user_my_post_page_empty_text_next</key>
+	<string>आपने पोस्ट करें</string>
+	<key>view_my_profile</key>
+	<string>प्रोफाइल</string>
+	<key>profile_growth_verification</key>
+	<string>Welike ਇਨਫਲੂਐਂਸਰ</string>
+</dict>
+</plist>

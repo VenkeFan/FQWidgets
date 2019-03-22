@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Poll_time</key>
+	<string>Poll time</string>
+	<key>add_link_error</key>
+	<string>Invalid URL</string>
+	<key>campaign_title</key>
+	<string>Events</string>
+	<key>change_status_btn</key>
+	<string>Change Text</string>
+	<key>clear_draft_title</key>
+	<string>Are you sure to clear the draft box?</string>
+	<key>contacts_search_contacts_search_online</key>
+	<string>Search online</string>
+	<key>contacts_search_hint</key>
+	<string>Search</string>
+	<key>content_null</key>
+	<string>Content can not be null</string>
+	<key>draft_empty_text</key>
+	<string>Draft box is empty. Failed posts will get saved in drafts.</string>
+	<key>edit_pic_title</key>
+	<string>cut</string>
+	<key>editor_also_commit</key>
+	<string>Also comment</string>
+	<key>editor_also_repost</key>
+	<string>Also repost</string>
+	<key>editor_comment_send</key>
+	<string>SEND</string>
+	<key>editor_comment_title</key>
+	<string>Comment</string>
+	<key>editor_discard_cancel</key>
+	<string>Cancel</string>
+	<key>editor_discard_confrim</key>
+	<string>Discard</string>
+	<key>editor_discard_discard</key>
+	<string>Discard</string>
+	<key>editor_discard_query</key>
+	<string>If you go back now, the post will be discarded</string>
+	<key>editor_discard_save</key>
+	<string>Save as draft</string>
+	<key>editor_edit_text_hint</key>
+	<string>What would you like to share?</string>
+	<key>editor_link_hint</key>
+	<string>Please enter the correct URL</string>
+	<key>editor_link_note</key>
+	<string>Type or paste a URL here</string>
+	<key>editor_link_submit</key>
+	<string>SUBMIT</string>
+	<key>editor_location_null</key>
+	<string>Location</string>
+	<key>editor_post_location</key>
+	<string>Location</string>
+	<key>editor_post_send</key>
+	<string>Send</string>
+	<key>editor_post_title</key>
+	<string>New post</string>
+	<key>editor_reply_send</key>
+	<string>SEND</string>
+	<key>editor_repost_send</key>
+	<string>SEND</string>
+	<key>editor_repost_title</key>
+	<string>Repost</string>
+	<key>editor_resend_btn</key>
+	<string>Resend</string>
+	<key>editor_send_successed</key>
+	<string>Sent successfully</string>
+	<key>image_status</key>
+	<string>Status</string>
+	<key>new_topic_title</key>
+	<string>Add a topic</string>
+	<key>no_time_limit</key>
+	<string>No time limit</string>
+	<key>one_day</key>
+	<string>1 day</string>
+	<key>one_month</key>
+	<string>1 month</string>
+	<key>option_num</key>
+	<string>option%d</string>
+	<key>post_all_contact</key>
+	<string>Contact</string>
+	<key>post_eula_accept</key>
+	<string>Got it</string>
+	<key>post_eula_cancel</key>
+	<string>Later</string>
+	<key>post_eula_content</key>
+	<string>Welike, as an open social network platform, protects every user's rights to freely publish or share information and opinions. In order to protect the experience and safety of people who use Welike, we do not allow users to create content that is harmful to others' rights or violates community terms. At the same time, the platform has the power to review and deal with the user's behavior and information, including but not limited to user information, content and behavior. Please refer to "Welike Terms and Conditions of Use" for more information. Learn more</string>
+	<key>post_eula_link</key>
+	<string>Learn more</string>
+	<key>post_eula_title</key>
+	<string>Before you start</string>
+	<key>post_recent_contacts</key>
+	<string>Recent Contacts</string>
+	<key>publish_draft_title</key>
+	<string>Draft</string>
+	<key>publish_mention_online_list_empty</key>
+	<string>No result</string>
+	<key>publish_mention_online_list_title</key>
+	<string>Search online</string>
+	<key>publish_reply_post_empty_content</key>
+	<string>Repost</string>
+	<key>publish_share_picture_empty_content</key>
+	<string>Share picture</string>
+	<key>publish_share_video_empty_content</key>
+	<string>Share video</string>
+	<key>recent_topic_title_text</key>
+	<string>Recent Topics</string>
+	<key>recommend_topic_title</key>
+	<string>Recommend</string>
+	<key>seven_day</key>
+	<string>1 week</string>
+	<key>short_cut_alumb_name</key>
+	<string>Album</string>
+	<key>short_cut_poll_name</key>
+	<string>Poll</string>
+	<key>short_cut_snapshot_name</key>
+	<string>Camera</string>
+	<key>short_cut_video_name</key>
+	<string>Video</string>
+	<key>three_day</key>
+	<string>3 days</string>
+	<key>topic_count_over_limit</key>
+	<string>you can choose 3 or less topics</string>
+	<key>topic_search_hint</key>
+	<string>Add or Search a topic</string>
+	<key>topic_search_tips</key>
+	<string>at least 2 characters per topic</string>
+</dict>
+</plist>

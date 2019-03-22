@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>all</key>
+	<string>सब</string>
+	<key>authorize_camera</key>
+	<string>Welike को आपके कैमरा प्रयोग करने की अनुमति नहीं है,कृपया सेटिंग्स से पहुँच प्रदान करें.</string>
+	<key>authorize_contact</key>
+	<string>Welike को आपके कॉन्टेक्ट्स प्रयोग करने की अनुमति नहीं है,कृपया सेटिंग्स से पहुँच प्रदान करें.</string>
+	<key>authorize_location</key>
+	<string>Welike को आपके लोकेशन प्रयोग करने की अनुमति नहीं है,कृपया सेटिंग्स से पहुँच प्रदान करें.</string>
+	<key>authorize_microphone</key>
+	<string>Welike को आपके माइक्रोफ़ोन प्रयोग करने की अनुमति नहीं है,कृपया सेटिंग्स से पहुँच प्रदान करें.</string>
+	<key>authorize_photo</key>
+	<string>Welike को आपकी फ़़़ो ो प्रयोग करने की अनुमति नहीं है,कृपया सेटिंग्स से पहुँच प्रदान करें.</string>
+	<key>back_to_top</key>
+	<string>शीर्ष पर वापस जाएँ</string>
+	<key>block</key>
+	<string>ब्लॉक</string>
+	<key>camera_filter</key>
+	<string>फ़िल्टर</string>
+	<key>camera_picture</key>
+	<string>पेस्टर</string>
+	<key>click_back_again</key>
+	<string>लौटने के लिए दोबारा बेक क्लिक करें</string>
+	<key>common_cancel</key>
+	<string>रद्द करें</string>
+	<key>common_confirm</key>
+	<string>पुष्टि करें</string>
+	<key>common_error_ssl_cert_invalid</key>
+	<string>इस वेबसाइट पर सुरक्षा जोखिम हो सकता है| क्या आप जारी रखना चाहते हैं?</string>
+	<key>common_error_text</key>
+	<string>नेटवर्क कोई त्रुटी है. कृपया पुनः रिफ्रेश करें</string>
+	<key>common_feed_detail_share_content</key>
+	<string>Welike में बहुत दिलचस्प पोस्ट हैं,मैं आपको साझा कर रहा(रही)हूँ</string>
+	<key>common_me_out_three_hundred_share_content_one</key>
+	<string>Welike में मेरी दिलचस्प पोस्ट देख चाहते हैं? आओ, हम दोस्त बनें</string>
+	<key>common_me_out_three_hundred_share_content_two</key>
+	<string>और एक दुसरे से दिलचस्प पोस्ट साझा करें. Welike में मेरा नाम है </string>
+	<key>common_me_share_content_four</key>
+	<string> के उपयोगकर्ताओं को पार हुआ.Welike में मेरी दिलचस्प पोस्ट देख चाहते हैं? आओ! मेरा नाम है </string>
+	<key>common_me_share_content_one</key>
+	<string>मैं ने </string>
+	<key>common_me_share_content_three</key>
+	<string> Welike में,और </string>
+	<key>common_me_share_content_two</key>
+	<string> फॉलोअर्स प्राप्त लिया है, और मेरे कुल रैंकिंग है NO.</string>
+	<key>common_ok</key>
+	<string>ठीक है</string>
+	<key>common_reload_text</key>
+	<string>रिफ्रेश</string>
+	<key>common_share_content_copyed</key>
+	<string>क्लिपबोर्ड पर कॉपी किया गया</string>
+	<key>confirm_selection</key>
+	<string>सिलेक्शन की पुष्टि करें</string>
+	<key>copy_to_clipboard</key>
+	<string>क्लिपबोर्ड में कॉपी किया</string>
+	<key>follow_btn_text</key>
+	<string>फॉलो</string>
+	<key>following_btn_text</key>
+	<string>फ़ॉलोइंग</string>
+	<key>friends_btn_text</key>
+	<string>दोस्त</string>
+	<key>go_back</key>
+	<string>लौटें</string>
+	<key>hashtag</key>
+	<string>हैशटैग</string>
+	<key>interest_foryou</key>
+	<string>आपके लिए</string>
+	<key>load_error</key>
+	<string>लोडिंग फ़ैल .कृपया पुनः कोशिशि करें</string>
+	<key>loading</key>
+	<string>लोंडिंग</string>
+	<key>need_login</key>
+	<string>लॉग इन करके आगे बढें</string>
+	<key>no_more</key>
+	<string>और कुछ नहीं</string>
+	<key>or</key>
+	<string>या</string>
+	<key>post</key>
+	<string>पोस्ट</string>
+	<key>refresh_header_default_finish</key>
+	<string>रिफ्रेश सफ़ल है</string>
+	<key>refresh_header_failed</key>
+	<string>रिफ़्रेश फ़ैल है</string>
+	<key>refresh_header_pulldown</key>
+	<string>रिफ़्रेश के किए नीचे खींचें</string>
+	<key>refresh_header_refreshing</key>
+	<string>रिफ़्रेश हो रहा है</string>
+	<key>refresh_header_release</key>
+	<string>रिफ़्रेश के लिए रिलीज़ करें</string>
+	<key>refreshed</key>
+	<string>रिफ्रेश हो गया</string>
+	<key>report_completed</key>
+	<string>आपका फ़ीडबैक से धन्यवाद.हम जल्दी से इसे संभाल करें</string>
+	<key>shake</key>
+	<string>Shake करें</string>
+	<key>share_desc_app</key>
+	<string>Welike भारतीय का सोशल मीडिया प्लेटफार्म है. अपनी पसंद और जीवन को बनाएं, दिस्कावर करें और साझा करें.</string>
+	<key>share_desc_post</key>
+	<string>यह Welike पर एक दिलचस्प पोस्ट है, इसे चेक करें</string>
+	<key>share_desc_profile</key>
+	<string>Welike पर इस व्यक्ति के अमेजिंग प्रोफाइल चेक करें</string>
+	<key>share_desc_topic</key>
+	<string>%@ ने आपको Welike में चर्चा केलिए आमंत्रित किया है.</string>
+	<key>share_not_install</key>
+	<string>%@ इंस्टॉल नहीं किया गया</string>
+	<key>share_on</key>
+	<string>साझा करें</string>
+	<key>share_title_app</key>
+	<string>Welike पर इस व्यक्ति के अमेजिंग प्रोफाइल चेक करें</string>
+	<key>share_title_post</key>
+	<string>%@'s Welike post</string>
+	<key>share_title_post_whatsapp</key>
+	<string>@%@ की Welike पोस्ट देखें</string>
+	<key>share_title_profile</key>
+	<string>%@'s Welike profile</string>
+	<key>share_title_profile_whatsapp</key>
+	<string>Welike पर इस व्यक्ति की अमेजिंग प्रोफाइल चेक करें.</string>
+	<key>share_title_topic</key>
+	<string>Welike में %@# की चर्चा करें</string>
+	<key>share_title_topic_whatsapp</key>
+	<string>बहुत लोग इस %@# पर बात कर रहे हैं, इसकी चर्चा करें..</string>
+	<key>sort_created_text</key>
+	<string>ताज़ा</string>
+	<key>sort_hot_text</key>
+	<string>हॉट</string>
+	<key>sort_rising_text</key>
+	<string>बढ़ता हुआ</string>
+	<key>sort_trending_text</key>
+	<string>ट्रेंडिंग</string>
+	<key>stranger</key>
+	<string>संदेश अनुरोध</string>
+	<key>topic</key>
+	<string>टॉपिक</string>
+	<key>topic_trend_topic_views</key>
+	<string>%ld ने देखा</string>
+	<key>topic_trending_people</key>
+	<string>ट्रेंडिंग यूजर</string>
+	<key>topic_trending_search</key>
+	<string>ट्रेंडिंग खोज</string>
+	<key>topic_trending_topic</key>
+	<string>ट्रेंडिंग विषय</string>
+	<key>topic_welike_trends</key>
+	<string>Welike ट्रेंड्स</string>
+	<key>user_sex_boy</key>
+	<string>पुरुष</string>
+	<key>user_sex_girl</key>
+	<string>स्त्री</string>
+	<key>video_download</key>
+	<string>डाउनलोड</string>
+	<key>video_downloading</key>
+	<string>डाउनलोडिंग</string>
+	<key>video_guide</key>
+	<string>अगला विडियो देखने के लिए ऊपर स्क्रॉल करें</string>
+</dict>
+</plist>
