@@ -180,7 +180,6 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
         if ([tmp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length != 0) {
             [arrayM addObject:tmp];
         }
-        
     }
     components = [arrayM filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self <> ''"]];
     htmlString = [components componentsJoinedByString:@"\n"];

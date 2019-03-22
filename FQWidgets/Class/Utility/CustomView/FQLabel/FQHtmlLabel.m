@@ -220,10 +220,15 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
                 }
             }
             
-            if (self.contentView.frame.size.height > self.frame.size.height) {
-                self.contentSize = CGSizeMake(self.frame.size.width, self.contentView.frame.size.height);
-            } else {
-                self.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height + 1);
+//            if (self.contentView.frame.size.height > self.frame.size.height) {
+//                self.contentSize = CGSizeMake(self.frame.size.width, self.contentView.frame.size.height);
+//            } else {
+//                self.contentSize = CGSizeMake(self.frame.size.width, self.frame.size.height + 1);
+//            }
+            self.contentSize = CGSizeMake(self.frame.size.width, self.contentView.frame.size.height);
+            
+            if ([self.htmlDelegate respondsToSelector:@selector(htmlLabelContentSizeChanged:)]) {
+                [self.htmlDelegate htmlLabelContentSizeChanged:self];
             }
         });
     });

@@ -28,7 +28,7 @@
 //    _htmlLabel.linkTextAttributes = @{NSUnderlineStyleAttributeName: @(YES),
 //                                      NSForegroundColorAttributeName: [UIColor redColor]};
     _htmlLabel.backgroundColor = [UIColor lightGrayColor];
-    _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, kScreenHeight - 12 - kSafeAreaBottomY - kNavBarHeight - 200);
+    _htmlLabel.frame = CGRectMake(12, 12, kScreenWidth - 24, 600);
     _htmlLabel.layer.borderWidth = 1.0;
     _htmlLabel.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:_htmlLabel];
@@ -47,6 +47,12 @@
 
 - (void)htmlLabel:(FQHtmlLabel *)htmlLabel didHighlight:(FQHtmlHighlight *)highlight {
     
+}
+
+- (void)htmlLabelContentSizeChanged:(FQHtmlLabel *)htmlLabel {
+//    CGRect frame = htmlLabel.frame;
+//    frame.size.height = htmlLabel.contentSize.height;
+//    htmlLabel.frame = frame;
 }
 
 @end

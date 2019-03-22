@@ -13,6 +13,7 @@
 
 @protocol FQHtmlLabelDelegate <NSObject>
 
+- (void)htmlLabelContentSizeChanged:(FQHtmlLabel *)htmlLabel;
 - (void)htmlLabel:(FQHtmlLabel *)htmlLabel didHighlight:(FQHtmlHighlight *)highlight;
 
 @end
