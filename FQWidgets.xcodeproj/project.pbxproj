@@ -98,6 +98,8 @@
 		B9F30DCB209033A400E9ACB1 /* weibo_6.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC3209033A400E9ACB1 /* weibo_6.json */; };
 		B9F30DCC209033A400E9ACB1 /* weibo_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC4209033A400E9ACB1 /* weibo_1.json */; };
 		B9F30DCD209033A400E9ACB1 /* weibo_0.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC5209033A400E9ACB1 /* weibo_0.json */; };
+		B9FEA5F022475A28008A2310 /* FQTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FEA5EF22475A28008A2310 /* FQTimerViewController.m */; };
+		B9FEA5F322475A65008A2310 /* FQTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FEA5F222475A65008A2310 /* FQTimerManager.m */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
 		B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E062084C0DD00A7678A /* FQAssetsAlbumView.m */; };
 /* End PBXBuildFile section */
@@ -279,6 +281,10 @@
 		B9F30DC3209033A400E9ACB1 /* weibo_6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_6.json; sourceTree = "<group>"; };
 		B9F30DC4209033A400E9ACB1 /* weibo_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_1.json; sourceTree = "<group>"; };
 		B9F30DC5209033A400E9ACB1 /* weibo_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_0.json; sourceTree = "<group>"; };
+		B9FEA5EE22475A28008A2310 /* FQTimerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQTimerViewController.h; sourceTree = "<group>"; };
+		B9FEA5EF22475A28008A2310 /* FQTimerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQTimerViewController.m; sourceTree = "<group>"; };
+		B9FEA5F122475A65008A2310 /* FQTimerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQTimerManager.h; sourceTree = "<group>"; };
+		B9FEA5F222475A65008A2310 /* FQTimerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQTimerManager.m; sourceTree = "<group>"; };
 		B9FF0E022084C08A00A7678A /* FQImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQImagePickerController.h; sourceTree = "<group>"; };
 		B9FF0E032084C08A00A7678A /* FQImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQImagePickerController.m; sourceTree = "<group>"; };
 		B9FF0E052084C0DD00A7678A /* FQAssetsAlbumView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQAssetsAlbumView.h; sourceTree = "<group>"; };
@@ -449,6 +455,10 @@
 			children = (
 				B902D7A6207E1A3F0080D294 /* WLMessageViewController.h */,
 				B902D7A7207E1A3F0080D294 /* WLMessageViewController.m */,
+				B9C228BF222E7D19003E25EF /* FQHtmlLabelViewController.h */,
+				B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */,
+				B9FEA5EE22475A28008A2310 /* FQTimerViewController.h */,
+				B9FEA5EF22475A28008A2310 /* FQTimerViewController.m */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -548,8 +558,6 @@
 				B9A20B2D20B1CD5600A93F73 /* FQCarouselCollectionCell.m */,
 				B91A7D5F20F04A3C00E4515D /* FQDynamicLoadingView.h */,
 				B91A7D6020F04A3C00E4515D /* FQDynamicLoadingView.m */,
-				B9C228BF222E7D19003E25EF /* FQHtmlLabelViewController.h */,
-				B9C228C0222E7D1A003E25EF /* FQHtmlLabelViewController.m */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -638,6 +646,8 @@
 				B902D824207F85700080D294 /* FQSystemHelper.m */,
 				B904327E21367F9A0072E0AE /* FQVideoComposition.h */,
 				B904327F21367F9A0072E0AE /* FQVideoComposition.m */,
+				B9FEA5F122475A65008A2310 /* FQTimerManager.h */,
+				B9FEA5F222475A65008A2310 /* FQTimerManager.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -973,6 +983,7 @@
 				B902D7F5207E1A3F0080D294 /* WLDiscoveryViewController.m in Sources */,
 				B9FF0E072084C0DD00A7678A /* FQAssetsAlbumView.m in Sources */,
 				B902D828208086EC0080D294 /* UINavigationController+FQNavigation.m in Sources */,
+				B9FEA5F022475A28008A2310 /* FQTimerViewController.m in Sources */,
 				B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */,
 				B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
@@ -1004,6 +1015,7 @@
 				B9C16A5020887D870068CE32 /* FQAssetReader.m in Sources */,
 				B9C228D4223376A6003E25EF /* FQHtmlHighlight.m in Sources */,
 				B9C16A5320889B9D0068CE32 /* FQReaderPlayerView.m in Sources */,
+				B9FEA5F322475A65008A2310 /* FQTimerManager.m in Sources */,
 				B9C228D722362828003E25EF /* FQHtmlAnimatedView.m in Sources */,
 				B940760E2081F4B00052AA40 /* FQCutImageViewController.m in Sources */,
 				B902D7FF207E1A3F0080D294 /* FQImageBrowseView.m in Sources */,

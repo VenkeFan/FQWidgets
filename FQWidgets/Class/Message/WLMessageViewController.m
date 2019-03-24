@@ -10,6 +10,7 @@
 #import "FQAssetsViewController.h"
 #import "FQImagePickerController.h"
 #import "FQHtmlLabelViewController.h"
+#import "FQTimerViewController.h"
 
 #import "FQImageButton.h"
 #import "FQThumbnailView.h"
@@ -82,6 +83,17 @@
     [self.view addSubview:htmlBtn];
     [htmlBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(cutBtn.mas_bottom).offset(20);
+        make.left.mas_equalTo(btn);
+        make.size.mas_equalTo(btn);
+    }];
+    
+    UIButton *timerBtn = [self buttonWithTitle:@"定时器销毁" block:^(id sender) {
+        FQTimerViewController *ctr = [FQTimerViewController new];
+        [weakSelf.navigationController pushViewController:ctr animated:YES];
+    }];
+    [self.view addSubview:timerBtn];
+    [timerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(htmlBtn.mas_bottom).offset(20);
         make.left.mas_equalTo(btn);
         make.size.mas_equalTo(btn);
     }];
