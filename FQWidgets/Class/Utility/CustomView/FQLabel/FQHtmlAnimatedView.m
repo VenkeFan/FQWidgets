@@ -68,7 +68,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"FQHtmlAnimatedView dealloc *************");
+//    NSLog(@"FQHtmlAnimatedView dealloc *************");
 }
 
 - (void)setAnimatedImage:(FLAnimatedImage *)animatedImage {

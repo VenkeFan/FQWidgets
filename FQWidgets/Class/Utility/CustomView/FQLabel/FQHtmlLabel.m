@@ -96,7 +96,7 @@ static char * const kFQHtmlLabelRenderQueueKey = "com.widgets.htmllabelrender.fq
 #pragma mark - FQHtmlParserDelegate
 
 - (void)htmlParserAttributedTextChanged:(FQHtmlParser *)parser {
-    NSLog(@"******** htmlParserAttributedTextChanged *********");
+//    NSLog(@"******** htmlParserAttributedTextChanged *********");
     
     [self setAttributedText:parser.attributedText];
 }
