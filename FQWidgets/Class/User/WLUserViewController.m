@@ -105,18 +105,26 @@ static NSString *reusCellID = @"reusCellID";
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
     if (!_asset1) {
-        [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
-                                                        options:nil
-                                                  resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-                                                      _asset1 = asset;
-                                                  }];
+        if (@available(iOS 11.0, *)) {
+            [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
+                                                            options:nil
+                                                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                          _asset1 = asset;
+                                                      }];
+        } else {
+            _asset1 = [AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]];
+        }
 
     } else if (!_asset2) {
-        [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
-                                                        options:nil
-                                                  resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-                                                      _asset2 = asset;
-                                                  }];
+        if (@available(iOS 11.0, *)) {
+            [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
+                                                            options:nil
+                                                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                          _asset2 = asset;
+                                                      }];
+        } else {
+            _asset2 = [AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]];
+        }
     }
     
     [picker dismissViewControllerAnimated:YES completion:^{
