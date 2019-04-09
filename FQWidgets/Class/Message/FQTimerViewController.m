@@ -17,7 +17,33 @@
 
 @implementation FQTimerViewController
 
+- (void)loadView {
+    NSLog(@"loadView");
+    [super loadView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    NSLog(@"viewWillAppear");
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"viewDidAppear");
+    [super viewDidAppear:animated];
+}
+
+- (void)viewWillLayoutSubviews {
+    NSLog(@"viewWillLayoutSubviews");
+    [super viewWillLayoutSubviews];
+}
+
+- (void)viewDidLayoutSubviews {
+    NSLog(@"viewDidLayoutSubviews");
+    [super viewDidLayoutSubviews];
+}
+
 - (void)viewDidLoad {
+    NSLog(@"viewDidLoad");
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
