@@ -53,27 +53,16 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     self.view.backgroundColor = [UIColor blackColor];
     
     [self initializeCapture];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
 - (void)dealloc {
-    NSLog(@"FQCameraViewController dealloc");
     [_session stopRunning];
     _session = nil;
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,62 +75,73 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
 - (void)initializeCapture {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         AVCaptureDevice *videoDevice = [self deviceWithMediaType:AVMediaTypeVideo];
-        _videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
-        _currentFlashMode = videoDevice.flashMode;
+        self->_videoInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
+        self->_currentFlashMode = videoDevice.flashMode;
         
-        AVCaptureDevice *audioDevice = [self deviceWithMediaType:AVMediaTypeAudio];
-        _audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:nil];
+        self->_videoOutput = [[AVCaptureVideoDataOutput alloc] init];
+        self->_videoOutput.alwaysDiscardsLateVideoFrames = YES;
+        [self->_videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create(VideoOutputQueueKey, NULL)];
+        [self->_videoOutput setVideoSettings:@{(NSString*)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)}];
         
-        _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
-        _videoOutput.alwaysDiscardsLateVideoFrames = YES;
-        [_videoOutput setSampleBufferDelegate:self queue:dispatch_queue_create(VideoOutputQueueKey, NULL)];
-        [_videoOutput setVideoSettings:@{(NSString*)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_32BGRA)}];
+        self->_imageOutput = [[AVCaptureStillImageOutput alloc] init];
+        [self->_imageOutput setOutputSettings:@{AVVideoCodecKey: AVVideoCodecJPEG}];
         
-        _audioOutput = [[AVCaptureAudioDataOutput alloc] init];
-        [_audioOutput setSampleBufferDelegate:self queue:dispatch_queue_create(AudioOutputQueueKey, NULL)];
-        
-        _imageOutput = [[AVCaptureStillImageOutput alloc] init];
-        [_imageOutput setOutputSettings:@{AVVideoCodecKey: AVVideoCodecJPEG}];
-        
-        _session = [[AVCaptureSession alloc] init];
-        if ([_session canSetSessionPreset:AVCaptureSessionPresetMedium]) {
-            [_session setSessionPreset:AVCaptureSessionPresetMedium];
+        self->_session = [[AVCaptureSession alloc] init];
+        switch (self.outputType) {
+            case FQCameraOutputType_Photo: {
+                if ([self->_session canSetSessionPreset:AVCaptureSessionPresetHigh]) {
+                    [self->_session setSessionPreset:AVCaptureSessionPresetHigh];
+                }
+            }
+                break;
+            case FQCameraOutputType_Video: {
+                AVCaptureDevice *audioDevice = [self deviceWithMediaType:AVMediaTypeAudio];
+                self->_audioInput = [AVCaptureDeviceInput deviceInputWithDevice:audioDevice error:nil];
+                
+                self->_audioOutput = [[AVCaptureAudioDataOutput alloc] init];
+                [self->_audioOutput setSampleBufferDelegate:self queue:dispatch_queue_create(AudioOutputQueueKey, NULL)];
+                
+                if ([self->_session canSetSessionPreset:AVCaptureSessionPresetMedium]) {
+                    [self->_session setSessionPreset:AVCaptureSessionPresetMedium];
+                }
+            }
+                break;
         }
-        if ([_session canAddInput:_videoInput]) {
-            [_session addInput:_videoInput];
+        if ([self->_session canAddInput:self->_videoInput]) {
+            [self->_session addInput:self->_videoInput];
         }
-        if ([_session canAddInput:_audioInput]) {
-            [_session addInput:_audioInput];
+        if ([self->_session canAddOutput:self->_videoOutput]) {
+            [self->_session addOutput:self->_videoOutput];
         }
-        
-        if ([_session canAddOutput:_videoOutput]) {
-            [_session addOutput:_videoOutput];
-        }
-        if ([_session canAddOutput:_audioOutput]) {
-            [_session addOutput:_audioOutput];
-        }
-        if ([_session canAddOutput:_imageOutput]) {
-            [_session addOutput:_imageOutput];
+        if ([self->_session canAddOutput:self->_imageOutput]) {
+            [self->_session addOutput:self->_imageOutput];
         }
         
-        _referenceOrientation = AVCaptureVideoOrientationPortrait;
-        _videoConnection = [_videoOutput connectionWithMediaType:AVMediaTypeVideo];
-        _videoConnection.videoOrientation = _referenceOrientation;
-        _audioConnection = [_audioOutput connectionWithMediaType:AVMediaTypeAudio];
+        if ([self->_session canAddInput:self->_audioInput]) {
+            [self->_session addInput:self->_audioInput];
+        }
+        if ([self->_session canAddOutput:self->_audioOutput]) {
+            [self->_session addOutput:self->_audioOutput];
+        }
+        
+        self->_referenceOrientation = AVCaptureVideoOrientationPortrait;
+        self->_videoConnection = [self->_videoOutput connectionWithMediaType:AVMediaTypeVideo];
+        self->_videoConnection.videoOrientation = self->_referenceOrientation;
+        self->_audioConnection = [self->_audioOutput connectionWithMediaType:AVMediaTypeAudio];
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            _previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:_session];
-            _previewLayer.frame = self.view.bounds;
-            _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//            _previewLayer.doubleSided = YES;
-//            CATransform3D transform = _previewLayer.transform;
-//            transform.m34 = -1.0 / 500;
-            [self.view.layer addSublayer:_previewLayer];
+            self->_previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self->_session];
+            self->_previewLayer.frame = self.view.bounds;
+            self->_previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            //            self->_previewLayer.doubleSided = YES;
+            //            CATransform3D transform = self->_previewLayer.transform;
+            //            transform.m34 = -1.0 / 500;
+            [self.view.layer addSublayer:self->_previewLayer];
             
             [self.view addSubview:self.operateView];
             
-            [_session startRunning];
+            [self->_session startRunning];
         });
     });
 }
@@ -177,27 +177,31 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
                                                   
                                                   NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                                                   UIImage *image = [[UIImage alloc] initWithData:imgData];
-                                                  _stillImage = [image fixOrientation];
+                                                  self->_stillImage = [image fixOrientation];
                                                   
-                                                  [_session stopRunning];
+                                                  [self->_session stopRunning];
                                                   
                                                   if (succeed) {
                                                       succeed();
                                                   }
                                               }];
-
+    
 }
 
 - (void)cameraOperateView:(FQCameraOperateView *)operateView didConfirmedWithOutputType:(FQCameraOutputType)outputType {
     switch (outputType) {
         case FQCameraOutputType_Photo: {
-            if (_stillImage && [self.delegate respondsToSelector:@selector(cameraViewCtr:didConfirmWithOutputType:image:)]) {
-                [self.delegate cameraViewCtr:self didConfirmWithOutputType:outputType image:_stillImage];
+            if (_stillImage && [self.delegate respondsToSelector:@selector(cameraViewCtr:didConfirmWithImage:)]) {
+                [self.delegate cameraViewCtr:self didConfirmWithImage:_stillImage];
             }
         }
             break;
         case FQCameraOutputType_Video: {
-            [_assetWriter saveToCameraRoll];
+            [_assetWriter saveToCameraRollWithFinished:^(PHAsset *asset) {
+                if ([self.delegate respondsToSelector:@selector(cameraViewCtr:didConfirmWithVideoAsset:)]) {
+                    [self.delegate cameraViewCtr:self didConfirmWithVideoAsset:asset];
+                }
+            }];
         }
             break;
     }
@@ -221,7 +225,6 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
         case FQCameraVideoStatus_Recording:
             [self p_startRecording];
             break;
-        case FQCameraVideoStatus_Stop:
         case FQCameraVideoStatus_Completed:
             [self p_stopRecording];
             break;
@@ -235,11 +238,9 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
         return;
     }
     if (!self.activeCamera.hasFlash) {
-        NSLog(@"不支持闪光灯");
         return;
     }
     if(!self.activeCamera.flashAvailable) {
-        NSLog(@"闪光灯不可用");
         return;
     }
     
@@ -261,7 +262,6 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
     NSArray<AVCaptureDevice *> *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     
     if (devices.count <= 1) {
-        NSLog(@"当前设备只有一个摄像头");
         return;
     }
     
@@ -279,17 +279,17 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
     AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:inactiveDevice error:nil];
     if (videoInput) {
         
-//        [_previewLayer removeAnimationForKey:@"transformCameraAnimation"];
-//        [_previewLayer addAnimation:self.transformCameraAnimation forKey:@"transformCameraAnimation"];
+        //        [_previewLayer removeAnimationForKey:@"transformCameraAnimation"];
+        //        [_previewLayer addAnimation:self.transformCameraAnimation forKey:@"transformCameraAnimation"];
         
         [_session beginConfiguration];
-
+        
         [_session removeInput:_videoInput];
         if ([_session canAddInput:videoInput]) {
             [_session addInput:videoInput];
             _videoInput = videoInput;
         }
-
+        
         [_session removeOutput:_videoOutput];
         AVCaptureVideoDataOutput *videoOutput = [[AVCaptureVideoDataOutput alloc] init];
         videoOutput.alwaysDiscardsLateVideoFrames = YES;
@@ -298,13 +298,13 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
         if ([_session canAddOutput:videoOutput]) {
             [_session addOutput:videoOutput];
             _videoOutput = videoOutput;
-
+            
             _videoConnection = [videoOutput connectionWithMediaType:AVMediaTypeVideo];
             _videoConnection.videoOrientation = _referenceOrientation;
         }
-
+        
         [_session commitConfiguration];
-
+        
         [self p_changeFlashMode:_currentFlashMode succeed:nil];
     }
 }
@@ -316,19 +316,19 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
         if (_assetWriter) {
             CFRetain(sampleBuffer);
             dispatch_async(_assetWriter.writingQueue, ^{
-                if (connection == _videoConnection) {
-                    if (!_assetWriter.readyToRecordVideo){
-                        [_assetWriter setupAssetWriterVideoInput:CMSampleBufferGetFormatDescription(sampleBuffer)];
+                if (connection == self->_videoConnection) {
+                    if (!self->_assetWriter.readyToRecordVideo){
+                        [self->_assetWriter setupAssetWriterVideoInput:CMSampleBufferGetFormatDescription(sampleBuffer)];
                     }
                     if (self.isReadyToWrite){
-                        [_assetWriter writeSampleBuffer:sampleBuffer ofType:AVMediaTypeVideo];
+                        [self->_assetWriter writeSampleBuffer:sampleBuffer ofType:AVMediaTypeVideo];
                     }
-                } else if (connection == _audioConnection) {
-                    if (!_assetWriter.readyToRecordAudio){
-                        [_assetWriter setupAssetWriterAudioInput:CMSampleBufferGetFormatDescription(sampleBuffer)];
+                } else if (connection == self->_audioConnection) {
+                    if (!self->_assetWriter.readyToRecordAudio){
+                        [self->_assetWriter setupAssetWriterAudioInput:CMSampleBufferGetFormatDescription(sampleBuffer)];
                     }
                     if (self.isReadyToWrite){
-                        [_assetWriter writeSampleBuffer:sampleBuffer ofType:AVMediaTypeAudio];
+                        [self->_assetWriter writeSampleBuffer:sampleBuffer ofType:AVMediaTypeAudio];
                     }
                 }
                 CFRelease(sampleBuffer);
@@ -372,6 +372,8 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
 - (void)p_startRecording {
     if (!_assetWriter) {
         _assetWriter = [[FQAssetWriter alloc] init];
+        _assetWriter.referenceOrientation = _referenceOrientation;
+        _assetWriter.devicePostion = self.activeCamera.position;
     }
     
     [_assetWriter startRecording];
@@ -379,7 +381,7 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
 
 - (void)p_stopRecording {
     [_assetWriter stopRecordingWithFinished:^() {
-        self.operateView.recordFilePath = _assetWriter.filePath;
+        self.operateView.recordFilePath = self->_assetWriter.filePath;
     }];
     [_session stopRunning];
 }
@@ -397,7 +399,7 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
                 succeed(flashMode);
             }
         } else {
-            NSLog(@"闪光灯模式 %zd 切换失败: %@", flashMode, error);
+            
         }
     }
 }
@@ -420,6 +422,16 @@ static char * const AudioOutputQueueKey = "com.welike.audioOutputQueue.fq";
         self.activeCamera.activeVideoMaxFrameDuration = perferTimescale;
         self.activeCamera.activeVideoMinFrameDuration = perferTimescale;
         [self.activeCamera unlockForConfiguration];
+    }
+}
+
+#pragma mark - Event
+
+- (void)leftBtnClicked {
+    if (self.navigationController.childViewControllers.count == 0) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

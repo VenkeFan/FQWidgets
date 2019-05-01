@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "FQCameraOperateView.h"
 
-@class FQCameraViewController;
+@class FQCameraViewController, PHAsset;
 
 @protocol FQCameraViewControllerDelegate <NSObject>
 
-- (void)cameraViewCtr:(FQCameraViewController *)viewCtr didConfirmWithOutputType:(FQCameraOutputType)outputType image:(UIImage *)image;
+- (void)cameraViewCtr:(FQCameraViewController *)viewCtr didConfirmWithImage:(UIImage *)image;
+- (void)cameraViewCtr:(FQCameraViewController *)viewCtr didConfirmWithVideoAsset:(PHAsset *)videoAsset;
 
 @end
 

@@ -9,12 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+@class PHAsset;
+
 @interface FQAssetWriter : NSObject
 
 @property (nonatomic) dispatch_queue_t writingQueue;
 @property (nonatomic, strong, readonly) NSURL *filePath;
 @property (nonatomic, assign, readonly, getter=isReadyToRecordVideo) BOOL readyToRecordVideo;
 @property (nonatomic, assign, readonly, getter=isReadyToRecordAudio) BOOL readyToRecordAudio;
+
+@property (nonatomic, assign) AVCaptureVideoOrientation referenceOrientation;
+@property (nonatomic, assign) AVCaptureDevicePosition devicePostion;
 
 - (void)setupAssetWriterVideoInput:(CMFormatDescriptionRef)currentFormatDescription;
 - (void)setupAssetWriterAudioInput:(CMFormatDescriptionRef)currentFormatDescription;
@@ -25,6 +30,6 @@
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType;
 
 - (void)removeFile;
-- (void)saveToCameraRoll;
+- (void)saveToCameraRollWithFinished:(void(^)(PHAsset *asset))finished;
 
 @end

@@ -9,12 +9,17 @@
 #import "FQAssetWriter.h"
 #import <Photos/Photos.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <CoreMotion/CoreMotion.h>
 
 @interface FQAssetWriter ()
 
 @property (nonatomic, strong) AVAssetWriter *assetWriter;
 @property (nonatomic, strong) AVAssetWriterInput *assetVideoInput;
 @property (nonatomic, strong) AVAssetWriterInput *assetAudioInput;
+
+@property (nonatomic, strong) CMMotionManager *motionManager;
+@property(nonatomic, assign) UIDeviceOrientation deviceOrientation;
+@property(nonatomic, assign) AVCaptureVideoOrientation videoOrientation;
 
 @property (nonatomic, strong, readwrite) NSURL *filePath;
 @property (nonatomic, assign, readwrite) BOOL readyToRecordVideo;
@@ -27,12 +32,25 @@
 - (instancetype)init {
     if (self = [super init]) {
         _writingQueue = dispatch_queue_create("com.welike.assetwriter.fq", DISPATCH_QUEUE_SERIAL);
+        
+        _motionManager = [[CMMotionManager alloc] init];
+        _motionManager.deviceMotionUpdateInterval = 1 / 15.0;
+        if (_motionManager.deviceMotionAvailable) {
+            __weak typeof(self) weakSelf = self;
+            [_motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue currentQueue]
+                                                withHandler:^(CMDeviceMotion * _Nullable motion, NSError * _Nullable error) {
+                                                    [weakSelf performSelectorOnMainThread:@selector(handleDeviceMotion:) withObject:motion waitUntilDone:YES];
+                                                }];
+        } else {
+            _motionManager = nil;
+        }
     }
     return self;
 }
 
 - (void)dealloc {
-    NSLog(@"FQAssetWriter dealloc");
+    [_motionManager stopDeviceMotionUpdates];
+    
     [_assetWriter cancelWriting];
     _assetWriter = nil;
 }
@@ -42,30 +60,29 @@
 - (void)startRecording {
     [self removeFile];
     dispatch_async(_writingQueue, ^{
-        if (!_assetWriter) {
+        if (!self->_assetWriter) {
             NSError *error;
-            _assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeMPEG4 error:&error];
+            self->_assetWriter = [[AVAssetWriter alloc] initWithURL:self.filePath fileType:AVFileTypeMPEG4 error:&error];
             if (error) {
-                NSLog(@"FQAssetWriter 初始化失败: %@", error);
+                
             }
         }
     });
 }
 
 - (void)stopRecordingWithFinished:(void (^)(void))finished {
-    NSLog(@"正在停止写入");
     dispatch_async(_writingQueue, ^{
-        [_assetWriter finishWritingWithCompletionHandler:^{
-            NSLog(@"停止写入");
-            switch (_assetWriter.status) {
+        [self->_assetVideoInput markAsFinished];
+        [self->_assetAudioInput markAsFinished];
+        [self->_assetWriter finishWritingWithCompletionHandler:^{
+            switch (self->_assetWriter.status) {
                 case AVAssetWriterStatusCompleted: {
-                    _readyToRecordVideo = NO;
-                    _readyToRecordAudio = NO;
-                    _assetWriter = nil;
+                    self->_readyToRecordVideo = NO;
+                    self->_readyToRecordAudio = NO;
+                    self->_assetWriter = nil;
                     break;
                 }
                 case AVAssetWriterStatusFailed: {
-                    NSLog(@"%@", _assetWriter.error);
                     break;
                 }
                 case AVAssetWriterStatusCancelled: {
@@ -78,10 +95,12 @@
                     break;
             }
             
+#if DEBUG
             AVURLAsset *urlAsset = [AVURLAsset assetWithURL:self.filePath];
             NSNumber *size;
             [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
-            NSLog(@"录制的视频大小: %f M.", size.floatValue / (1024 * 1024.0));
+            NSLog(@"video size: %f M.", size.floatValue / (1024 * 1024.0));
+#endif
             
             if (finished) {
                 finished();
@@ -97,10 +116,9 @@
 - (void)writeSampleBuffer:(CMSampleBufferRef)sampleBuffer ofType:(NSString *)mediaType {
     if (_assetWriter.status == AVAssetWriterStatusUnknown) {
         if ([_assetWriter startWriting]) {
-            NSLog(@"开始写入");
             [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
         } else {
-            NSLog(@"开始写入就错误: %@", _assetWriter.error);
+            
         }
     }
     
@@ -110,18 +128,16 @@
                 return;
             }
             if (![_assetVideoInput appendSampleBuffer:sampleBuffer]) {
-                NSLog(@"写入中途错误: %@", _assetWriter.error);
             }
         } else if (mediaType == AVMediaTypeAudio) {
             if (!_assetAudioInput.readyForMoreMediaData) {
                 return;
             }
             if (![_assetAudioInput appendSampleBuffer:sampleBuffer]) {
-                NSLog(@"写入中途错误: %@", _assetWriter.error);
             }
         }
     } else {
-        NSLog(@"写入失败");
+        
     }
 }
 
@@ -147,18 +163,16 @@
     if ([_assetWriter canApplyOutputSettings:videoCompressionSettings forMediaType:AVMediaTypeVideo]) {
         _assetVideoInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:videoCompressionSettings];
         _assetVideoInput.expectsMediaDataInRealTime = YES;
-//        _assetVideoInput.transform = [self transformFromCurrentVideoOrientationToOrientation:_referenceOrientation];
+        _assetVideoInput.transform = [self transformFromCurrentVideoOrientationToOrientation:self.referenceOrientation];
         
         if ([_assetWriter canAddInput:_assetVideoInput]) {
             [_assetWriter addInput:_assetVideoInput];
         } else {
             _readyToRecordVideo = NO;
-            NSLog(@"AssetWriter add VideoInput error");
         }
         _readyToRecordVideo = YES;
     } else {
         _readyToRecordVideo = NO;
-        NSLog(@"AssetWriter add VideoInput error");
     }
 }
 
@@ -188,12 +202,10 @@
             [_assetWriter addInput:_assetAudioInput];
         } else {
             _readyToRecordAudio = NO;
-            NSLog(@"AssetWriter add AudioInput error");
         }
         _readyToRecordAudio = YES;
     } else {
         _readyToRecordAudio = NO;
-        NSLog(@"AssetWriter add AudioInput error");
     }
 }
 
@@ -203,37 +215,43 @@
         NSError *error;
         BOOL success = [fileManager removeItemAtPath:self.filePath.path error:&error];
         if (!success) {
-            NSLog(@"%@", error);
+            
         } else {
-            NSLog(@"删除视频文件成功");
+            
         }
     }
 }
 
-- (void)saveToCameraRoll {
+- (void)saveToCameraRollWithFinished:(void (^)(PHAsset *asset))finished {
     if (!self.filePath) {
-        NSLog(@"文件路径错误");
         return;
     }
-    NSLog(@"开始存入相册");
     
-    if (kiOS9Later) {
-        [PHPhotoLibrary requestAuthorization:^( PHAuthorizationStatus status ) {
+    if (@available(iOS 9.0, *)) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status ) {
             if (status != PHAuthorizationStatusAuthorized) {
                 return;
             }
+            
+            __block NSString *assetIdentifier = nil;
             [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
                 PHAssetCreationRequest *videoRequest = [PHAssetCreationRequest creationRequestForAsset];
                 [videoRequest addResourceWithType:PHAssetResourceTypeVideo fileURL:self.filePath options:nil];
+                assetIdentifier = videoRequest.placeholderForCreatedAsset.localIdentifier;
+                
             } completionHandler:^( BOOL success, NSError * _Nullable error ) {
                 if (error) {
-                    NSLog(@"存入相册错误: %@", error);
-                } else {
-                    [FQProgressHUDHelper showWithMessage:@"存入相册成功"];
+                    return;
                 }
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    
-                });
+                if (!assetIdentifier) {
+                    return;
+                }
+                
+                PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetIdentifier] options:nil].firstObject;
+                if (finished) {
+                    finished(asset);
+                }
+                
             }];
         }];
     } else {
@@ -241,32 +259,35 @@
         [lab writeVideoAtPathToSavedPhotosAlbum:self.filePath
                                 completionBlock:^(NSURL *assetURL, NSError *error) {
                                     if (error) {
-                                        NSLog(@"存入相册错误: %@", error);
-                                    } else {
-                                        [FQProgressHUDHelper showWithMessage:@"存入相册成功"];
+                                        return;
                                     }
-                                    dispatch_sync(dispatch_get_main_queue(), ^{
-                                        
-                                    });
+                                    
+                                    if (!assetURL) {
+                                        return;
+                                    }
+                                    
+                                    PHAsset *asset = [PHAsset fetchAssetsWithALAssetURLs:@[assetURL] options:nil].firstObject;
+                                    if (finished) {
+                                        finished(asset);
+                                    }
                                 }];
     }
 }
 
 #pragma mark - Private
 
-// 旋转视频方向函数实现
-//-  (CGAffineTransform)transformFromCurrentVideoOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
-//    CGFloat orientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:orientation];
-//    CGFloat videoOrientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:self.motionManager.videoOrientation];
-//    CGFloat angleOffset;
-//        if (_activeCamera.position == AVCaptureDevicePositionBack) {
-//            angleOffset = orientationAngleOffset - videoOrientationAngleOffset;
-//        } else {
-//            angleOffset = videoOrientationAngleOffset - orientationAngleOffset + M_PI_2;
-//        }
-//    CGAffineTransform transform = CGAffineTransformMakeRotation(angleOffset);
-//    return transform;
-//}
+- (CGAffineTransform)transformFromCurrentVideoOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
+    CGFloat orientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:orientation];
+    CGFloat videoOrientationAngleOffset = [self angleOffsetFromPortraitOrientationToOrientation:self.videoOrientation];
+    CGFloat angleOffset;
+    if (self.devicePostion == AVCaptureDevicePositionBack) {
+        angleOffset = orientationAngleOffset - videoOrientationAngleOffset;
+    } else {
+        angleOffset = videoOrientationAngleOffset - orientationAngleOffset + M_PI_2;
+    }
+    CGAffineTransform transform = CGAffineTransformMakeRotation(angleOffset);
+    return transform;
+}
 
 - (CGFloat)angleOffsetFromPortraitOrientationToOrientation:(AVCaptureVideoOrientation)orientation {
     CGFloat angle = 0.0;
@@ -287,6 +308,28 @@
             break;
     }
     return angle;
+}
+
+- (void)handleDeviceMotion:(CMDeviceMotion *)deviceMotion{
+    double x = deviceMotion.gravity.x;
+    double y = deviceMotion.gravity.y;
+    if (fabs(y) >= fabs(x)) {
+        if (y >= 0) {
+            _deviceOrientation = UIDeviceOrientationPortraitUpsideDown;
+            _videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+        } else {
+            _deviceOrientation = UIDeviceOrientationPortrait;
+            _videoOrientation = AVCaptureVideoOrientationPortrait;
+        }
+    } else {
+        if (x >= 0) {
+            _deviceOrientation = UIDeviceOrientationLandscapeRight;
+            _videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        } else {
+            _deviceOrientation = UIDeviceOrientationLandscapeLeft;
+            _videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        }
+    }
 }
 
 #pragma mark - Getter
