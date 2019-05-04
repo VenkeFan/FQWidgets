@@ -90,6 +90,10 @@
 		B9C228D722362828003E25EF /* FQHtmlAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */; };
 		B9C228DB22364A07003E25EF /* html_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = B9C228D922364A06003E25EF /* html_bg.png */; };
 		B9C228DD22376774003E25EF /* index4.html in Resources */ = {isa = PBXBuildFile; fileRef = B9C228DC22376773003E25EF /* index4.html */; };
+		B9E4A6922279AFDB0096FF47 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E4A6912279AFDB0096FF47 /* AVPlayerViewController.m */; };
+		B9E4A6952279AFFA0096FF47 /* AVReaderPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E4A6942279AFFA0096FF47 /* AVReaderPlayerViewController.m */; };
+		B9E4A6982279B2710096FF47 /* AVCompositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E4A6972279B2710096FF47 /* AVCompositionViewController.m */; };
+		B9E4A69A2279CF190096FF47 /* IMG_2686.MOV in Resources */ = {isa = PBXBuildFile; fileRef = B9E4A6992279CF190096FF47 /* IMG_2686.MOV */; };
 		B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBE209033A400E9ACB1 /* weibo_3.json */; };
 		B9F30DC7209033A400E9ACB1 /* weibo_2.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DBF209033A400E9ACB1 /* weibo_2.json */; };
 		B9F30DC8209033A400E9ACB1 /* weibo_5.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC0209033A400E9ACB1 /* weibo_5.json */; };
@@ -273,6 +277,13 @@
 		B9C228D622362827003E25EF /* FQHtmlAnimatedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQHtmlAnimatedView.m; sourceTree = "<group>"; };
 		B9C228D922364A06003E25EF /* html_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = html_bg.png; sourceTree = "<group>"; };
 		B9C228DC22376773003E25EF /* index4.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index4.html; sourceTree = "<group>"; };
+		B9E4A6902279AFDB0096FF47 /* AVPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVPlayerViewController.h; sourceTree = "<group>"; };
+		B9E4A6912279AFDB0096FF47 /* AVPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVPlayerViewController.m; sourceTree = "<group>"; };
+		B9E4A6932279AFFA0096FF47 /* AVReaderPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVReaderPlayerViewController.h; sourceTree = "<group>"; };
+		B9E4A6942279AFFA0096FF47 /* AVReaderPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVReaderPlayerViewController.m; sourceTree = "<group>"; };
+		B9E4A6962279B2710096FF47 /* AVCompositionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AVCompositionViewController.h; sourceTree = "<group>"; };
+		B9E4A6972279B2710096FF47 /* AVCompositionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AVCompositionViewController.m; sourceTree = "<group>"; };
+		B9E4A6992279CF190096FF47 /* IMG_2686.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_2686.MOV; sourceTree = "<group>"; };
 		B9F30DBE209033A400E9ACB1 /* weibo_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_3.json; sourceTree = "<group>"; };
 		B9F30DBF209033A400E9ACB1 /* weibo_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_2.json; sourceTree = "<group>"; };
 		B9F30DC0209033A400E9ACB1 /* weibo_5.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_5.json; sourceTree = "<group>"; };
@@ -396,6 +407,7 @@
 		B902D792207E1A3F0080D294 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B9E4A6992279CF190096FF47 /* IMG_2686.MOV */,
 				B9C228D922364A06003E25EF /* html_bg.png */,
 				B9C228BA222E6DCD003E25EF /* index.html */,
 				B9C228C5222F91A1003E25EF /* index2.html */,
@@ -567,8 +579,6 @@
 			children = (
 				B902D7BC207E1A3F0080D294 /* FQAssetWriter.h */,
 				B902D7C1207E1A3F0080D294 /* FQAssetWriter.m */,
-				B9C16A4E20887D870068CE32 /* FQAssetReader.h */,
-				B9C16A4F20887D870068CE32 /* FQAssetReader.m */,
 				B9C16A4B20877FC40068CE32 /* FQVideoExportSession.h */,
 				B9C16A4C20877FC40068CE32 /* FQVideoExportSession.m */,
 				B902D7BF207E1A3F0080D294 /* FQCameraOperateView.h */,
@@ -629,8 +639,16 @@
 				B902D7E2207E1A3F0080D294 /* FQPlayerOperateView.m */,
 				B902D7E1207E1A3F0080D294 /* FQPlayerView.h */,
 				B902D7E3207E1A3F0080D294 /* FQPlayerView.m */,
+				B9C16A4E20887D870068CE32 /* FQAssetReader.h */,
+				B9C16A4F20887D870068CE32 /* FQAssetReader.m */,
 				B9C16A5120889B9D0068CE32 /* FQReaderPlayerView.h */,
 				B9C16A5220889B9D0068CE32 /* FQReaderPlayerView.m */,
+				B9E4A6902279AFDB0096FF47 /* AVPlayerViewController.h */,
+				B9E4A6912279AFDB0096FF47 /* AVPlayerViewController.m */,
+				B9E4A6932279AFFA0096FF47 /* AVReaderPlayerViewController.h */,
+				B9E4A6942279AFFA0096FF47 /* AVReaderPlayerViewController.m */,
+				B9E4A6962279B2710096FF47 /* AVCompositionViewController.h */,
+				B9E4A6972279B2710096FF47 /* AVCompositionViewController.m */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -851,6 +869,7 @@
 				B9F30DC6209033A400E9ACB1 /* weibo_3.json in Resources */,
 				B9F30DC9209033A400E9ACB1 /* weibo_4.json in Resources */,
 				B902D76C207E18450080D294 /* LaunchScreen.storyboard in Resources */,
+				B9E4A69A2279CF190096FF47 /* IMG_2686.MOV in Resources */,
 				B9F30DCC209033A400E9ACB1 /* weibo_1.json in Resources */,
 				B902D7E9207E1A3F0080D294 /* WL_4.jpg in Resources */,
 				B902D7EF207E1A3F0080D294 /* WL_1.jpg in Resources */,
@@ -987,6 +1006,8 @@
 				B9C16A4720874AC20068CE32 /* WLTimelineViewModel.m in Sources */,
 				B9C16A2C2085A3600068CE32 /* UIImage+FQExtension.m in Sources */,
 				B902D808207E1A3F0080D294 /* FQZoomScaleView.m in Sources */,
+				B9E4A6922279AFDB0096FF47 /* AVPlayerViewController.m in Sources */,
+				B9E4A6952279AFFA0096FF47 /* AVReaderPlayerViewController.m in Sources */,
 				B9A20B2B20B1C56500A93F73 /* FQCarouselViewFlowLayout.m in Sources */,
 				B902D803207E1A3F0080D294 /* FQAssetModel.m in Sources */,
 				B902D825207F85700080D294 /* FQSystemHelper.m in Sources */,
@@ -1005,6 +1026,7 @@
 				B902D806207E1A3F0080D294 /* FQGradientCircleLayer.m in Sources */,
 				B902D801207E1A3F0080D294 /* FQAssetsViewController.m in Sources */,
 				B901D4932091D98F0070410A /* UIScrollView+FQEmptyData.m in Sources */,
+				B9E4A6982279B2710096FF47 /* AVCompositionViewController.m in Sources */,
 				B9C16A41208741750068CE32 /* WLFeedCell.m in Sources */,
 				B902D80D207E1A3F0080D294 /* FQLanguageManager.m in Sources */,
 				B902D7FA207E1A3F0080D294 /* FQImageButton.m in Sources */,

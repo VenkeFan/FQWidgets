@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "FQPlayerOperateView.h"
 
 @interface FQReaderPlayerView : UIView
 
@@ -15,5 +16,7 @@
 
 - (void)playWithAsset:(AVAsset *)asset;
 - (void)play;
+
+@property (nonatomic, assign) FQPlayerViewStatus playerViewStatus;
 
 @end

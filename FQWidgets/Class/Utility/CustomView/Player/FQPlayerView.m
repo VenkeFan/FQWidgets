@@ -62,7 +62,7 @@ NSString * const FQPlayerViewStatusMapping[] = {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor blackColor];
-        [(AVPlayerLayer *)self.layer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+        [(AVPlayerLayer *)self.layer setVideoGravity:AVLayerVideoGravityResizeAspect];
         self.preImgLayer.contentsGravity = kCAGravityResizeAspectFill;
     }
     return self;
@@ -298,19 +298,19 @@ NSString * const FQPlayerViewStatusMapping[] = {
     
     {
         // filter
-        if (@available(iOS 9.0, *)) {
-            CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
-            playerItem.videoComposition = [AVVideoComposition videoCompositionWithAsset:asset
-                                                        applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
-                                                               CIImage *image = request.sourceImage.imageByClampingToExtent;
-                                                               [filter setValue:image forKey:kCIInputImageKey];
-                                                               [filter setValue:@(0.8) forKey:kCIInputIntensityKey];
-                                                               
-                                                               CIImage *output = [filter.outputImage imageByCroppingToRect:request.sourceImage.extent];
-                                                               
-                                                               [request finishWithImage:output context:nil];
-                                                           }];
-        }
+//        if (@available(iOS 9.0, *)) {
+//            CIFilter *filter = [CIFilter filterWithName:@"CISepiaTone"];
+//            playerItem.videoComposition = [AVVideoComposition videoCompositionWithAsset:asset
+//                                                        applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
+//                                                               CIImage *image = request.sourceImage.imageByClampingToExtent;
+//                                                               [filter setValue:image forKey:kCIInputImageKey];
+//                                                               [filter setValue:@(0.8) forKey:kCIInputIntensityKey];
+//                                                               
+//                                                               CIImage *output = [filter.outputImage imageByCroppingToRect:request.sourceImage.extent];
+//                                                               
+//                                                               [request finishWithImage:output context:nil];
+//                                                           }];
+//        }
     }
     
     [self p_playWithPlayerItem:playerItem];
