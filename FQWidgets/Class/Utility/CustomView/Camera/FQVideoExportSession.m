@@ -7,6 +7,7 @@
 //
 
 #import "FQVideoExportSession.h"
+#import <VideoToolbox/VideoToolbox.h>
 
 NSString * const FQVideoExportSessionStatusMapping[] = {
     [AVAssetExportSessionStatusUnknown]         = @"未知的转码状态",

@@ -11,15 +11,162 @@
 #import <Photos/Photos.h>
 #import "FQVideoComposition.h"
 
-@interface AVCompositionViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+static NSString *reusCellID = @"reusCellID";
+
+@interface AVCompositionViewController () <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
     AVAsset *_asset1;
     AVAsset *_asset2;
 }
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, copy) NSArray *dataArray;
 
 @end
 
 @implementation AVCompositionViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:self.tableView];
+    [self.tableView reloadData];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UITableViewDelegate & UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reusCellID];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = self.dataArray[indexPath.row];
+    cell.textLabel.textColor = kBodyFontColor;
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    FQVideoComposition *composition = [FQVideoComposition new];
+    if (indexPath.row == 0) {
+        if (!_asset1 || !_asset2) {
+            UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
+            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.delegate = self;
+            [self.navigationController presentViewController:ctr animated:YES completion:nil];
+            return;
+        }
+        [composition composeVideo:_asset1 secondVideoAsset:_asset2];
+        
+    } else if (indexPath.row == 1) {
+        if (!_asset1 || !_asset2) {
+            UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
+            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.delegate = self;
+            [self.navigationController presentViewController:ctr animated:YES completion:nil];
+            return;
+        }
+        [composition composeVideo:_asset1 audio:_asset2];
+        
+    } else if (indexPath.row == 2) {
+        if (!_asset1) {
+            UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
+            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.delegate = self;
+            [self.navigationController presentViewController:ctr animated:YES completion:nil];
+            return;
+        }
+        [composition composeVideo:_asset1 image:[UIImage imageNamed:@"awesomeface"]];
+        
+    } else if (indexPath.row == 3) {
+        if (!_asset1) {
+            UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
+            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.delegate = self;
+            [self.navigationController presentViewController:ctr animated:YES completion:nil];
+            return;
+        }
+        [composition composeVideo:_asset1 gifPath:[[NSBundle mainBundle] pathForResource:@"banana" ofType:@"gif"]];
+        
+    } else if (indexPath.row == 4) {
+        if (!_asset1) {
+            UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
+            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.delegate = self;
+            [self.navigationController presentViewController:ctr animated:YES completion:nil];
+            return;
+        }
+        [composition composeVideo:_asset1 filterName:@"CISepiaTone"];
+        
+    } else if (indexPath.row == self.dataArray.count - 1) {
+        _asset1 = nil;
+        _asset2 = nil;
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    if (!_asset1) {
+        if (@available(iOS 11.0, *)) {
+            [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
+                                                            options:nil
+                                                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                          _asset1 = asset;
+                                                      }];
+        } else {
+            _asset1 = [AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]];
+        }
+        
+    } else if (!_asset2) {
+        if (@available(iOS 11.0, *)) {
+            [[PHImageManager defaultManager] requestAVAssetForVideo:info[UIImagePickerControllerPHAsset]
+                                                            options:nil
+                                                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                          _asset2 = asset;
+                                                      }];
+        } else {
+            _asset2 = [AVAsset assetWithURL:info[UIImagePickerControllerMediaURL]];
+        }
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+#pragma mark - Getter
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - kNavBarHeight - kTabBarHeight)];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:reusCellID];
+        tableView.rowHeight = 50;
+        _tableView = tableView;
+    }
+    return _tableView;
+}
+
+- (NSArray *)dataArray {
+    if (!_dataArray) {
+        _dataArray = @[@"视频合成", @"音视频合成", @"视频加水印并动画", @"视频加gif水印", @"视频滤镜", @"清空Asset"];
+    }
+    return _dataArray;
+}
+
+/*
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -105,18 +252,6 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         
     }];
-}
-
-- (UIButton *)buttonWithTitle:(NSString *)title block:(void(^)(id sender))block {
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.layer.borderWidth = 1.0;
-    btn.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [btn setTitleColor:kNameFontColor forState:UIControlStateNormal];
-    [btn addBlockForControlEvents:UIControlEventTouchUpInside block:block];
-    
-    return btn;
-}
+}*/
 
 @end

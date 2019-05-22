@@ -71,7 +71,7 @@
 #pragma mark - WLTabBarDelegate
 
 - (void)tabBarDidTappedCustomView:(WLTabBar *)tabBar {
-    
+    [FQProgressHUDHelper showErrorWithMessage:@"clicked publish"];
 }
 
 @end

@@ -13,4 +13,8 @@
 + (void)showWithMessage:(NSString *)message;
 + (void)showErrorWithMessage:(NSString *)message;
 
++ (void)beginLoading;
++ (void)beginLoadingWithMessage:(NSString *)message;
++ (void)endLoading;
+
 @end

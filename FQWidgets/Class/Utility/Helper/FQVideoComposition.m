@@ -139,7 +139,7 @@
                                    ofTrack:videoTrack
                                     atTime:kCMTimeZero
                                      error:nil];
-    [audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, videoTrack.timeRange.duration)
+    [audioCompositionTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, audioTrack.timeRange.duration)
                                    ofTrack:audioTrack
                                     atTime:kCMTimeZero
                                      error:nil];
@@ -196,8 +196,25 @@
     
     AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
     mutableVideoComposition.instructions = @[videoCompositionInstruction];
-    mutableVideoComposition.renderSize = videoTrack.naturalSize;
     mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+    
+    BOOL isFirstVideoAssetPortrait = NO;
+    CGAffineTransform firstTransform = videoTrack.preferredTransform;
+    if (firstTransform.a == 0 && firstTransform.d == 0 && (firstTransform.b == 1.0 || firstTransform.b == -1.0) && (firstTransform.c == 1.0 || firstTransform.c == -1.0)) {
+        isFirstVideoAssetPortrait = YES;
+    }
+    
+    CGSize renderSize;
+    // If the first video asset was shot in portrait mode, then so was the second one if we made it here.
+    if (isFirstVideoAssetPortrait) {
+        // Invert the width and height for the video tracks to ensure that they display properly.
+        renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width);
+    } else {
+        // If the videos weren't shot in portrait mode, we can just use their natural sizes.
+        renderSize = videoTrack.naturalSize;
+    }
+    mutableVideoComposition.renderSize = renderSize;
+    
     
     {
         // add watermark
@@ -272,8 +289,24 @@
     
     AVMutableVideoComposition *mutableVideoComposition = [AVMutableVideoComposition videoComposition];
     mutableVideoComposition.instructions = @[videoCompositionInstruction];
-    mutableVideoComposition.renderSize = videoTrack.naturalSize;
     mutableVideoComposition.frameDuration = CMTimeMake(1, 30);
+    
+    BOOL isFirstVideoAssetPortrait = NO;
+    CGAffineTransform firstTransform = videoTrack.preferredTransform;
+    if (firstTransform.a == 0 && firstTransform.d == 0 && (firstTransform.b == 1.0 || firstTransform.b == -1.0) && (firstTransform.c == 1.0 || firstTransform.c == -1.0)) {
+        isFirstVideoAssetPortrait = YES;
+    }
+    
+    CGSize renderSize;
+    // If the first video asset was shot in portrait mode, then so was the second one if we made it here.
+    if (isFirstVideoAssetPortrait) {
+        // Invert the width and height for the video tracks to ensure that they display properly.
+        renderSize = CGSizeMake(videoTrack.naturalSize.height, videoTrack.naturalSize.width);
+    } else {
+        // If the videos weren't shot in portrait mode, we can just use their natural sizes.
+        renderSize = videoTrack.naturalSize;
+    }
+    mutableVideoComposition.renderSize = renderSize;
     
     // add gif watermark
     [self applyVideoEffectsToComposition:mutableVideoComposition
@@ -295,6 +328,7 @@
     
     // 这种加滤镜的方法cpu高，而且视频过长时（1分钟左右）就会导出失败
     TODO("-----------考虑下其他的方式?");
+    [FQProgressHUDHelper beginLoadingWithMessage:@"处理中..."];
     AVMutableVideoComposition *mutableVideoComposition =
     [AVMutableVideoComposition videoCompositionWithAsset:videoAsset applyingCIFiltersWithHandler:^(AVAsynchronousCIImageFilteringRequest * _Nonnull request) {
         CIImage *image = request.sourceImage.imageByClampingToExtent;
@@ -372,7 +406,7 @@
         
         // get gif info with each frame
         NSDictionary *dict = (NSDictionary*)CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(gifSource, i, NULL));
-        NSLog(@"kCGImagePropertyGIFDictionary %@", [dict valueForKey:(NSString*)kCGImagePropertyGIFDictionary]);
+//        NSLog(@"kCGImagePropertyGIFDictionary %@", [dict valueForKey:(NSString*)kCGImagePropertyGIFDictionary]);
         
         // get gif size
         gifWidth = [[dict valueForKey:(NSString*)kCGImagePropertyPixelWidth] floatValue];
@@ -446,8 +480,10 @@
                                                               UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Error!" message:[NSString stringWithFormat:@"%@", exporter.error] delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
                                                               [incompatibleVideoOrientationAlert show];
                                                           } else {
-                                                              UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-                                                              [incompatibleVideoOrientationAlert show];
+//                                                              UIAlertView *incompatibleVideoOrientationAlert = [[UIAlertView alloc] initWithTitle:@"Success!" message:@"" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+//                                                              [incompatibleVideoOrientationAlert show];
+                                                              
+                                                              [FQProgressHUDHelper endLoading];
                                                           }
                                                       }];
                 }

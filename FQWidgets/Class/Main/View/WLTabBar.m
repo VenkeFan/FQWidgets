@@ -65,7 +65,7 @@
     [self addSubview:publishView];
     [publishView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self);
-        make.centerY.mas_equalTo(self).offset(-kSingleTabBarHeight * 0.5);
+        make.centerY.mas_equalTo(self).offset(-kSingleTabBarHeight * 0.3);
         make.size.mas_equalTo(centerViewHeight);
     }];
 }

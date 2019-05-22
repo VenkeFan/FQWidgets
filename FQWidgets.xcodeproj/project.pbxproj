@@ -102,6 +102,7 @@
 		B9F30DCB209033A400E9ACB1 /* weibo_6.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC3209033A400E9ACB1 /* weibo_6.json */; };
 		B9F30DCC209033A400E9ACB1 /* weibo_1.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC4209033A400E9ACB1 /* weibo_1.json */; };
 		B9F30DCD209033A400E9ACB1 /* weibo_0.json in Resources */ = {isa = PBXBuildFile; fileRef = B9F30DC5209033A400E9ACB1 /* weibo_0.json */; };
+		B9F93A82228D0DB0001FAC13 /* FQEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9F93A81228D0DB0001FAC13 /* FQEventsViewController.m */; };
 		B9FEA5F022475A28008A2310 /* FQTimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FEA5EF22475A28008A2310 /* FQTimerViewController.m */; };
 		B9FEA5F322475A65008A2310 /* FQTimerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FEA5F222475A65008A2310 /* FQTimerManager.m */; };
 		B9FF0E042084C08A00A7678A /* FQImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9FF0E032084C08A00A7678A /* FQImagePickerController.m */; };
@@ -292,6 +293,8 @@
 		B9F30DC3209033A400E9ACB1 /* weibo_6.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_6.json; sourceTree = "<group>"; };
 		B9F30DC4209033A400E9ACB1 /* weibo_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_1.json; sourceTree = "<group>"; };
 		B9F30DC5209033A400E9ACB1 /* weibo_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = weibo_0.json; sourceTree = "<group>"; };
+		B9F93A80228D0DB0001FAC13 /* FQEventsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQEventsViewController.h; sourceTree = "<group>"; };
+		B9F93A81228D0DB0001FAC13 /* FQEventsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQEventsViewController.m; sourceTree = "<group>"; };
 		B9FEA5EE22475A28008A2310 /* FQTimerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQTimerViewController.h; sourceTree = "<group>"; };
 		B9FEA5EF22475A28008A2310 /* FQTimerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FQTimerViewController.m; sourceTree = "<group>"; };
 		B9FEA5F122475A65008A2310 /* FQTimerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FQTimerManager.h; sourceTree = "<group>"; };
@@ -480,6 +483,8 @@
 			children = (
 				B902D7A9207E1A3F0080D294 /* WLUserViewController.h */,
 				B902D7AA207E1A3F0080D294 /* WLUserViewController.m */,
+				B9F93A80228D0DB0001FAC13 /* FQEventsViewController.h */,
+				B9F93A81228D0DB0001FAC13 /* FQEventsViewController.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1056,6 +1061,7 @@
 				B902D80E207E1A3F0080D294 /* FQProgressHUDHelper.m in Sources */,
 				B902D761207E18450080D294 /* AppDelegate.m in Sources */,
 				B9C228CE22312552003E25EF /* FQHtmlTextAttachment.m in Sources */,
+				B9F93A82228D0DB0001FAC13 /* FQEventsViewController.m in Sources */,
 				B902D7FB207E1A3F0080D294 /* FQRadioButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

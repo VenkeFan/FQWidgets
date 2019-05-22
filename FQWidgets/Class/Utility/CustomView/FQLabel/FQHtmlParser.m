@@ -620,7 +620,7 @@ static NSString * const kRegExLinkUrlPattern        = @"((http[s]{0,1}|ftp)://[a
 }
 
 - (BOOL)p_isOutOfRange:(NSRange)range str:(NSString *)str {
-    if (range.location == NSNotFound || range.location < 0 || range.length <= 0) {
+    if (range.location == NSNotFound || range.length <= 0) {
         return YES;
     }
     

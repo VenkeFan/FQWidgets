@@ -10,6 +10,7 @@
 #import "AVPlayerViewController.h"
 #import "AVReaderPlayerViewController.h"
 #import "AVCompositionViewController.h"
+#import "FQEventsViewController.h"
 
 static NSString *reusCellID = @"reusCellID";
 
@@ -28,7 +29,7 @@ static NSString *reusCellID = @"reusCellID";
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:self.tableView];
-    [self.tableView reloadData];    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,7 +81,8 @@ static NSString *reusCellID = @"reusCellID";
     if (!_dataArray) {
         _dataArray = @[NSStringFromClass([AVPlayerViewController class]),
                        NSStringFromClass([AVReaderPlayerViewController class]),
-                       NSStringFromClass([AVCompositionViewController class])];
+                       NSStringFromClass([AVCompositionViewController class]),
+                       NSStringFromClass([FQEventsViewController class])];
     }
     return _dataArray;
 }
