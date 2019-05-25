@@ -202,6 +202,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         
         // text
         _feedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
+        _feedLabel.numberOfLines = 0;
         _feedLabel.backgroundColor = [UIColor magentaColor];
         [_contentView addSubview:_feedLabel];
         
@@ -211,6 +212,7 @@ CATextLayer * textLayerWithFont(UIFont *font) {
         [_contentView addSubview:_retweetedView];
         
         _retweetedLabel = [[WLLabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_contentView.bounds), 0)];
+        _retweetedLabel.numberOfLines = 0;
         _retweetedLabel.backgroundColor = [UIColor cyanColor];
         [_contentView addSubview:_retweetedLabel];
         
