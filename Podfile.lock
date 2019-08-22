@@ -21,7 +21,7 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - IQKeyboardManager (6.2.0)
+  - IQKeyboardManager (6.3.0)
   - libwebp (1.0.2):
     - libwebp/core (= 1.0.2)
     - libwebp/dec (= 1.0.2)
@@ -48,7 +48,7 @@ PODS:
   - libwebp/webp (1.0.2)
   - Masonry (1.1.0)
   - MBProgressHUD (1.1.0)
-  - MJRefresh (3.1.15.7)
+  - MJRefresh (3.2.0)
   - MLeaksFinder (1.0.0):
     - FBRetainCycleDetector
   - SDWebImage (4.4.6):
@@ -79,6 +79,23 @@ DEPENDENCIES:
   - SDWebImage/WebP
   - YYKit
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - Bugly
+    - DZNEmptyDataSet
+    - FBRetainCycleDetector
+    - FLAnimatedImage
+    - FMDB
+    - IQKeyboardManager
+    - libwebp
+    - Masonry
+    - MBProgressHUD
+    - MJRefresh
+    - MLeaksFinder
+    - SDWebImage
+    - YYKit
+
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
@@ -86,15 +103,15 @@ SPEC CHECKSUMS:
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
+  IQKeyboardManager: 2ca9d64893247556f53523dcd8d78641f0ba7c23
   libwebp: b068a3bd7c45f7460f6715be7bed1a18fd5d6b48
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
-  MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
+  MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
   SDWebImage: 3f3f0c02f09798048c47a5ed0a13f17b063572d8
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: 0f3722afeb027c71d9ccfa9148000170467483b8
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.7.0

@@ -23,16 +23,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_2686.MOV" ofType:nil];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"launch_video.mp4" ofType:nil];
     AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:filePath]];
     
-//    FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithAsset:asset];
-//    playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kSizeScale(350));
-//    [self.view addSubview:playerView];
+    FQReaderPlayerView *playerView = [[FQReaderPlayerView alloc] initWithAsset:asset];
+    playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kSizeScale(350));
+    [self.view addSubview:playerView];
     
     
-    FQVideoExportSession *session = [FQVideoExportSession new];
-    [session compressWithAsset:asset];
+//    FQVideoExportSession *session = [FQVideoExportSession new];
+//    [session compressWithAsset:asset];
 }
 
 - (void)didReceiveMemoryWarning {

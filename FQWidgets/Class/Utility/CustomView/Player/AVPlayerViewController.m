@@ -32,10 +32,12 @@
     
     //    videoDemo = @"https://r2---sn-a5mekner.googlevideo.com/videoplayback?signature=6B118DC39D10EC80956B9AAE5B60F465627CCCBC.54D38C7FBAF0A15B3B04D30CD573437069CD4E45&fvip=2&dur=507.820&ei=iDwfW4u6DMbCigTclJ-oBQ&gir=yes&lmt=1527819976832662&sparams=clen,dur,ei,expire,gir,id,initcwndbps,ip,ipbits,ipbypass,itag,lmt,mime,mip,mm,mn,ms,mv,pl,ratebypass,requiressl,source&id=o-APstyXVZlrTSVIyY9mjN21BXjF7WL_OglXUYD9btgqwu&expire=1528795368&ip=205.204.117.50&mime=video%2Fmp4&requiressl=yes&pl=20&source=youtube&itag=18&clen=33585030&c=MWEB&key=cms1&ipbits=0&ratebypass=yes&cpn=ZmGFixtkhYJPAWeF&cver=2.20180609.199848069-RC0_new_canary_experiment&ptk=youtube_single&oid=vfB0Kg4Sc2HLZOLBdWwuOA&ptchn=TY7QED-uxqgUtU0COknFdg&pltype=content&redirect_counter=1&rm=sn-a5mdy7l&fexp=23714780&req_id=39d3fdd13526a3ee&cms_redirect=yes&ipbypass=yes&mip=97.64.38.21&mm=31&mn=sn-a5mekner&ms=au&mt=1528782238&mv=m";
     
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_2686.MOV" ofType:nil];
-    AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:filePath]];
+//    videoDemo = @"https://rayapi.livet.cn/m3u8url/raybet?url=https://www.huya.com/lck";
     
-    FQPlayerView *playerView = [[FQPlayerView alloc] initWithAsset:asset];
+//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"IMG_2686.MOV" ofType:nil];
+//    AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:filePath]];
+    
+    FQPlayerView *playerView = [[FQPlayerView alloc] initWithURLString:videoDemo];
     playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kSizeScale(350));
     [self.view addSubview:playerView];
 }

@@ -59,7 +59,8 @@ static NSString *reusCellID = @"reusCellID";
     if (indexPath.row == 0) {
         if (!_asset1 || !_asset2) {
             UIImagePickerController *ctr = [[UIImagePickerController alloc] init];
-            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+//            ctr.mediaTypes = @[(NSString *)kUTTypeImage, (NSString *)kUTTypeMovie];
+            ctr.sourceType = UIImagePickerControllerSourceTypeCamera;
             ctr.delegate = self;
             [self.navigationController presentViewController:ctr animated:YES completion:nil];
             return;
@@ -113,6 +114,10 @@ static NSString *reusCellID = @"reusCellID";
 }
 
 #pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+}
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     

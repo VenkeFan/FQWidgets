@@ -11,6 +11,7 @@
 #import "FQImagePickerController.h"
 #import "FQHtmlLabelViewController.h"
 #import "FQTimerViewController.h"
+#import "WLVideoDownloadManager.h"
 
 #import "FQImageButton.h"
 #import "FQThumbnailView.h"
@@ -94,6 +95,19 @@
     [self.view addSubview:timerBtn];
     [timerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(htmlBtn.mas_bottom).offset(20);
+        make.left.mas_equalTo(btn);
+        make.size.mas_equalTo(btn);
+    }];
+    
+    UIButton *downloadBtn = [self buttonWithTitle:@"下载" block:^(id sender) {
+        WLVideoDownloadManager *manager = [WLVideoDownloadManager new];
+//        manager.downloadUrlString = @"http://file.beiwaionline.com/CourseContent/gaizao/dxyw/content/kcjj/ch1/word1.mp4";
+        manager.downloadUrlString = @"https://www.apple.com/105/media/cn/iphone-x/2017/01df5b43-28e4-4848-bf20-490c34a926a7/films/feature/iphone-x-feature-cn-20170912_1280x720h.mp4";
+        [manager start];
+    }];
+    [self.view addSubview:downloadBtn];
+    [downloadBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(timerBtn.mas_bottom).offset(20);
         make.left.mas_equalTo(btn);
         make.size.mas_equalTo(btn);
     }];
